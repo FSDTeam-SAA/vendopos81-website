@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import TanstackProvider from "@/provider/TanStack-Provider";
 import { Toaster } from "sonner";
 import AuthProvider from "@/provider/auth-provider";
@@ -30,13 +30,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <TanstackProvider>
-          <AuthProvider>
-            
+      
+            {/* <h2>hey bro how are you</h2> */}
             {children}
-            <Toaster position="top-right" richColors />
-          </AuthProvider>
-        </TanstackProvider>
+         
+      
       </body>
     </html>
   );
