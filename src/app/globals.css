@@ -184,3 +184,23 @@ p{
 ::-webkit-scrollbar-thumb:hover {
   background: #9DD6B0;
 }
+
+
+
+/* animation for country  */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-20%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 10s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
