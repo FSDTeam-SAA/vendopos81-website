@@ -109,7 +109,7 @@ const BannerSlider = () => {
                         placeholder="Your Email Address"
                         className="flex-1 px-4 py-3 outline-none rounded-l-full"
                       />
-                      <Button className="rounded-full px-8 py-6 bg-primary hover:bg-primary/90">
+                      <Button className="rounded-full px-2 md:px-8 py-6 bg-primary hover:bg-primary/90">
                         Subscribe
                       </Button>
                     </div>

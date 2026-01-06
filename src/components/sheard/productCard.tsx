@@ -1,13 +1,14 @@
 import Image from "next/image";
 import React from "react";
 import { ShoppingCart } from "lucide-react"; // optional icon
+import { Button } from "../ui/button";
 
 const ProductCard = () => {
   return (
     <div className="relative w-[260px] rounded-2xl border bg-white p-4 shadow-sm">
       
       {/* Discount badge */}
-      <span className="absolute left-0 top-0 rounded-br-2xl rounded-tl-2xl bg-green-600 px-3 py-1 text-xs font-semibold text-white">
+      <span className="absolute left-0 top-0 rounded-r-2xl rounded-tl-2xl bg-green-600 px-3 py-1 text-xs font-semibold text-white">
         13%
       </span>
 
@@ -46,10 +47,10 @@ const ProductCard = () => {
             <p className="text-sm text-gray-400 line-through">$32.80</p>
           </div>
 
-          <button className="flex items-center gap-1 rounded-lg bg-green-100 px-3 py-1.5 text-sm font-medium text-green-700 hover:bg-green-200">
+          <Button className="flex items-center gap-1 rounded-lg bg-primary/30 px-3 py-1.5 text-sm  text-primary font-bold cursor-pointer ">
             <ShoppingCart size={14} />
             Add
-          </button>
+          </Button>
         </div>
       </div>
     </div>
