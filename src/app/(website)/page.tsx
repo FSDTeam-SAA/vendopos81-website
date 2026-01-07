@@ -1,6 +1,7 @@
 import CountryList from "@/components/home/country/CountryCatagory";
 import FreshProducts from "@/components/home/FreshCleanProducts/FreshProducts";
 import MostCatagory from "@/components/home/MostCatagory/MostCatagory";
+import FeatureProduct from "@/components/home/product/FeatureProduct";
 import Subscription from "@/components/home/Subscription";
 
 import BannerSlider from "@/components/sheard/BannerSlider";
@@ -13,7 +14,7 @@ export default function Home() {
     <div className="">
       <BannerSlider />
       <CountryList />
-      <ProductCard />
+      <FeatureProduct />
       <FreshProducts />
      <MostCatagory />
      <Subscription />
