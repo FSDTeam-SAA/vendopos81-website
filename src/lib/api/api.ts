@@ -15,6 +15,8 @@ import {
   VerifyOtpResponse,
 } from "../types/auth";
 import { User } from "next-auth";
+
+import { ProductParams } from "../types/params";
 // import { Cagliostro } from "next/font/google";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -75,15 +77,20 @@ export async function forgetPassword(email: string) {
   return res.data;
 }
 
-
-export async function verifyOtp({ otp, email, token }: VerifyOtp): Promise<VerifyOtpResponse> {
+export async function verifyOtp({
+  otp,
+  email,
+  token,
+}: VerifyOtp): Promise<VerifyOtpResponse> {
   const headers: Record<string, string> = {};
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
   const body: Record<string, string> = { otp };
   if (email) body.email = email;
 
-  const res = await api.post<VerifyOtpResponse>("/auth/verify-otp", body, { headers });
+  const res = await api.post<VerifyOtpResponse>("/auth/verify-otp", body, {
+    headers,
+  });
   return res.data;
 }
 
@@ -168,3 +175,29 @@ export const authService = {
     return response.data;
   },
 };
+
+// /product/all?limit=10
+
+
+export async function FeatureProduct(params?: ProductParams) {
+  try {
+    const query = new URLSearchParams();
+
+    if (params?.search) query.append("search", params.search);
+    if (params?.region) query.append("region", params.region);
+    if (params?.page) query.append("page", String(params.page));
+    if (params?.limit) query.append("limit", String(params.limit));
+    if (params?.productType) query.append("productType", params.productType);
+    if (params?.minPrice) query.append("minPrice", String(params.minPrice));
+    if (params?.maxPrice) query.append("maxPrice", String(params.maxPrice));
+
+    const url = `/product/all${query.toString() ? `?${query}` : ""}`;
+
+    const res = await api.get(url);
+    return res.data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message || "Failed to fetch products");
+    }
+  }
+}
