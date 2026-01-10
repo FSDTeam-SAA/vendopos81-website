@@ -1,4 +1,4 @@
-import CountryCard from "@/components/sheard/countryCard";
+import CountryCard from "@/components/shared/countryCard";
 import React from "react";
 
 const CountryList = () => {

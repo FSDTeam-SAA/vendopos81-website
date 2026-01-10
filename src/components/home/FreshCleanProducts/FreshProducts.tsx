@@ -1,4 +1,4 @@
-import FreshCleanProducts from "@/components/sheard/FreshCleanProducts";
+import FreshCleanProducts from "@/components/shared/FreshCleanProducts";
 import React from "react";
 
 const FreshProducts = () => {

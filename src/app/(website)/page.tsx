@@ -4,10 +4,10 @@ import MostCatagory from "@/components/home/MostCatagory/MostCatagory";
 import FeatureProduct from "@/components/home/product/FeatureProduct";
 import Subscription from "@/components/home/Subscription";
 
-import BannerSlider from "@/components/sheard/BannerSlider";
-import Footer from "@/components/sheard/Footer";
+import BannerSlider from "@/components/shared/BannerSlider";
+import Footer from "@/components/shared/Footer";
 
-import ProductCard from "@/components/sheard/productCard";
+import ProductCard from "@/components/shared/productCard";
 
 export default function Home() {
   return (

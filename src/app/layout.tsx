@@ -6,7 +6,7 @@ import { Toaster } from "sonner";
 import AuthProvider from "@/provider/auth-provider";
 
 const inter = Inter({
-  subsets: ["latin"],        // ✅ only Latin characters
+  subsets: ["latin"],        //  only Latin characters
   variable: "--font-sans",   // used in your CSS
   weight: ["400", "700"],    // optional, pick weights you need
 });

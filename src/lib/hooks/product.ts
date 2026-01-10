@@ -1,8 +1,7 @@
-'use client'
+"use client";
 import { useQuery } from "@tanstack/react-query";
 import { FeatureProduct } from "../api/api";
-import { ProductParams } from "../types/params";
-
+import { ProductParams } from "../types/product";
 
 export function useFetchAllProduct(params?: ProductParams) {
   return useQuery({

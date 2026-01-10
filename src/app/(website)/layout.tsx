@@ -4,8 +4,8 @@ import "../globals.css";
 import TanstackProvider from "@/provider/TanStack-Provider";
 import { Toaster } from "sonner";
 import AuthProvider from "@/provider/auth-provider";
-import TopHeader from "@/components/sheard/TopHeader";
-import Navbar from "@/components/sheard/navbar/navbar";
+import TopHeader from "@/components/shared/TopHeader";
+import Navbar from "@/components/shared/navbar/navbar";
 
 
 export const metadata: Metadata = {
@@ -21,7 +21,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` antialiased`}
+        className="antialiased bg-[#F9FFF9]"
+        suppressHydrationWarning
       >
       
             <TopHeader />

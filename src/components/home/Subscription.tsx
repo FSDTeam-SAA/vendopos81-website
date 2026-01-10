@@ -1,5 +1,5 @@
 import React from "react";
-import SubscriptionCard from "../sheard/SubscriptionCard";
+import SubscriptionCard from "../shared/SubscriptionCard";
 
 const Subscription = () => {
   const data = {

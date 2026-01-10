@@ -16,7 +16,8 @@ import {
 } from "../types/auth";
 import { User } from "next-auth";
 
-import { ProductParams } from "../types/params";
+import { ProductParams } from "../types/product";
+import { da } from "zod/v4/locales";
 // import { Cagliostro } from "next/font/google";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -28,8 +29,8 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     const session = await getSession();
-    if (session?.user.accessToken) {
-      config.headers.Authorization = `Bearer ${session.user.accessToken}`;
+    if (session?.accessToken) {
+      config.headers.Authorization = `Bearer ${session?.accessToken}`;
     } else {
       console.warn("No token in session");
     }
@@ -43,11 +44,13 @@ export default api;
 // register
 
 export async function registerUser(data: RegisterInput) {
+  console.log('form data',data)
   try {
     const res = await api.post(`/user/register`, data);
 
     return res.data;
   } catch (err) {
+    console.log('hello')
     if (err instanceof Error) {
       throw new Error(err.message || "fail to register ");
     }
@@ -177,7 +180,6 @@ export const authService = {
 };
 
 // /product/all?limit=10
-
 
 export async function FeatureProduct(params?: ProductParams) {
   try {

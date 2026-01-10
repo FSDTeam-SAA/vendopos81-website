@@ -1,4 +1,4 @@
-import MostCatagoryCard from "@/components/sheard/MostCatagoryCard";
+import MostCatagoryCard from "@/components/shared/MostCatagoryCard";
 import React from "react";
 
 const CaseDeals = () => {

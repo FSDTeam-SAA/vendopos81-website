@@ -124,6 +124,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans), sans-serif;
+    background-color: #F9FFF9;
   }
 }
 .font-lato {
