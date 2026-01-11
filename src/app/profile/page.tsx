@@ -3,7 +3,7 @@
 
 import ChangePasswordContainer from "@/components/userprofile/changepassword/ChangePasswordContainer"
 import OrderHistoryContainer from "@/components/userprofile/orderhistory/OrderHistoryContainer"
-import PersonalInformationContainer from "@/components/userprofile/personalInformation/PersonalInformationContainer"
+import PersonalInformmain from "@/components/userprofile/personalInformation/PersonalInformmain"
 import UserNavbar from "@/components/userprofile/UserNavbar"
 import UserSidebar from "@/components/userprofile/UserSidebar"
 import { useState } from "react"
@@ -24,7 +24,7 @@ export default function ProfilePage() {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            {activeTab === "personal" && <PersonalInformationContainer />}
+            {activeTab === "personal" && <PersonalInformmain />}
             {activeTab === "password" && <ChangePasswordContainer />}
             {activeTab === "orders" && <OrderHistoryContainer />}
           </div>

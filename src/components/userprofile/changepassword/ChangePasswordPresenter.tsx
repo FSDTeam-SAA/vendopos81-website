@@ -13,7 +13,7 @@ interface ChangePasswordPresenterProps {
   isLoading?: boolean
 }
 
-const ChnagePasswordPresenter = ({ form, onSubmit, isLoading = false }: ChangePasswordPresenterProps) => {
+const ChangePasswordPresenter = ({ form, onSubmit, isLoading = false }: ChangePasswordPresenterProps) => {
   const [showPasswords, setShowPasswords] = useState({
     current: false,
     new: false,
@@ -97,7 +97,7 @@ const ChnagePasswordPresenter = ({ form, onSubmit, isLoading = false }: ChangePa
                         type={showPasswords.new ? "text" : "password"}
                         placeholder="••••••••"
                         {...field}
-                        className="border-gray-300 focus:border-teal-600 focus:ring-teal-600 pr-10"
+                        className="border-gray-300 focus:border-primary focus:ring-primary pr-10"
                       />
                       <button
                         type="button"
@@ -138,7 +138,7 @@ const ChnagePasswordPresenter = ({ form, onSubmit, isLoading = false }: ChangePa
                         type={showPasswords.confirm ? "text" : "password"}
                         placeholder="••••••••"
                         {...field}
-                        className="border-gray-300 focus:border-teal-600 focus:ring-teal-600 pr-10"
+                        className="border-gray-300 focus:border-primary focus:ring-primary pr-10"
                       />
                       <button
                         type="button"
@@ -178,7 +178,7 @@ const ChnagePasswordPresenter = ({ form, onSubmit, isLoading = false }: ChangePa
                   className={`text-sm flex items-center gap-2 ${req.met ? "text-gray-600" : "text-gray-400"}`}
                 >
                   <svg
-                    className={`w-4 h-4 ${req.met ? "text-teal-600" : "text-gray-300"}`}
+                    className={`w-4 h-4 ${req.met ? "text-primary" : "text-gray-300"}`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -203,7 +203,7 @@ const ChnagePasswordPresenter = ({ form, onSubmit, isLoading = false }: ChangePa
             >
               Discard Changes
             </Button>
-            <Button type="submit" disabled={isLoading} className="bg-teal-600 hover:bg-teal-700 text-white">
+            <Button type="submit" disabled={isLoading} className="bg-primary hover:bg-primary/90 text-white">
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>
           </div>
@@ -213,4 +213,4 @@ const ChnagePasswordPresenter = ({ form, onSubmit, isLoading = false }: ChangePa
   )
 }
 
-export default ChnagePasswordPresenter
+export default ChangePasswordPresenter
