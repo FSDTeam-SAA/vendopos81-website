@@ -15,12 +15,38 @@ export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>
 export const personalInformationSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
+  // email: z.string().email("Invalid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 characters"),
-  company: z.string().optional(),
   location: z.string().optional(),
+  image: z.any().optional(),
+  street: z.string().optional(),
   postalCode: z.string().optional(),
-  gender: z.enum(["male", "female", "other"]),
+  // gender: z.enum(["male", "female", "other"]),
 })
 
 export type PersonalInformationFormData = z.infer<typeof personalInformationSchema>
+
+export const vendorRegistrationSchema = z.object({
+  // Business Information
+  shopName: z.string().min(2, "Shop name must be at least 2 characters"),
+  brandName: z.string().min(2, "Brand name must be at least 2 characters"),
+  description: z.string().min(10, "Business description must be at least 10 characters"),
+  logo: z.any().optional(),
+  
+  // Contact Information
+  phone: z.string().min(10, "Phone number must be at least 10 characters"),
+  email: z.string().email("Invalid email address"),
+  
+  // Warehouse Location
+  warehouseLocation: z.string().min(2, "Warehouse location must be at least 2 characters"),
+  street: z.string().min(5, "Street must be at least 5 characters"),
+  address: z.string().min(5, "Address must be at least 5 characters"),
+  location: z.string().min(2, "Location must be at least 2 characters"),
+  state: z.string().min(2, "State must be at least 2 characters"),
+  postalCode: z.string().min(3, "Postal code must be at least 3 characters"),
+  
+  // Documents
+  documents: z.any().optional(),
+})
+
+export type VendorRegistrationFormData = z.infer<typeof vendorRegistrationSchema>

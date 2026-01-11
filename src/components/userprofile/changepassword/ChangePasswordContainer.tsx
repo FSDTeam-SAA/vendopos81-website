@@ -1,15 +1,18 @@
-"use client"
+"use client";
 
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import ChangePasswordPresenter from "./ChangePasswordPresenter"
-import { changePasswordSchema, type ChangePasswordFormData } from "@/lib/schemas"
-import { useState } from "react"
-import { toast } from "sonner"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ChangePasswordPresenter from "./ChangePasswordPresenter";
+import {
+  changePasswordSchema,
+  type ChangePasswordFormData,
+} from "@/lib/schemas";
+import { useState } from "react";
+import { toast } from "sonner";
+import { useUpdatePassword } from "@/lib/hooks/profile";
 
 const ChangePasswordContainer = () => {
-  const [isLoading, setIsLoading] = useState(false)
-
+  const { mutate, isPending } = useUpdatePassword();
   const form = useForm<ChangePasswordFormData>({
     resolver: zodResolver(changePasswordSchema),
     defaultValues: {
@@ -17,29 +20,37 @@ const ChangePasswordContainer = () => {
       newPassword: "",
       confirmPassword: "",
     },
-  })
+  });
 
-  const onSubmit = async (data: ChangePasswordFormData) => {
-    try {
-      setIsLoading(true)
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+  const onSubmit = (data: ChangePasswordFormData) => {
+    mutate(
+      {
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Success", {
+            description: "Your password has been changed successfully.",
+          });
+          form.reset();
+        },
+        onError: () => {
+          toast.error("Error", {
+            description: "Failed to change password. Please try again.",
+          });
+        },
+      }
+    );
+  };
 
-      console.log("Password change data:", data)
-      toast.success("Success", {
-        description: "Your password has been changed successfully.",
-      })
-      form.reset()
-    } catch (error) {
-      toast.error("Error", {
-        description: "Failed to change password. Please try again.",
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  return (
+    <ChangePasswordPresenter
+      form={form}
+      onSubmit={onSubmit}
+      isLoading={isPending}
+    />
+  );
+};
 
-  return <ChangePasswordPresenter form={form} onSubmit={onSubmit} isLoading={isLoading} />
-}
-
-export default ChangePasswordContainer
+export default ChangePasswordContainer;
