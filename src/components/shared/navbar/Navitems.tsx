@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { LayoutList, MapPin } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const NAV_ITEMS = [
@@ -38,7 +39,11 @@ const COUNTRIES = [
   { name: "UK", value: "uk" },
 ];
 
+
 const Navitems = () => {
+  const currentActive=usePathname()
+  console.log('curent pathname',currentActive)
+
   return (
     <section className="bg-white">
       <div className="container mx-auto px-4 md:px-0">
@@ -52,7 +57,7 @@ const Navitems = () => {
                   <SelectValue>
                     <div className="flex items-center gap-2 text-white">
                       <LayoutList size={18} />
-                      <span className="font-medium">Browse All Category</span>
+                      <span className="font-medium text-white">Browse All Category</span>
                     </div>
                   </SelectValue>
                 </SelectTrigger>
@@ -91,7 +96,7 @@ const Navitems = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectLabel>Select Country</SelectLabel>
+                    <SelectLabel className="text-black">Select Country</SelectLabel>
                     {COUNTRIES.map((item, index) => (
                       <SelectItem key={index} value={item.value}>
                         {item.name}
@@ -110,7 +115,7 @@ const Navitems = () => {
                 href={item.link}
                 key={index}
                 className="relative text-gray-700 hover:text-primary font-medium transition-colors group py-2 lg:py-0"
-                
+
               >
                 {item.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full hidden lg:block" />
