@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Heart, MoveRightIcon, ShoppingCart, UserRound, Menu, X, Search } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const NavHeader = () => {
@@ -73,7 +74,10 @@ const NavHeader = () => {
                 </button>
 
                 {/* Cart */}
-                <button className="relative flex  gap-2 items-center text-gray-600 hover:text-primary transition-colors group">
+                <Link href={'cart'} className=" cursor-pointer">
+                
+                
+                <button className="relative flex cursor-pointer gap-2 items-center text-gray-600 hover:text-primary transition-colors group">
                   <div className="relative">
                     <ShoppingCart size={22} />
                     <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -82,6 +86,7 @@ const NavHeader = () => {
                   </div>
                   <span className="text-xs md:text-base mt-1 hidden sm:block">Cart</span>
                 </button>
+                </Link>
 
                 {/* Account */}
                 <button className="flex  gap-2 items-center text-gray-600 hover:text-primary transition-colors group">
@@ -102,12 +107,15 @@ const NavHeader = () => {
               </button>
 
               {/* Mobile Cart Icon */}
+              <Link href={'/cart'} className="  cursor-pointer">
+              
               <button className="relative p-2 hover:bg-gray-100 rounded-full">
                 <ShoppingCart size={22} />
                 <span className="absolute top-1 right-1 bg-primary text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
                   0
                 </span>
               </button>
+              </Link>
             </div>
           </div>
 
@@ -170,6 +178,7 @@ const NavHeader = () => {
                     </span>
                   </div>
                 </button>
+                <Link href={'/cart'} className="cursor-pointer">
                 
                 <button className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-50 transition-colors">
                   <span className="font-medium">Cart</span>
@@ -180,6 +189,7 @@ const NavHeader = () => {
                     </span>
                   </div>
                 </button>
+                </Link>
                 
                 <button className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-50 transition-colors">
                   <span className="font-medium">Account</span>

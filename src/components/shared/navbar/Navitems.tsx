@@ -42,7 +42,7 @@ const Navitems = () => {
   return (
     <section className="bg-white">
       <div className="container mx-auto px-4 md:px-0">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 py-4 w-full">
+        <div className="flex flex-col lg:flex-row items-center justify-start lg:gap-20 py-4 w-full">
           {/* Left side - Category & Country Selectors */}
           <div className="flex flex-col lg:flex-row items-center gap-4 w-full lg:w-auto">
             {/* Category Selector */}
@@ -110,6 +110,7 @@ const Navitems = () => {
                 href={item.link}
                 key={index}
                 className="relative text-gray-700 hover:text-primary font-medium transition-colors group py-2 lg:py-0"
+                
               >
                 {item.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full hidden lg:block" />
