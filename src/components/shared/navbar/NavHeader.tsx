@@ -1,6 +1,25 @@
-'use client'
+"use client";
 import { Button } from "@/components/ui/button";
-import { Heart, MoveRightIcon, ShoppingCart, UserRound, Menu, X, Search } from "lucide-react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import {
+  Heart,
+  MoveRightIcon,
+  ShoppingCart,
+  UserRound,
+  Menu,
+  X,
+  Search,
+  ChevronDownIcon,
+  Package,
+  Truck,
+  ChevronDown,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -36,7 +55,7 @@ const NavHeader = () => {
               </div>
 
               {/* Desktop Search - Hidden on mobile */}
-              <div className="hidden lg:flex ml-8 w-full max-w-xl">
+              <div className="hidden md:flex ml-4 xl:ml-8 w-full max-w-sm lg:max-w-md xl:max-w-xl">
                 <div className="flex flex-1 items-center border-2 border-[#BCE3C9] rounded-full overflow-hidden">
                   <div className="pl-4">
                     <Search size={20} className="text-gray-400" />
@@ -52,14 +71,42 @@ const NavHeader = () => {
             </div>
 
             {/* Desktop Navigation Items - Hidden on mobile */}
-            <div className="hidden lg:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-2 lg:space-x-4 xl:space-x-8">
               {/* Become a Supplier */}
-              <div className="hidden xl:block border">
-                <button className="flex items-center gap-2 p-2 text-primary font-medium hover:text-primary/80 transition-colors">
-                  Become a Supplier <MoveRightIcon size={16} />
-                </button>
-              </div>
+              <div className="hidden md:block">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="flex items-center  text-primary font-medium hover:text-primary/80 transition-colors"
+                    >
+                      <Package className="h-4 w-4" />
+                      JOIN OUR TEAM
+                      <ChevronDown size={16} className="" />
+                    </Button>
+                  </DropdownMenuTrigger>
 
+                  <DropdownMenuContent align="end" className="w-48">
+                    <Link href="/driver/register">
+                      <DropdownMenuItem className="cursor-pointer hover:bg-accent hover:text-primary/80 transition-colors">
+                        <div className="flex items-center gap-2 w-full">
+                          <Truck className="h-4 w-4" />
+                          <span>As a Driver</span>
+                        </div>
+                      </DropdownMenuItem>
+                    </Link>
+
+                    <Link href="/supplier/register">
+                      <DropdownMenuItem className="cursor-pointer hover:bg-accent hover:text-primary/80 transition-colors">
+                        <div className="flex items-center gap-2 w-full">
+                          <Package className="h-4 w-4" />
+                          <span>As a Supplier</span>
+                        </div>
+                      </DropdownMenuItem>
+                    </Link>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               {/* Icons Section */}
               <div className="flex items-center space-x-6">
                 {/* Wishlist */}
@@ -70,34 +117,38 @@ const NavHeader = () => {
                       0
                     </span>
                   </div>
-                  <span className="text-xs md:text-base mt-1 hidden sm:block">Wishlist</span>
+                  <span className="text-xs xl:text-base mt-1 hidden xl:block">
+                    Wishlist
+                  </span>
                 </button>
 
                 {/* Cart */}
-                <Link href={'cart'} className=" cursor-pointer">
-                
-                
-                <button className="relative flex cursor-pointer gap-2 items-center text-gray-600 hover:text-primary transition-colors group">
-                  <div className="relative">
-                    <ShoppingCart size={22} />
-                    <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      0
+                <Link href={"cart"} className=" cursor-pointer">
+                  <button className="relative flex cursor-pointer gap-2 items-center text-gray-600 hover:text-primary transition-colors group">
+                    <div className="relative">
+                      <ShoppingCart size={22} />
+                      <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        0
+                      </span>
+                    </div>
+                    <span className="text-xs xl:text-base mt-1 hidden xl:block">
+                      Cart
                     </span>
-                  </div>
-                  <span className="text-xs md:text-base mt-1 hidden sm:block">Cart</span>
-                </button>
+                  </button>
                 </Link>
 
                 {/* Account */}
-                <button className="flex  gap-2 items-center text-gray-600 hover:text-primary transition-colors group">
+                <button className="flex gap-2 items-center text-gray-600 hover:text-primary transition-colors group">
                   <UserRound size={22} />
-                  <span className="text-xs md:text-base mt-1 hidden sm:block">Account</span>
+                  <span className="text-xs xl:text-base mt-1 hidden xl:block">
+                    Account
+                  </span>
                 </button>
               </div>
             </div>
 
             {/* Mobile Search and Icons */}
-            <div className="flex lg:hidden items-center space-x-4">
+            <div className="flex md:hidden items-center space-x-4">
               {/* Mobile Search Toggle */}
               <button
                 className="p-2 hover:bg-gray-100 rounded-full"
@@ -107,21 +158,20 @@ const NavHeader = () => {
               </button>
 
               {/* Mobile Cart Icon */}
-              <Link href={'/cart'} className="  cursor-pointer">
-              
-              <button className="relative p-2 hover:bg-gray-100 rounded-full">
-                <ShoppingCart size={22} />
-                <span className="absolute top-1 right-1 bg-primary text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                  0
-                </span>
-              </button>
+              <Link href={"/cart"} className="  cursor-pointer">
+                <button className="relative p-2 hover:bg-gray-100 rounded-full">
+                  <ShoppingCart size={22} />
+                  <span className="absolute top-1 right-1 bg-primary text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                    0
+                  </span>
+                </button>
               </Link>
             </div>
           </div>
 
           {/* Mobile Search Bar */}
           {isSearchOpen && (
-            <div className="lg:hidden py-4 border-t">
+            <div className="md:hidden py-4 border-t">
               <div className="flex items-center border-2 border-[#BCE3C9] rounded-full overflow-hidden">
                 <div className="pl-4">
                   <Search size={20} className="text-gray-400" />
@@ -136,7 +186,6 @@ const NavHeader = () => {
             </div>
           )}
         </div>
-       
       </section>
 
       {/* Mobile Menu Overlay */}
@@ -144,12 +193,12 @@ const NavHeader = () => {
         <>
           {/* Backdrop */}
           <div
-            className="fixed top-0 left-0 inset-0 bg-opacity-40 z-40 lg:hidden"
+            className="fixed top-0 left-0 inset-0 bg-opacity-40 z-40 md:hidden"
             onClick={() => setIsMenuOpen(false)}
           />
-          
+
           {/* Menu Panel */}
-          <div className="fixed left-0 top-16 w-64 h-full bg-white shadow-xl z-50 transform transition-transform lg:hidden">
+          <div className="fixed left-0 top-16 w-64 h-full bg-white shadow-xl z-50 transform transition-transform md:hidden">
             <div className="p-6 space-y-8">
               {/* User Info */}
               <div className="flex items-center space-x-3 pb-6 border-b">
@@ -164,11 +213,39 @@ const NavHeader = () => {
 
               {/* Navigation Links */}
               <nav className="space-y-4">
-                <button className="flex items-center justify-between border w-full p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <span className="font-medium text-primary">Become a Supplier</span>
-                  <MoveRightIcon size={16} className="text-primary" />
-                </button>
-                
+               <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="flex items-center  text-primary font-medium hover:text-primary/80 transition-colors"
+                    >
+                      <Package className="h-4 w-4" />
+                      JOIN OUR TEAM
+                      <ChevronDown size={16} className="" />
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent align="end" className="w-48">
+                    <Link href="/driver/register">
+                      <DropdownMenuItem className="cursor-pointer hover:bg-accent hover:text-primary/80 transition-colors">
+                        <div className="flex items-center gap-2 w-full">
+                          <Truck className="h-4 w-4" />
+                          <span>As a Driver</span>
+                        </div>
+                      </DropdownMenuItem>
+                    </Link>
+
+                    <Link href="/supplier/register">
+                      <DropdownMenuItem className="cursor-pointer hover:bg-accent hover:text-primary/80 transition-colors">
+                        <div className="flex items-center gap-2 w-full">
+                          <Package className="h-4 w-4" />
+                          <span>As a Supplier</span>
+                        </div>
+                      </DropdownMenuItem>
+                    </Link>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
                 <button className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-50 transition-colors">
                   <span className="font-medium">Wishlist</span>
                   <div className="relative">
@@ -178,19 +255,18 @@ const NavHeader = () => {
                     </span>
                   </div>
                 </button>
-                <Link href={'/cart'} className="cursor-pointer">
-                
-                <button className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <span className="font-medium">Cart</span>
-                  <div className="relative">
-                    <ShoppingCart size={20} />
-                    <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      0
-                    </span>
-                  </div>
-                </button>
+                <Link href={"/cart"} className="cursor-pointer">
+                  <button className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                    <span className="font-medium">Cart</span>
+                    <div className="relative">
+                      <ShoppingCart size={20} />
+                      <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        0
+                      </span>
+                    </div>
+                  </button>
                 </Link>
-                
+
                 <button className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-50 transition-colors">
                   <span className="font-medium">Account</span>
                   <UserRound size={20} />
@@ -208,7 +284,6 @@ const NavHeader = () => {
           </div>
         </>
       )}
-       
     </header>
   );
 };
