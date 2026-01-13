@@ -6,6 +6,7 @@ export type ProductParams = {
   productType?: string;
   minPrice?: number | string;
   maxPrice?: number | string;
+  categorySlug?: string;
 };
 
 // product interface.....

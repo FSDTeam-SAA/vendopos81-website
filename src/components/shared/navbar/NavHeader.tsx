@@ -81,14 +81,15 @@ const NavHeader = () => {
                       className="flex items-center  text-primary font-medium hover:text-primary/80 transition-colors"
                     >
                       <Package className="h-4 w-4" />
-                      JOIN OUR TEAM
-                      <ChevronDown size={16} className="" />
+                      {/* JOIN OUR TEAM */}
+                      JOIN WITH US <ChevronDown size={16} className="" />
                     </Button>
                   </DropdownMenuTrigger>
+                 
 
-                  <DropdownMenuContent align="end" className="w-48">
-                    <Link href="/driver/register">
-                      <DropdownMenuItem className="cursor-pointer hover:bg-accent hover:text-primary/80 transition-colors">
+                  <DropdownMenuContent align="end" className="w-48 bg-primary/45 px-8">
+                    <Link href="/driver">
+                      <DropdownMenuItem className="cursor-pointer  hover:text-white transition-colors">
                         <div className="flex items-center gap-2 w-full">
                           <Truck className="h-4 w-4" />
                           <span>As a Driver</span>
@@ -96,8 +97,8 @@ const NavHeader = () => {
                       </DropdownMenuItem>
                     </Link>
 
-                    <Link href="/supplier/register">
-                      <DropdownMenuItem className="cursor-pointer hover:bg-accent hover:text-primary/80 transition-colors">
+                    <Link href="/vendor">
+                      <DropdownMenuItem className="cursor-pointer  hover:text-white transition-colors">
                         <div className="flex items-center gap-2 w-full">
                           <Package className="h-4 w-4" />
                           <span>As a Supplier</span>
@@ -110,7 +111,9 @@ const NavHeader = () => {
               {/* Icons Section */}
               <div className="flex items-center space-x-6">
                 {/* Wishlist */}
-                <button className="relative flex  gap-2 items-center text-gray-600 hover:text-primary transition-colors group">
+                <Link href={'/wishlist'}>
+                
+                <div className="relative flex  gap-2 items-center text-gray-600 hover:text-primary transition-colors group">
                   <div className="relative">
                     <Heart size={22} />
                     <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -120,7 +123,8 @@ const NavHeader = () => {
                   <span className="text-xs xl:text-base mt-1 hidden xl:block">
                     Wishlist
                   </span>
-                </button>
+                </div>
+                </Link>
 
                 {/* Cart */}
                 <Link href={"cart"} className=" cursor-pointer">
@@ -138,7 +142,7 @@ const NavHeader = () => {
                 </Link>
 
                 {/* Account */}
-                <button className="flex gap-2 items-center text-gray-600 hover:text-primary transition-colors group">
+                <button className="flex gap-2 items-center cursor-pointer text-gray-600 hover:text-primary transition-colors group">
                   <UserRound size={22} />
                   <span className="text-xs xl:text-base mt-1 hidden xl:block">
                     Account
@@ -213,7 +217,7 @@ const NavHeader = () => {
 
               {/* Navigation Links */}
               <nav className="space-y-4">
-               <DropdownMenu>
+                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"

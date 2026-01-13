@@ -2,15 +2,27 @@
 import ProductCard from "@/components/shared/productCard";
 import HeadShowFilter from "../common/HeadShowFilter";
 import SidebarFilter from "../common/SidebarFilter";
-import { Grid, LayoutGrid, List } from "lucide-react";
+import { motion } from "framer-motion";
 
-import { Product } from "@/lib/types/product";
+
+import { Product, ProductParams } from "@/lib/types/product";
+
+// const CATEGORIES = [
+//   { id: '1', label: 'Cabbage', value: 'cabbage' },
+//   { id: '2', label: 'Broccoli', value: 'broccoli' },
+//   { id: '3', label: 'Artichoke', value: 'artichoke' },
+//   { id: '4', label: 'Celery', value: 'celery' },
+//   { id: '5', label: 'Spinach', value: 'spinach' },
+// ];
 
 interface Props {
   products: Product[];
   loading: boolean;
   onCategoryChange: (v: string[]) => void;
   onPriceChange: (v: [number, number]) => void;
+  onRegionChange: (v: string | null) => void;
+  onProductTypeChange: (v: string | null) => void;
+  query: ProductParams;
 }
 
 const ShopPresenter = ({
@@ -18,10 +30,27 @@ const ShopPresenter = ({
   loading,
   onCategoryChange,
   onPriceChange,
+  onRegionChange,
+  onProductTypeChange,
+  query
 }: Props) => {
+
+const gridVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
   return (
     <div className="container mx-auto px-4 py-8">
-      <HeadShowFilter onFilterChange={onCategoryChange} />
+      <HeadShowFilter 
+        query={query} 
+        onFilterChange={onCategoryChange} 
+        onRegionChange={onRegionChange}
+        onProductTypeChange={onProductTypeChange}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-10">
         
@@ -30,6 +59,9 @@ const ShopPresenter = ({
           <SidebarFilter
             onCategoryChange={onCategoryChange}
             onPriceChange={onPriceChange}
+            onRegionChange={onRegionChange}
+            onProductTypeChange={onProductTypeChange}
+            query={query}
           />
         </aside>
 
@@ -41,7 +73,7 @@ const ShopPresenter = ({
                 <p className="text-gray-500 text-sm font-medium mb-4 sm:mb-0">
                     We found <span className="text-primary font-bold">{products?.length || 0}</span> items for you!
                 </p>
-
+{/* 
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-500 hidden sm:inline">Show:</span>
@@ -61,15 +93,20 @@ const ShopPresenter = ({
                             <option>Rating</option>
                         </select>
                     </div>
-                </div>
+                </div> */}
             </div>
 
             {/* Product Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {products?.map((item) => (
-                    <ProductCard key={item._id} product={item} />
-                ))}
-            </div>
+  <motion.div
+    variants={gridVariants}
+    initial="hidden"
+    animate="show"
+    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+  >
+    {products?.map((item) => (
+      <ProductCard key={item._id} product={item} />
+    ))}
+  </motion.div>
 
             {/* Empty State */}
             {!loading && products?.length === 0 && (

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
 
+import Link from "next/link";
+
 type Country = {
   img: string;
   name: string;
@@ -8,9 +10,9 @@ type Country = {
 
 const CountryCard = ({ data }: { data: Country }) => {
   return (
-    <div className="flex flex-col items-center text-center">
+    <Link href={`/shop?country=${data.name}`} className="flex flex-col items-center text-center group">
       {/* Circle Image */}
-      <div className="relative w-[150px] h-[150px] rounded-full border overflow-hidden bg-white">
+      <div className="relative w-[150px] h-[150px] rounded-full border overflow-hidden bg-white transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
         <Image
           src={data.img}
           alt={data.name}
@@ -21,8 +23,8 @@ const CountryCard = ({ data }: { data: Country }) => {
       </div>
 
       {/* Text */}
-      <p className="mt-3 text-sm font-medium">{data.name}</p>
-    </div>
+      <p className="mt-3 text-sm font-medium group-hover:text-primary transition-colors">{data.name}</p>
+    </Link>
   );
 };
 

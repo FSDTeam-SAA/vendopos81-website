@@ -25,9 +25,9 @@ const FreshCleanProducts = ({ data }: { data: Data }) => {
         >
           <h2
             className="
-            text-base sm:text-lg md:text-xl lg:text-2xl  font-bold text-secondary
-            mb-4 md:mb-7 
-            leading-tight"
+            text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-secondary
+            mb-6 md:mb-10 
+            leading-[1.2]"
           >
             {data.tittle}
           </h2>

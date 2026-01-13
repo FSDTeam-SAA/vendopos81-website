@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import type { UseFormReturn } from "react-hook-form"
-import { Button } from "@/components/ui/button"
+import type { UseFormReturn } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,32 +9,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import type { VendorRegistrationFormData } from "@/lib/schemas"
-import { Upload } from "lucide-react"
-import { useState, useEffect } from "react"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import type { DriverRegistrationFormData } from "@/lib/schemas";
+import { Upload } from "lucide-react";
+import { useState, useEffect } from "react";
 
-
-interface VendorPresenterProps {
-  form: UseFormReturn<VendorRegistrationFormData>
-  onSubmit: (data: VendorRegistrationFormData) => void
-  isLoading?: boolean
+interface DriverPresenterProps {
+  form: UseFormReturn<DriverRegistrationFormData>;
+  onSubmit: (data: DriverRegistrationFormData) => void;
+  isLoading?: boolean;
 }
 
-const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterProps) => {
-  const [logoPreview, setLogoPreview] = useState<string | null>(null)
-  const [documentName, setDocumentName] = useState<string | null>(null)
-
-  // Cleanup object URLs when component unmounts
-  useEffect(() => {
-    return () => {
-      if (logoPreview) {
-        URL.revokeObjectURL(logoPreview)
-      }
-    }
-  }, [logoPreview])
+const DriverPresenter = ({
+  form,
+  onSubmit,
+  isLoading = false,
+}: DriverPresenterProps) => {
+  const [documentName, setDocumentName] = useState<string | null>(null);
 
   return (
     <section className="py-12">
@@ -47,32 +40,49 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                 <Upload className="w-5 h-5" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">Join as a Supplier</h1>
-                <p className="text-white/90 text-sm mt-1">Complete your profile information</p>
+                <h1 className="text-2xl font-bold">Join as a Driver</h1>
+                <p className="text-white/90 text-sm mt-1">
+                  Complete your driver profile information
+                </p>
               </div>
             </div>
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="p-8 space-y-8">
-              {/* Business Information */}
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="p-8 space-y-8"
+            >
+              {/* Personal Information */}
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
                   </svg>
-                  Business Information
+                  Driver Information
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
-                    name="shopName"
+                    name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-gray-700 font-medium">Shop Name *</FormLabel>
+                        <FormLabel className="text-gray-700 font-medium">
+                          First Name *
+                        </FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Enter your shop name"
+                            placeholder="Enter your first name"
                             {...field}
                             className="border-gray-300 focus:border-primary focus:ring-primary"
                           />
@@ -83,13 +93,15 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                   />
                   <FormField
                     control={form.control}
-                    name="brandName"
+                    name="lastName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-gray-700 font-medium">Brand Name *</FormLabel>
+                        <FormLabel className="text-gray-700 font-medium">
+                          Last Name *
+                        </FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Enter your brand name"
+                            placeholder="Enter your last name"
                             {...field}
                             className="border-gray-300 focus:border-primary focus:ring-primary"
                           />
@@ -98,88 +110,24 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                       </FormItem>
                     )}
                   />
-                </div>
-
-                <div className="grid grid-cols-1 gap-6 items-start mt-6">
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-700 font-medium">Business Description</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Describe your business, products, and services..."
-                            {...field}
-                            rows={4}
-                            className="border-gray-300 focus:border-primary focus:ring-primary resize-none"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div className="">
-                    <FormField
-                      control={form.control}
-                      name="logo"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-gray-700 font-medium">Upload Logo</FormLabel>
-                          <FormControl>
-                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary transition-colors">
-                              <Upload className="w-8 h-8 text-primary mx-auto mb-2" />
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0]
-                                  field.onChange(file || null)
-                                  
-                                  // Create preview for image
-                                  if (file) {
-                                    // Revoke previous URL if exists
-                                    if (logoPreview) {
-                                      URL.revokeObjectURL(logoPreview)
-                                    }
-                                    const objectUrl = URL.createObjectURL(file)
-                                    setLogoPreview(objectUrl)
-                                  } else {
-                                    setLogoPreview(null)
-                                  }
-                                }}
-                                className="hidden"
-                                id="logo-upload"
-                              />
-                              <label htmlFor="logo-upload" className="cursor-pointer">
-                                <p className="text-sm text-primary font-medium">Upload an image</p>
-                                <p className="text-xs text-gray-500 mt-1">or drag and drop</p>
-                              </label>
-                            </div>
-                          </FormControl>
-                          {logoPreview && (
-                            <div className="mt-4">
-                              <p className="text-sm text-gray-700 font-medium mb-2">Preview:</p>
-                              <img 
-                                src={logoPreview} 
-                                alt="Logo preview" 
-                                className="w-32 h-32 object-cover rounded-lg border border-gray-300"
-                              />
-                            </div>
-                          )}
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
                 </div>
               </div>
 
               {/* Contact Information */}
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
                   </svg>
                   Contact Information
                 </h2>
@@ -189,7 +137,9 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-gray-700 font-medium">Phone Number *</FormLabel>
+                        <FormLabel className="text-gray-700 font-medium">
+                          Phone Number *
+                        </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="+1 (555) 123-4567"
@@ -206,11 +156,13 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-gray-700 font-medium">Email Address *</FormLabel>
+                        <FormLabel className="text-gray-700 font-medium">
+                          Email Address *
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type="email"
-                            placeholder="vendor@example.com"
+                            placeholder="driver@example.com"
                             {...field}
                             className="border-gray-300 focus:border-primary focus:ring-primary"
                           />
@@ -222,14 +174,89 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                 </div>
               </div>
 
-              {/* Warehouse Location */}
+              {/* Experience & License */}
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
                   </svg>
-                  Warehouse Location
+                  Experience & License
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="experience"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-700 font-medium">
+                          Years of Driving Experience *
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g. 5 years"
+                            {...field}
+                            className="border-gray-300 focus:border-primary focus:ring-primary"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="expiry"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-700 font-medium">
+                          License Expiry Date *
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="YYYY-MM-DD"
+                            {...field}
+                            className="border-gray-300 focus:border-primary focus:ring-primary"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              {/* Location */}
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  Location Information
                 </h2>
                 <div className="space-y-6">
                   <FormField
@@ -237,7 +264,9 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                     name="warehouseLocation"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-gray-700 font-medium">Warehouse Name/Location</FormLabel>
+                        <FormLabel className="text-gray-700 font-medium">
+                          Warehouse Name/Location *
+                        </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Main warehouse, Distribution center, etc."
@@ -254,7 +283,9 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                     name="street"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-gray-700 font-medium">Street *</FormLabel>
+                        <FormLabel className="text-gray-700 font-medium">
+                          Street *
+                        </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="123 Main Street, Suite 100"
@@ -272,7 +303,9 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                       name="address"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-gray-700 font-medium">Address *</FormLabel>
+                          <FormLabel className="text-gray-700 font-medium">
+                            Address *
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Address"
@@ -289,7 +322,9 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                       name="location"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-gray-700 font-medium">Location *</FormLabel>
+                          <FormLabel className="text-gray-700 font-medium">
+                            Location *
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Location"
@@ -306,7 +341,9 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                       name="state"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-gray-700 font-medium">State *</FormLabel>
+                          <FormLabel className="text-gray-700 font-medium">
+                            State *
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="State"
@@ -318,32 +355,44 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={form.control}
-                      name="postalCode"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-gray-700 font-medium">Postal Code *</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="12345"
-                              {...field}
-                              className="border-gray-300 focus:border-primary focus:ring-primary"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </div>
+                  <FormField
+                    control={form.control}
+                    name="postalCode"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-gray-700 font-medium">
+                          Postal Code *
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="12345"
+                            {...field}
+                            className="border-gray-300 focus:border-primary focus:ring-primary"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </div>
 
               {/* Documents */}
               <div>
                 <h2 className="text-lg font-semibold overflow-hidden text-gray-900 mb-4 flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
                   </svg>
                   Documents
                 </h2>
@@ -355,28 +404,35 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                       <FormControl>
                         <div className="border-2 border-dashed border-gray-300 rounded-lg p-8  text-center hover:border-primary transition-colors">
                           <Upload className="w-12 h-12 text-primary mx-auto mb-3" />
-                          <input
+                          <Input
                             type="file"
                             accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                             onChange={(e) => {
-                              const file = e.target.files?.[0]
-                              field.onChange(file || null)
-                              
+                              const file = e.target.files?.[0];
+                              field.onChange(file || null);
+
                               // Store file name for display
                               if (file) {
-                                setDocumentName(file.name)
+                                setDocumentName(file.name);
                               } else {
-                                setDocumentName(null)
+                                setDocumentName(null);
                               }
                             }}
                             className="hidden"
                             id="documents-upload"
                           />
-                          <label htmlFor="documents-upload" className="cursor-pointer">
-                            <p className="text-primary font-medium">Upload documents</p>
-                            <p className="text-sm text-gray-500 mt-1">or drag and drop</p>
+                          <label
+                            htmlFor="documents-upload"
+                            className="cursor-pointer"
+                          >
+                            <p className="text-primary font-medium">
+                              Upload documents
+                            </p>
+                            <p className="text-sm text-gray-500 mt-1">
+                              or drag and drop
+                            </p>
                             <p className="text-xs text-gray-400 mt-2">
-                              Business license, Tax ID, Insurance certificates, etc.
+                              Driver license, Insurance, etc.
                             </p>
                             <p className="text-xs text-gray-400">
                               PDF, DOC, JPG, PNG up to 10MB each
@@ -386,8 +442,18 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                       </FormControl>
                       {documentName && (
                         <div className="mt-4 flex items-center gap-2 text-sm text-gray-700">
-                          <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          <svg
+                            className="w-5 h-5 text-primary"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
                           </svg>
                           <span className="font-medium">Selected:</span>
                           <span className="text-gray-600">{documentName}</span>
@@ -422,7 +488,7 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default VendorPresenter
+export default DriverPresenter;

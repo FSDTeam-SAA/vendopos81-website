@@ -1,4 +1,4 @@
-import VendorContainer from '@/components/website/vendor/container/VendorContaier'
+import VendorContainer from '@/components/website/vendor/container/VendorContainer'
 import React from 'react'
 
 const page = () => {

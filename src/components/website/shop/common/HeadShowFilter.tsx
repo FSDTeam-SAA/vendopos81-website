@@ -1,7 +1,9 @@
 'use client'
-import React, { useState } from 'react';
-import { ChevronRight, X } from 'lucide-react';
+import React from 'react';
+import { X } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ProductParams } from '@/lib/types/product';
 
 interface FilterItem {
   id: string;
@@ -11,26 +13,21 @@ interface FilterItem {
 
 interface HeadShowFilterProps {
   title?: string;
-  filterItems?: FilterItem[];
-  activeFilters?: string[];
+  query: ProductParams;
   onFilterChange?: (filters: string[]) => void;
+  onRegionChange?: (region: string | null) => void;
+  onProductTypeChange?: (type: string | null) => void;
   onClearFilters?: () => void;
   showBreadcrumb?: boolean;
   breadcrumbItems?: { label: string; href: string }[];
 }
 
 const HeadShowFilter: React.FC<HeadShowFilterProps> = ({
-  title = 'Snack',
-  filterItems = [
-    { id: '1', label: 'Cabbage', value: 'cabbage' },
-    { id: '2', label: 'Broccoli', value: 'broccoli' },
-    { id: '3', label: 'Artichoke', value: 'artichoke' },
-    { id: '4', label: 'Celery', value: 'celery' },
-    { id: '5', label: 'Spinach', value: 'spinach' },
-  ],
-  activeFilters = [],
+  title = 'Shop',
+  query,
   onFilterChange,
-  onClearFilters,
+  onRegionChange,
+  onProductTypeChange,
   showBreadcrumb = true,
   breadcrumbItems = [
      { label: 'Home', href: '/' },
@@ -38,74 +35,74 @@ const HeadShowFilter: React.FC<HeadShowFilterProps> = ({
      { label: 'Snack', href: '#' }
   ],
 }) => {
-  const [selectedFilters, setSelectedFilters] = useState<string[]>(activeFilters);
+  // Aggregate all active filters for display
+  const activeChips: { id: string; type: 'category' | 'region' | 'productType'; value: string; label: string }[] = [];
 
-  const removeFilter = (filterToRemove: string) => {
-    const newFilters = selectedFilters.filter(filter => filter !== filterToRemove);
-    setSelectedFilters(newFilters);
-    if (onFilterChange) {
-      onFilterChange(newFilters);
+  if (query.categorySlug) {
+    query.categorySlug.split(',').forEach(slug => {
+      activeChips.push({ id: `cat-${slug}`, type: 'category', value: slug, label: slug });
+    });
+  }
+
+  if (query.region) {
+    activeChips.push({ id: `reg-${query.region}`, type: 'region', value: query.region, label: query.region });
+  }
+
+  if (query.productType) {
+    activeChips.push({ id: `type-${query.productType}`, type: 'productType', value: query.productType, label: query.productType });
+  }
+
+  const handleRemoveChip = (chip: typeof activeChips[0]) => {
+    if (chip.type === 'category') {
+      const newCategories = query.categorySlug?.split(',').filter(s => s !== chip.value) || [];
+      if (onFilterChange) onFilterChange(newCategories);
+    } else if (chip.type === 'region') {
+      if (onRegionChange) onRegionChange(null);
+    } else if (chip.type === 'productType') {
+      if (onProductTypeChange) onProductTypeChange(null);
     }
   };
 
-  const toggleFilter = (value: string) => {
-     const newFilters = selectedFilters.includes(value)
-      ? selectedFilters.filter(f => f !== value)
-      : [...selectedFilters, value];
-    setSelectedFilters(newFilters);
-    if(onFilterChange) onFilterChange(newFilters);
-  }
-
   return (
     <div className="relative bg-[#D4F3E4] rounded-3xl p-8 md:p-12 overflow-hidden mb-10">
-      {/* Background Pattern - Simulated with circles for now */}
+      {/* Background Pattern */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-green-200/20 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-green-200/20 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none"></div>
 
-      <div className="relative z-10">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">{title}</h1>
-        
-        {/* Breadcrumb */}
-        {showBreadcrumb && (
-          <div className="flex items-center text-sm text-gray-500 mb-8">
-            {breadcrumbItems.map((item, index) => (
-              <React.Fragment key={index}>
-                <Link href={item.href} className="hover:text-green-600 transition-colors">
-                  {item.label}
-                </Link>
-                {index < breadcrumbItems.length - 1 && (
-                  <span className="mx-2 text-gray-400">,</span> 
-                  // Image shows commas for breadcrumbs? Or dots. Standard is chevron usually but let's stick to standard chevron for clarity or comma if image implies list. 
-                  // Looking at image: Home > Shop > Snack. It uses chevrons or dots. Let's use simple dot or nothing? 
-                  // Re-reading image: Home . Shop . Snack (looks like dots)
-                )}
-                 {index < breadcrumbItems.length - 1 && (
-                   <span className="mx-2">•</span>
-                 )}
-              </React.Fragment>
-            ))}
-          </div>
-        )}
+      <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 capitalize">{title}</h1>
+          
+          {/* Breadcrumb */}
+          {showBreadcrumb && (
+            <div className="flex items-center text-sm text-gray-500">
+              {breadcrumbItems.map((item, index) => (
+                <React.Fragment key={index}>
+                  <Link href={item.href} className="hover:text-green-600 transition-colors">
+                    {item.label}
+                  </Link>
+                  {index < breadcrumbItems.length - 1 && (
+                    <span className="mx-2">•</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          )}
+        </div>
 
-        {/* Filter Chips - Horizontal Scrollable */}
+        {/* Filter Chips */}
         <div className="flex flex-wrap gap-3">
-          {filterItems.map((filter) => {
-             const isActive = selectedFilters.includes(filter.value);
-             return (
-              <button
-                key={filter.id}
-                onClick={() => toggleFilter(filter.value)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  isActive 
-                    ? 'bg-primary text-white shadow-md' 
-                    : 'bg-white text-gray-700 hover:bg-gray-50 shadow-sm'
-                }`}
+          {activeChips.map((chip) => (
+              <Button 
+                key={chip.id}
+                variant="default"
+                onClick={() => handleRemoveChip(chip)}
+                className="flex items-center gap-2 px-4 rounded-full text-sm font-medium transition-all duration-200 bg-primary text-white shadow-md hover:bg-primary/90 capitalize"
               >
-                {isActive && <X size={14} />}
-                {filter.label}
-              </button>
-            )
-          })}
+                <X size={14} />
+                {chip.label.replace(/_/g, ' ')}
+              </Button>
+          ))}
         </div>
       </div>
     </div>

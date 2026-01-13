@@ -3,6 +3,8 @@ import Image from "next/image";
 import React from "react";
 import { FaStar } from "react-icons/fa6";
 
+import Link from "next/link";
+
 interface data {
   image: string;
   tittle: string;
@@ -12,21 +14,21 @@ interface data {
 
 const MostCatagoryCard = ({ data }: { data: data }) => {
   return (
-    <div className="flex items-center gap-3 sm:gap-4 ">
+    <Link href={`/shop?productType=${data.tittle}`} className="flex items-center gap-3 sm:gap-4 group">
       {/* IMAGE */}
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 overflow-hidden rounded-lg">
         <Image
           src={data.image}
           alt={data.tittle}
           width={100}
           height={100}
-          className="sm:w-[120px] sm:h-[120px]"
+          className="sm:w-[120px] sm:h-[120px] transition-transform duration-300 group-hover:scale-110"
         />
       </div>
 
       {/* CONTENT */}
       <div>
-        <h2 className="text-sm sm:text-base font-bold text-secondary mb-2 leading-5">
+        <h2 className="text-sm sm:text-base font-bold text-secondary mb-2 leading-5 group-hover:text-primary transition-colors">
           {data.tittle}
         </h2>
 
@@ -50,7 +52,7 @@ const MostCatagoryCard = ({ data }: { data: data }) => {
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

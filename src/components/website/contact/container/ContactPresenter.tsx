@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 
 import { ContactFormData } from "./Schema";
 import { UseFormReturn } from "react-hook-form";
+import Image from "next/image";
 
 interface Props {
   form: UseFormReturn<ContactFormData>;
@@ -21,17 +22,11 @@ interface Props {
   onSubmit: (data: ContactFormData) => void;
 }
 
-const ContactPresenter = ({
-  form,
-  isPending,
-  onSubmit,
-}: Props) => {
+const ContactPresenter = ({ form, isPending, onSubmit }: Props) => {
   return (
-    <section className="my-16 container mx-auto max-w-4xl">
-      <div className="rounded-2xl bg-secondary p-8 md:p-12 shadow-sm">
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">
-          Get in touch
-        </h2>
+    <section className="my-16 container mx-auto max-w-6xl flex justify-between items-center bg-white p-10 rounded-2xl">
+      <div className="rounded-2xl  p-8 md:p-12 ">
+        <h2 className="text-3xl md:text-4xl font-bold mb-2">Get in touch</h2>
         <p className="text-muted-foreground mb-8">
           Our friendly team would love to hear from you.
         </p>
@@ -77,7 +72,11 @@ const ContactPresenter = ({
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="john@example.com" {...field} />
+                    <Input
+                      type="email"
+                      placeholder="john@example.com"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -85,14 +84,18 @@ const ContactPresenter = ({
             />
 
             {/* Phone (Added missing field based on Schema) */}
-             <FormField
+            <FormField
               control={form.control}
               name="phone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="+1 (555) 000-0000" {...field} />
+                    <Input
+                      type="tel"
+                      placeholder="+1 (555) 000-0000"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -156,6 +159,15 @@ const ContactPresenter = ({
             </Button>
           </form>
         </Form>
+      </div>
+      <div className="">
+        <Image
+          src={"/images/contact.png"}
+          alt="contact"
+          width={800}
+          height={600}
+          className=" w-full aspect-square object-cover rounded-2xl"
+        />
       </div>
     </section>
   );

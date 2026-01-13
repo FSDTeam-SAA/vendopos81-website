@@ -1,8 +1,11 @@
+import DriverContainer from '@/components/website/driver/container/DriverContainer'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <DriverContainer />
+    </div>
   )
 }
 

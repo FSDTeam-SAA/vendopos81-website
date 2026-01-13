@@ -46,7 +46,7 @@ const BannerSlider = () => {
 
     const interval = setInterval(() => {
       nextSlide();
-    }, 3000);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, [currentSlide, isPaused, nextSlide]);
@@ -142,7 +142,7 @@ const BannerSlider = () => {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg z-20 transition-all hover:scale-110"
+          className="absolute left-4 top-1/2 cursor-pointer transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg z-20 transition-all hover:scale-110"
           aria-label="Previous slide"
         >
           <ChevronLeft size={24} className="text-gray-800" />
@@ -150,14 +150,14 @@ const BannerSlider = () => {
         
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg z-20 transition-all hover:scale-110"
+          className="absolute right-4 top-1/2 cursor-pointer transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg z-20 transition-all hover:scale-110"
           aria-label="Next slide"
         >
           <ChevronRight size={24} className="text-gray-800" />
         </button>
 
         {/* Pause/Play Button */}
-        <button
+        {/* <button
           onClick={toggleAutoSlide}
           className="absolute right-4 bottom-4 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg z-20 transition-all hover:scale-110"
           aria-label={isPaused ? "Play slideshow" : "Pause slideshow"}
@@ -167,7 +167,7 @@ const BannerSlider = () => {
           ) : (
             <Pause size={20} className="text-gray-800" />
           )}
-        </button>
+        </button> */}
 
         {/* Slide Indicators */}
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
@@ -175,7 +175,7 @@ const BannerSlider = () => {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
                 index === currentSlide
                   ? "bg-white w-8"
                   : "bg-white/50 hover:bg-white/80"

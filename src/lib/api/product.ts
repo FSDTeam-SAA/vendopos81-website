@@ -12,10 +12,17 @@ export async function FeatureProduct(params?: ProductParams) {
     if (params?.page) query.append("page", String(params.page));
     if (params?.limit) query.append("limit", String(params.limit));
     if (params?.productType) query.append("productType", params.productType);
-    if (params?.minPrice) query.append("minPrice", String(params.minPrice));
-    if (params?.maxPrice) query.append("maxPrice", String(params.maxPrice));
+    if (params?.categorySlug) query.append("categorySlug", params.categorySlug);
+    
+    if (params?.minPrice !== undefined && params?.minPrice !== "") {
+      query.append("minPrice", String(params.minPrice));
+    }
+    if (params?.maxPrice !== undefined && params?.maxPrice !== "") {
+      query.append("maxPrice", String(params.maxPrice));
+    }
 
-    const url = `/product/all/${query.toString() ? `?${query}` : ""}`;
+    const queryString = query.toString();
+    const url = `/product/all${queryString ? `?${queryString}` : ""}`;
 
     const res = await api.get(url);
     return res.data;
@@ -23,5 +30,6 @@ export async function FeatureProduct(params?: ProductParams) {
     if (error instanceof Error) {
       throw new Error(error.message || "Failed to fetch products");
     }
+    throw error;
   }
 }
