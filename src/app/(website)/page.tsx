@@ -18,7 +18,7 @@ export default function Home() {
       <FreshProducts />
      <MostCatagory />
      <Subscription />
-     <Footer />
+     {/* <Footer /> */}
     </div>
   );
 }

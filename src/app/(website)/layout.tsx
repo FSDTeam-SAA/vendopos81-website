@@ -6,7 +6,7 @@ import { Toaster } from "sonner";
 import AuthProvider from "@/provider/auth-provider";
 import TopHeader from "@/components/shared/TopHeader";
 import Navbar from "@/components/shared/navbar/navbar";
-
+import Footer from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
   title: "Create the VendoPos",
@@ -20,16 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className="antialiased bg-[#F9FFF9]"
-        suppressHydrationWarning
-      >
-      
-            <TopHeader />
-            <Navbar />
-            {children}
-         
-      
+      <body className="antialiased bg-[#F9FFF9]" suppressHydrationWarning>
+        <TopHeader />
+        <Navbar />
+        {children}
+        <Footer />
       </body>
     </html>
   );
