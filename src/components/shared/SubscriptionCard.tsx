@@ -1,7 +1,11 @@
+"use client";
 import { Search } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import { subcription } from "@/lib/api/api";
+import { toast } from "sonner";
 
 interface SubscriptionCardInterface {
   tittle: string;
@@ -10,11 +14,30 @@ interface SubscriptionCardInterface {
 }
 
 const SubscriptionCard = ({ data }: { data: SubscriptionCardInterface }) => {
+  const [email, setEmail] = useState("");
 
-  
+  const subscriptionMutation = useMutation({
+    mutationKey: ["subscription"],
+    mutationFn: (email: string) => subcription(email),
+    // If you have your own toast implementation
+    onSuccess: () => {
+      setEmail("");
+      toast.success("You have been subscribed to our newsletter.");
+    },
+    onError: (error: Error) => {
+      toast.error(error?.message || "Unable to subscribe. Please try again.");
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      subscriptionMutation.mutate(email);
+    }
+  };
+
   return (
     <div className="relative h-70 sm:h-80 md:h-[30vh] lg:h-[40vh] overflow-hidden rounded-lg">
-      
       {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0 right-0">
         <Image
@@ -37,20 +60,28 @@ const SubscriptionCard = ({ data }: { data: SubscriptionCardInterface }) => {
         </p>
 
         <div className="">
-          <div className="flex items-center bg-white rounded-full shadow-lg p-1 max-w-full sm:max-w-xl">
-            
-         
-
+          <form
+            onSubmit={handleSubmit}
+            className="flex items-center bg-white rounded-full shadow-lg p-1 max-w-full sm:max-w-xl"
+          >
             <input
               type="email"
               placeholder="Your Email Address"
-              className="flex-1 px-3 sm:px-4 py-2 sm:py-3 outline-none rounded-l-full text-sm sm:text-base"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={subscriptionMutation.isPending}
+              className="flex-1 px-3 sm:px-4 py-2 sm:py-3 outline-none rounded-l-full text-sm sm:text-base disabled:opacity-50"
+              required
             />
 
-            <Button className="rounded-full cursor-pointer px-2 sm:px-8 py-3 sm:py-6 bg-primary hover:bg-primary/90">
-              Subscribe
+            <Button
+              type="submit"
+              disabled={subscriptionMutation.isPending || !email.trim()}
+              className="rounded-full cursor-pointer px-2 sm:px-8 py-3 sm:py-6 bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {subscriptionMutation.isPending ? "Subscribing..." : "Subscribe"}
             </Button>
-          </div>
+          </form>
         </div>
       </div>
     </div>

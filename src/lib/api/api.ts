@@ -207,7 +207,7 @@ export async function FeatureProduct(params?: ProductParams) {
 
 export async function subcription(email:string ) {
   try {
-    const res = await api.post(`/subscription/create`, email);
+    const res = await api.post(`/subscription/create`, {email:email});
 
     return res.data;
   } catch (err) {

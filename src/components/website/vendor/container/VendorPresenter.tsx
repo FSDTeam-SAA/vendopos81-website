@@ -47,8 +47,8 @@ const VendorPresenter = ({ form, onSubmit, isLoading = false }: VendorPresenterP
                 <Upload className="w-5 h-5" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">Join as a Supplier</h1>
-                <p className="text-white/90 text-sm mt-1">Complete your profile information</p>
+                <h4 className="text-2xl font-bold">Join as a Supplier</h4>
+                <h6 className="text-white/90 text-sm mt-1">Complete your profile information</h6>
               </div>
             </div>
           </div>
