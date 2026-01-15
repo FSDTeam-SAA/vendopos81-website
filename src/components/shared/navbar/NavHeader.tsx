@@ -110,14 +110,14 @@ const NavHeader = () => {
                       sideOffset={10}
                       className="w-48 bg-white border border-gray-100 shadow-xl rounded-lg p-1 z-[60]"
                     >
-                      <Link href="/driver/register">
+                      <Link href="/driver">
                         <DropdownMenuItem className="cursor-pointer flex items-center gap-2 px-3 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary rounded-md transition-colors focus:bg-primary/10 focus:text-primary outline-none">
                           <Truck className="h-4 w-4" />
                           <span>As a Driver</span>
                         </DropdownMenuItem>
                       </Link>
 
-                      <Link href="/supplier/register">
+                      <Link href="/vendor">
                         <DropdownMenuItem className="cursor-pointer flex items-center gap-2 px-3 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary rounded-md transition-colors focus:bg-primary/10 focus:text-primary outline-none mt-1">
                           <Package className="h-4 w-4" />
                           <span>As a Supplier</span>
@@ -260,14 +260,14 @@ const NavHeader = () => {
                       className="w-56 bg-white border border-gray-100 shadow-xl rounded-lg p-1 z-[110]"
                       sideOffset={5}
                     >
-                      <Link href="/driver/register" className="block w-full">
+                      <Link href="/driver" className="block w-full">
                         <DropdownMenuItem className="cursor-pointer flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary rounded-md transition-all outline-none">
                           <Truck className="h-5 w-5" />
                           <span className="font-medium">As a Driver</span>
                         </DropdownMenuItem>
                       </Link>
 
-                      <Link href="/supplier/register" className="block w-full mt-1">
+                      <Link href="/vendor" className="block w-full mt-1">
                         <DropdownMenuItem className="cursor-pointer flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary rounded-md transition-all outline-none">
                           <Package className="h-5 w-5" />
                           <span className="font-medium">As a Supplier</span>

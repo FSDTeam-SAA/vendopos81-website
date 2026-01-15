@@ -40,10 +40,10 @@ const DriverPresenter = ({
                 <Upload className="w-5 h-5" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">Join as a Driver</h1>
-                <p className="text-white/90 text-sm mt-1">
+                <h4 className="text-2xl text-white font-bold">Join as a Driver</h4>
+                <h6 className="text-white text-sm mt-1">
                   Complete your driver profile information
-                </p>
+                </h6>
               </div>
             </div>
           </div>
