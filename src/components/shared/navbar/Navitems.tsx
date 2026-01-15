@@ -108,7 +108,7 @@ const Navitems = () => {
                       <ChevronDown className="text-white" size={18} />
                     </div>
                   </SelectTrigger>
-                  <SelectContent className="max-w-[300px] md:max-w-[300px] lg:max-w-[400px]">
+                  <SelectContent position="popper" className="max-w-[300px] md:max-w-[300px] mt-2 lg:max-w-[400px]">
                     <SelectGroup>
                       <SelectLabel className="text-lg font-semibold px-4 py-2">
                         All Categories
@@ -135,23 +135,27 @@ const Navitems = () => {
               {/* Country Selector */}
               <div className="w-full lg:w-auto">
                 <Select onValueChange={handleCountry}>
-                  <SelectTrigger className="border w-full lg:w-[200px] h-12 lg:h-10">
-                    <div className="flex items-center gap-2">
-                      <MapPin size={16} />
+                  <SelectTrigger className="border-gray-200 hover:border-primary/50 transition-all w-full lg:w-[200px] h-12 lg:h-10 bg-white">
+                    <div className="flex items-center gap-2 text-gray-700">
+                      <MapPin size={16} className="text-primary" />
                       <SelectValue placeholder="Select Country" />
                     </div>
                   </SelectTrigger>
-                  <SelectContent className="max-h-[400px] w-[300px] md:w-[450px] lg:w-[600px] overflow-y-auto">
+                  <SelectContent position="popper" className="max-h-[400px] w-[300px] md:w-[450px] lg:w-[600px] overflow-y-auto mt-2 bg-white border-gray-100 shadow-xl rounded-xl p-2">
                     <SelectGroup>
-                      <SelectLabel className="text-black">
+                      <SelectLabel className="text-gray-400 text-xs font-bold uppercase tracking-wider px-3 py-2">
                         Select Country
                       </SelectLabel>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
                         {COUNTRIES.map((item, index) => (
-                          <SelectItem key={index} value={item.value} className="py-2 cursor-pointer">
+                          <SelectItem 
+                            key={index} 
+                            value={item.value} 
+                            className="py-2.5 px-3 cursor-pointer rounded-lg hover:bg-primary/5 hover:text-primary transition-colors focus:bg-primary/5 focus:text-primary border-none outline-none"
+                          >
                             <div className="flex items-center gap-2">
-                              <div className="w-1.5 h-1.5 rounded-full bg-primary/40" />
-                              <span className="truncate">{item.name}</span>
+                              <div className="w-1.5 h-1.5 rounded-full bg-primary/30 group-data-[state=checked]:bg-primary" />
+                              <span className="truncate font-medium">{item.name}</span>
                             </div>
                           </SelectItem>
                         ))}
@@ -164,7 +168,7 @@ const Navitems = () => {
           </div>
 
           {/* Right side - Navigation Links */}
-          <nav className="flex flex-col lg:flex-row items-center gap-4 lg:gap-8 w-full lg:w-auto mt-4 lg:mt-0">
+          <nav className="hidden md:flex flex-col lg:flex-row items-center gap-4 lg:gap-8 w-full lg:w-auto mt-4 lg:mt-0">
             {NAV_ITEMS.map((item, index) => {
               const isActive = currentActive === item.link;
               return (

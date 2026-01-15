@@ -6,8 +6,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuPortal,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   Heart,
   MoveRightIcon,
@@ -24,12 +25,21 @@ import {
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
+
+const NAV_ITEMS = [
+  { name: "Home", link: "/" },
+  { name: "Shop", link: "/shop" },
+  { name: "About", link: "/about" },
+  { name: "Contact", link: "/contact" },
+];
 
 const NavHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const pathname = usePathname();
 
   const { data } = useWishlistData(currentPage);
   const { data: session } = useSession();
@@ -87,36 +97,34 @@ const NavHeader = () => {
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="flex items-center  text-primary font-medium hover:text-primary/80 transition-colors"
+                      className="flex items-center text-primary font-medium hover:text-primary/80 transition-colors"
                     >
-                      <Package className="h-4 w-4" />
-                      {/* JOIN OUR TEAM */}
-                      JOIN WITH US <ChevronDown size={16} className="" />
+                      <Package className="h-4 w-4 mr-1" />
+                      JOIN WITH US <ChevronDown size={16} className="ml-1" />
                     </Button>
                   </DropdownMenuTrigger>
 
-                  <DropdownMenuContent
-                    align="end"
-                    className="w-48 bg-primary/45 px-8"
-                  >
-                    <Link href="/driver">
-                      <DropdownMenuItem className="cursor-pointer  hover:text-white transition-colors">
-                        <div className="flex items-center gap-2 w-full">
+                  <DropdownMenuPortal>
+                    <DropdownMenuContent
+                      align="end"
+                      sideOffset={10}
+                      className="w-48 bg-white border border-gray-100 shadow-xl rounded-lg p-1 z-[60]"
+                    >
+                      <Link href="/driver/register">
+                        <DropdownMenuItem className="cursor-pointer flex items-center gap-2 px-3 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary rounded-md transition-colors focus:bg-primary/10 focus:text-primary outline-none">
                           <Truck className="h-4 w-4" />
                           <span>As a Driver</span>
-                        </div>
-                      </DropdownMenuItem>
-                    </Link>
+                        </DropdownMenuItem>
+                      </Link>
 
-                    <Link href="/vendor">
-                      <DropdownMenuItem className="cursor-pointer  hover:text-white transition-colors">
-                        <div className="flex items-center gap-2 w-full">
+                      <Link href="/supplier/register">
+                        <DropdownMenuItem className="cursor-pointer flex items-center gap-2 px-3 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary rounded-md transition-colors focus:bg-primary/10 focus:text-primary outline-none mt-1">
                           <Package className="h-4 w-4" />
                           <span>As a Supplier</span>
-                        </div>
-                      </DropdownMenuItem>
-                    </Link>
-                  </DropdownMenuContent>
+                        </DropdownMenuItem>
+                      </Link>
+                    </DropdownMenuContent>
+                  </DropdownMenuPortal>
                 </DropdownMenu>
               </div>
               {/* Icons Section */}
@@ -220,9 +228,9 @@ const NavHeader = () => {
 
           {/* Menu Panel */}
           <div className="fixed left-0 top-16 w-64 h-full bg-white shadow-xl z-50 transform transition-transform md:hidden">
-            <div className="p-6 space-y-8">
+            <div className="p-6 space-y-2">
               {/* User Info */}
-              <div className="flex items-center space-x-3 pb-6 border-b">
+              <div className="flex items-center space-x-3  ">
                 <div className="bg-gray-100 p-2 rounded-full">
                   <UserRound size={24} className="text-gray-600" />
                 </div>
@@ -238,33 +246,35 @@ const NavHeader = () => {
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="flex items-center  text-primary font-medium hover:text-primary/80 transition-colors"
+                      className="flex items-center text-primary font-medium hover:text-primary/80 transition-colors px-3 justify-start w-full"
                     >
-                      <Package className="h-4 w-4" />
-                      JOIN OUR TEAM
-                      <ChevronDown size={16} className="" />
+                      <Package className="h-5 w-5 mr-3 text-gray-400 group-hover:text-primary transition-colors" />
+                      <span className="text-base">JOIN OUR TEAM</span>
+                      <ChevronDown size={16} className="ml-auto" />
                     </Button>
                   </DropdownMenuTrigger>
 
-                  <DropdownMenuContent align="end" className="w-48">
-                    <Link href="/driver/register">
-                      <DropdownMenuItem className="cursor-pointer hover:bg-accent hover:text-primary/80 transition-colors">
-                        <div className="flex items-center gap-2 w-full">
-                          <Truck className="h-4 w-4" />
-                          <span>As a Driver</span>
-                        </div>
-                      </DropdownMenuItem>
-                    </Link>
+                  <DropdownMenuPortal>
+                    <DropdownMenuContent 
+                      align="start" 
+                      className="w-56 bg-white border border-gray-100 shadow-xl rounded-lg p-1 z-[110]"
+                      sideOffset={5}
+                    >
+                      <Link href="/driver/register" className="block w-full">
+                        <DropdownMenuItem className="cursor-pointer flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary rounded-md transition-all outline-none">
+                          <Truck className="h-5 w-5" />
+                          <span className="font-medium">As a Driver</span>
+                        </DropdownMenuItem>
+                      </Link>
 
-                    <Link href="/supplier/register">
-                      <DropdownMenuItem className="cursor-pointer hover:bg-accent hover:text-primary/80 transition-colors">
-                        <div className="flex items-center gap-2 w-full">
-                          <Package className="h-4 w-4" />
-                          <span>As a Supplier</span>
-                        </div>
-                      </DropdownMenuItem>
-                    </Link>
-                  </DropdownMenuContent>
+                      <Link href="/supplier/register" className="block w-full mt-1">
+                        <DropdownMenuItem className="cursor-pointer flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary rounded-md transition-all outline-none">
+                          <Package className="h-5 w-5" />
+                          <span className="font-medium">As a Supplier</span>
+                        </DropdownMenuItem>
+                      </Link>
+                    </DropdownMenuContent>
+                  </DropdownMenuPortal>
                 </DropdownMenu>
 
                 <Link href="/wishlist">
@@ -307,12 +317,37 @@ const NavHeader = () => {
                 )}
               </nav>
 
+              
+
+              {/* Main Navigation Links */}
+              <div className=" space-y-2 ">
+                {/* <p className="text-xs font-bold text-gray-400 uppercase tracking-widest px-3 mb-2">Navigation</p> */}
+                {NAV_ITEMS.map((item, index) => {
+                  const isActive = pathname === item.link;
+                  return (
+                    <Link
+                      href={item.link}
+                      key={index}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`relative block p-3 rounded-lg font-medium transition-colors ${
+                        isActive ? "bg-primary/5 text-primary" : "hover:bg-gray-50 text-gray-700"
+                      }`}
+                    >
+                      {item.name}
+                      {isActive && (
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+
               {/* Additional Links */}
-              {/* <div className="pt-6 border-t space-y-3">
-                <a href="#" className="block p-2 text-gray-600 hover:text-primary">Home</a>
-                <a href="#" className="block p-2 text-gray-600 hover:text-primary">Categories</a>
-                <a href="#" className="block p-2 text-gray-600 hover:text-primary">Deals</a>
-                <a href="#" className="block p-2 text-gray-600 hover:text-primary">Help</a>
+              {/* <div className="pt-4 border-t space-y-3">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest px-3 mb-2">Support</p>
+                <a href="#" className="block px-3 py-2 text-gray-600 hover:text-primary transition-colors">Help Center</a>
+                <a href="#" className="block px-3 py-2 text-gray-600 hover:text-primary transition-colors">Terms of Service</a>
+                <a href="#" className="block px-3 py-2 text-gray-600 hover:text-primary transition-colors">Privacy Policy</a>
               </div> */}
             </div>
           </div>

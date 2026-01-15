@@ -13,7 +13,7 @@ export function useFetchCartData() {
 export function useAddToCart() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ productId, quantity }: { productId: string, quantity: number }) => addToCart(productId, quantity),
+        mutationFn: ({ productId,variantId, quantity }: { productId: string,variantId:string, quantity: number }) => addToCart(productId,variantId, quantity),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["allProduct"] });
             toast.success("Item added to cart");

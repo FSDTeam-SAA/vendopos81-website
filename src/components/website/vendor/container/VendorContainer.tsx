@@ -69,10 +69,12 @@ const VendorContainer = () => {
             "Your vendor registration has been submitted successfully.",
         });
         form.reset();
-        if (data.accessToken) {
+        if (data?.data?.accessToken) {
           route.push(`/email-verify?token=${token}`);
+        }else{
+
+          route.push("/login");
         }
-        route.push("/login");
       },
       onError: () => {
         toast.error("Error", {

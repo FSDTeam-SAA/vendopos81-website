@@ -3,12 +3,28 @@ import ProductCard from "@/components/shared/productCard";
 import { useFetchAllProduct, useFetchFeatureProduct } from "@/lib/hooks/product";
 import { Product } from "@/lib/types/product";
 import React from "react";
+import ProductSkeleton from "./ProductSkeleton";
 
 const FeatureProduct = () => {
   const { data, isLoading, error } = useFetchFeatureProduct();
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Something went wrong: {error.message}</p>;
+  if (isLoading) {
+  return (
+    <div className="grid container mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <ProductSkeleton key={i} />
+      ))}
+    </div>
+  );
+}
+
+if (error) {
+  return (
+    <div className="flex container mx-auto justify-center py-20 text-gray-500">
+      Something went wrong. Please refresh the page.
+    </div>
+  );
+}
   
   const productData = data?.data || [];
   
