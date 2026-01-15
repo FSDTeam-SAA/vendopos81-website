@@ -10,6 +10,8 @@ interface SubscriptionCardInterface {
 }
 
 const SubscriptionCard = ({ data }: { data: SubscriptionCardInterface }) => {
+
+  
   return (
     <div className="relative h-70 sm:h-80 md:h-[30vh] lg:h-[40vh] overflow-hidden rounded-lg">
       
@@ -40,7 +42,7 @@ const SubscriptionCard = ({ data }: { data: SubscriptionCardInterface }) => {
          
 
             <input
-              type="text"
+              type="email"
               placeholder="Your Email Address"
               className="flex-1 px-3 sm:px-4 py-2 sm:py-3 outline-none rounded-l-full text-sm sm:text-base"
             />

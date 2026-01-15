@@ -167,7 +167,7 @@ const NavHeader = () => {
                       <span className="font-medium">Account</span>
                     </Link>
                   ) : (
-                    <Link href="/login" className="flex gap-2 items-center bg-primary/80 text-white py-0.5 px-2 rounded-sm cursor-pointer  hover:bg-primary  transition-colors group">
+                    <Link href="/login" className="flex gap-2 items-center bg-primary text-white py-0.5 px-2 rounded-sm cursor-pointer  hover:bg-primary/90  transition-colors group">
                       <UserRound size={20} />
                       <span className="font-medium">Login</span>
                     </Link>
@@ -309,7 +309,7 @@ const NavHeader = () => {
                   </Link>
                 ) : (
                   <Link href="/login">
-                    <button className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                    <button className="flex items-center justify-between bg-primary text-white w-full p-3 rounded-sm hover:bg-primary/90 transition-colors">
                       <span className="font-medium">Login</span>
                       <UserRound size={20} />
                     </button>

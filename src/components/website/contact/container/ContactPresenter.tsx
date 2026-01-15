@@ -24,7 +24,7 @@ interface Props {
 
 const ContactPresenter = ({ form, isPending, onSubmit }: Props) => {
   return (
-    <section className="my-16 container mx-auto max-w-6xl flex justify-between items-center bg-white p-10 rounded-2xl">
+    <section className="my-16 container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 justify-between items-center bg-white p-10 rounded-2xl">
       <div className="rounded-2xl  p-8 md:p-12 ">
         <h2 className="text-3xl md:text-4xl font-bold mb-2">Get in touch</h2>
         <p className="text-muted-foreground mb-8">

@@ -203,3 +203,17 @@ export async function FeatureProduct(params?: ProductParams) {
     }
   }
 }
+
+
+export async function subcription(email:string ) {
+  try {
+    const res = await api.post(`/subscription/create`, email);
+
+    return res.data;
+  } catch (err) {
+    console.log('hello')
+    if (err instanceof Error) {
+      throw new Error(err.message || "fail to register ");
+    }
+  }
+}
