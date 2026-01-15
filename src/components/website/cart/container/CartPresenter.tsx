@@ -2,6 +2,8 @@
 import { CartItem } from "@/lib/types/cart";
 import CartItemComponent from "../common/CartItem";
 import OrderSummary from "../common/OrderSummary";
+import Link from "next/link";
+import { MoveLeftIcon } from "lucide-react";
 
 
 
@@ -29,7 +31,15 @@ const CartPresenter = ({
   return (
     <section className="container mx-auto grid grid-cols-12 gap-6">
       {/* Cart Items */}
-      <div className="col-span-8 space-y-4">
+      <div className="col-span-8">
+      <div >
+        <Link href={'/shop'} className=" flex gap-2 items-center text-primary mb-10 mt-7.5">
+          <MoveLeftIcon /> Continue Shopping
+        </Link>
+      </div>
+
+      <div className=" space-y-4">
+
         {items.map(item => (
           <CartItemComponent
             key={item._id}
@@ -39,6 +49,7 @@ const CartPresenter = ({
             onRemove={removeItem}
           />
         ))}
+      </div>
       </div>
 
       {/* Order Summary */}

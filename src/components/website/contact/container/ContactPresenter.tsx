@@ -134,11 +134,11 @@ const ContactPresenter = ({ form, isPending, onSubmit }: Props) => {
                     />
                   </FormControl>
                   <div className="leading-snug">
-                    <FormLabel className="font-normal">
+                    <FormLabel className="font-normal text-[#667085]">
                       I agree to the{" "}
                       <Link
                         href="/privacy-policy"
-                        className="underline text-primary"
+                        className="underline text-[#667085]"
                       >
                         privacy policy
                       </Link>
@@ -153,7 +153,7 @@ const ContactPresenter = ({ form, isPending, onSubmit }: Props) => {
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full rounded-full py-6 text-base"
+              className="w-full rounded-sm py-6 text-base"
             >
               {isPending ? "Sending..." : "Send message"}
             </Button>

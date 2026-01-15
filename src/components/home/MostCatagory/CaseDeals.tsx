@@ -3,17 +3,31 @@ import MostCatagoryCard from "@/components/shared/MostCatagoryCard";
 import { useCaseDealsProduct } from "@/lib/hooks/product";
 import { TopRatedProduct } from "@/lib/types/mostcatagory";
 import React from "react";
+import MostCatagorySkeleton from "./MostCatagorySkeleton";
 
 const CaseDeals = () => {
   const { data, isLoading, isError } = useCaseDealsProduct();
 
   if (isLoading) {
-    return <div className="flex justify-center items-center min-h-[400px]">Loading...</div>;
-  }
+  return (
+    <div className="space-y-6 min-h-50">
+      {Array.from({ length: 2 }).map((_, i) => (
+        <MostCatagorySkeleton key={i} />
+      ))}
+    </div>
+  );
+}
 
-  if (isError) {
-    return <div className="text-red-500">Failed to load case deals.</div>;
-  }
+
+if (isError) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-20 text-center">
+      <p className="text-gray-500 text-sm">
+        Something went wrong. Please try again later.
+      </p>
+    </div>
+  );
+}
 
   const caseDeals = data?.data || [];
 

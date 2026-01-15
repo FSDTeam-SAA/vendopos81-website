@@ -3,7 +3,9 @@ import React from "react";
 const TopHeader = () => {
   return (
     <section>
-      <div className="container hidden md:block mx-auto grid grid-cols-1 md:grid-cols-2 gap-2.5 md:gap-0 justify-between items-center py-2.5 text-center md:text-start">
+      <div className="container hidden md:block mx-auto   md:px-5 py-2.5 text-center md:text-start">
+        <div className="flex  items-center justify-between w-full">
+
         <h5 className="text-primary font-lato font-bold text-sm leading-2.5 m-0 p-0">
           100% Secure delivery without contacting the courier
         </h5>
@@ -13,6 +15,7 @@ const TopHeader = () => {
             +1800900122
           </span>
         </p>
+        </div>
       </div>
     </section>
   );

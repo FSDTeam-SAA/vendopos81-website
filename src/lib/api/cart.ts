@@ -1,7 +1,8 @@
 import { CartResponse } from "../types/cart";
 import api from "./api";
 
-export async function fetchCartData(): Promise<CartResponse> {
+// add to cart item fatch
+export async function fetchCartData() {
  try{
     const res= await api.get(`/cart/my-cart`);
     const data= await res.data;
@@ -15,7 +16,7 @@ export async function fetchCartData(): Promise<CartResponse> {
 }
 
 
-
+// add to cart item increase
 export async function increaseQuantity(id: string) {
     try {
         const res = await api.put(`/cart/increase-quantity/${id}`, { quantity: 1 });
@@ -28,6 +29,8 @@ export async function increaseQuantity(id: string) {
     }
 }
 
+
+// add to cart item decrement
 export async function decreaseQuantity(id: string) {
     try {
         const res = await api.put(`/cart/decrease-quantity/${id}`, { quantity: 1 });
@@ -40,6 +43,8 @@ export async function decreaseQuantity(id: string) {
     }
 }
 
+
+// add to cart item remove
 export async function removeCartItem(id: string) {
     try {
         const res = await api.delete(`/cart/remove/${id}`);
@@ -52,9 +57,11 @@ export async function removeCartItem(id: string) {
     }
 }
 
-export async function addToCart(productId: string, quantity: number = 1) {
+
+// add to cart
+export async function addToCart(productId: string,variantId:string, quantity: number = 1) {
     try {
-        const res = await api.post(`/cart/add-to-cart`, { productId, quantity });
+        const res = await api.post(`/cart/add-to-cart`, { productId,variantId, quantity });
         return res.data;
     } catch (error) {
         if (error instanceof Error) {

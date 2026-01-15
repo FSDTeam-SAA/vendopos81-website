@@ -36,7 +36,9 @@ const UserNavbar = ({ activeTab, setActiveTab }: UserNavbarProps) => {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center gap-8">
+            <Link href={'/'}>
             <button className="text-gray-700 hover:text-primary cursor-pointer">Home</button>
+            </Link>
             {navItems.map((item) => (
               <button
                 key={item.id}

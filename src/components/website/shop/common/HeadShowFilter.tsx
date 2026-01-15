@@ -66,7 +66,11 @@ const HeadShowFilter: React.FC<HeadShowFilterProps> = ({
   };
 
   return (
-    <div className="relative bg-[#D4F3E4] rounded-3xl p-8 md:p-12 overflow-hidden mb-10">
+<div
+  style={{ backgroundImage: "url(/images/shopher.png)" }}
+  className="relative bg-cover bg-center bg-no-repeat rounded-3xl p-8 md:p-12 overflow-hidden mb-10"
+>
+
       {/* Background Pattern */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-green-200/20 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-green-200/20 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none"></div>

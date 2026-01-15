@@ -80,14 +80,14 @@ const Footer = () => {
                   Privacy Policy
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href="/terms"
                   className="text-gray-600 hover:text-primary transition-colors"
                 >
                   Terms & Conditions
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   href="/contact"

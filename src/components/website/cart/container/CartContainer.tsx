@@ -4,9 +4,11 @@ import { useDecreaseQuantity, useFetchCartData, useIncreaseQuantity, useRemoveCa
 import { CartItem } from "@/lib/types/cart";
 
 import CartPresenter from "./CartPresenter";
+import { useState } from "react";
 
 const CartContainer = () => {
   const { data: cartResponse, isLoading, isError } = useFetchCartData();
+  const [ordermordal,setOrderModel]=useState(false)
   const { mutate: increaseQty } = useIncreaseQuantity();
   const { mutate: decreaseQty } = useDecreaseQuantity();
   const { mutate: removeItem } = useRemoveCartItem();

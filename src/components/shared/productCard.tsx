@@ -3,7 +3,7 @@ import React from "react";
 import { Heart, ShoppingCart, Star, StarIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Product } from "@/lib/types/product";
-import { motion } from "framer-motion"; // ✅ add
+import { motion } from "framer-motion";
 import { useAddedWishlist } from "@/lib/hooks/wishlist";
 
 interface ProductCardProps {
@@ -11,7 +11,8 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const {mutate}=useAddedWishlist()
+  const { mutate } = useAddedWishlist();
+
   const productImage =
     product.images?.[0]?.url || "/images/placeholder-product.png";
 
@@ -35,7 +36,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
         );
       } else if (i === fullStars && hasHalfStar) {
         stars.push(
-          <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+          <Star
+            key={i}
+            className="w-4 h-4 fill-yellow-400 text-yellow-400"
+          />
         );
       } else {
         stars.push(<Star key={i} className="w-4 h-4 text-gray-300" />);
@@ -44,37 +48,36 @@ const ProductCard = ({ product }: ProductCardProps) => {
     return stars;
   };
 
-const handelWishlist=(id:string)=>{
-
-mutate(id)
-}
+  const handleWishlist = (id: string) => {
+    mutate(id);
+  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -6 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="group overflow-hidden relative w-full max-w-[260px] mx-auto rounded-2xl border bg-white p-4 shadow-sm hover:shadow-lg"
-    >
+    <div className="group relative w-full max-w-[260px] mx-auto overflow-hidden rounded-2xl border bg-white p-4 shadow-sm hover:shadow-sm transition-shadow">
+      {/* Badges */}
       {product.productType === "Organic" && (
         <span className="absolute left-0 top-0 z-10 rounded-r-2xl rounded-tl-2xl bg-green-600 px-3 py-1 text-xs font-semibold text-white">
           Organic
         </span>
       )}
 
-      <button className="px-3 py-1 bg-primary absolute left-0 top-0 text-white rounded-tl-2xl rounded-r-2xl">
+      <button className="absolute left-0 top-0 rounded-tl-2xl rounded-r-2xl bg-primary px-3 py-1 text-white text-xs">
         13%
       </button>
-      <Button onClick={()=>handelWishlist(product._id)} className="rounded-full  -top-20 duration-400 transform transition-all ease-in-out  right-5 group-hover:right-5 group-hover:top-3 absolute  z-50! ">
+
+      {/* Wishlist */}
+      <Button
+        onClick={() => handleWishlist(product._id)}
+        className="absolute -top-28 right-5 group-hover:top-3 z-20 rounded-full duration-700 transform ease-in-out transition-all opacity-0 group-hover:opacity-100 transition-opacity"
+      >
         <Heart />
       </Button>
 
-      {/* Image */}
+      {/* Image (ONLY animation here) */}
       <motion.div
-        whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.3 }}
-        className="relative mx-auto h-50 w-full mt-8 overflow-hidden rounded-lg"
+        whileHover={{ scale: 1.08 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="relative mx-auto mt-8 h-50 w-full overflow-hidden rounded-lg"
       >
         <Image
           src={productImage}
@@ -86,29 +89,25 @@ mutate(id)
       </motion.div>
 
       {/* Content */}
-      <div className="mt-2 space-y-2">
-        <span className="text-sm text-[#ADADAD]  tracking-wide">
+      <div className="mt-3 space-y-2">
+        <span className="text-sm text-[#ADADAD] tracking-wide">
           {categoryName}
         </span>
 
-        <h3 className="text-sm md:text-lg font-bold text-[#253D4E] line-clamp-2 mb-5">
+        <h3 className="text-sm md:text-lg font-bold text-[#253D4E] line-clamp-2">
           {product.title || product.productName}
         </h3>
 
         <div className="flex items-center gap-1">
           <div className="flex">{renderStars()}</div>
-          <span className="ml-2 text-xs text-gray-500">({totalRatings})</span>
+          <span className="ml-2 text-xs text-gray-500">
+            ({totalRatings})
+          </span>
         </div>
 
-        <p className="text-xs text-gray-500 mb-4">
+        <p className="text-xs text-gray-500">
           By <span className="font-medium text-green-600">{brandName}</span>
         </p>
-
-        {/* {product.shortDescription && (
-          <p className="text-xs text-gray-400 line-clamp-2">
-            {product.shortDescription}
-          </p>
-        )} */}
 
         <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -120,13 +119,13 @@ mutate(id)
             </h5>
           </div>
 
-          <Button className="flex items-center gap-1 rounded-lg bg-[#DEF9EC] px-3 py-1.5 text-sm text-primary font-bold hover:bg-primary/40">
+          <Button className="flex items-center gap-1 rounded-lg bg-[#DEF9EC] px-3 py-1.5 text-sm font-bold text-primary hover:bg-primary/40">
             <ShoppingCart size={14} />
             Add
           </Button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
