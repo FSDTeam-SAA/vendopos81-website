@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CartResponse } from "../types/cart";
 import api from "./api";
 
@@ -47,7 +48,7 @@ export async function decreaseQuantity(id: string) {
 // add to cart item remove
 export async function removeCartItem(id: string) {
     try {
-        const res = await api.delete(`/cart/remove/${id}`);
+        const res = await api.delete(`/cart/remove-product/${id}`);
         return res.data;
     } catch (error) {
         if (error instanceof Error) {
@@ -59,9 +60,21 @@ export async function removeCartItem(id: string) {
 
 
 // add to cart
-export async function addToCart(productId: string,variantId:string, quantity: number = 1) {
+interface AddToCartParams {
+    productId: string
+    variantId?: string
+    wholesaleId?: string
+    quantity?: number
+}
+
+// add to cart
+export async function addToCart({ productId, variantId, wholesaleId, quantity = 1 }: AddToCartParams) {
     try {
-        const res = await api.post(`/cart/add-to-cart`, { productId,variantId, quantity });
+        const payload: any = { productId, quantity }
+        if (variantId) payload.variantId = variantId
+        if (wholesaleId) payload.wholesaleId = wholesaleId
+
+        const res = await api.post(`/cart/add-cart`, payload);
         return res.data;
     } catch (error) {
         if (error instanceof Error) {

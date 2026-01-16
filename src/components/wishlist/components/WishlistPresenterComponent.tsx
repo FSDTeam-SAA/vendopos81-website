@@ -1,17 +1,17 @@
 'use client'
 import WishlistCard from '@/components/shared/WishlistCard'
 import { useRemoveFromWishlist, useWishlistData } from '@/lib/hooks/wishlist'
-import { useAddToCart } from '@/lib/hooks/cart'
+import { useSmartAddToCart } from '@/lib/hooks/cart'
 import React, { useState } from 'react'
 import Pagination from '../common/Pagination'
-import { motion, AnimatePresence, Variants } from 'framer-motion' // ✅ added
+import { motion, AnimatePresence, Variants } from 'framer-motion'
 import Skeleton from '../common/Skeleton'
 import { Product } from '@/lib/types/product'
 
 const WishlistPresenterComponent = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const { data, isError, isLoading } = useWishlistData(currentPage)
-  const { mutate: addToCart } = useAddToCart()
+  const { smartAddToCart } = useSmartAddToCart()
   const { mutate: removeFromWishlist } = useRemoveFromWishlist()
 
   if (isLoading) {
@@ -47,8 +47,7 @@ const WishlistPresenterComponent = () => {
   }
 
   const handleAddToCart = (product: Product) => {
-    const variantId = product.variants?.[0]?._id || ""
-    addToCart({ productId: product._id, variantId, quantity: 1 })
+    smartAddToCart(product)
   }
 
   const handleRemoveFromWishlist = (productId: string) => {

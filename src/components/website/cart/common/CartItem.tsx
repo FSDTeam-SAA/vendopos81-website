@@ -16,7 +16,7 @@ const CartItem = ({ item, onIncrease, onDecrease, onRemove }: Props) => {
   const description = item.variant?.label || "Standard";
   console.log("product?.images?.[0]?.url", item?.product?.images?.[0]?.url);
   return (
-    <div className="flex items-center justify-between bg-white p-4 rounded-lg border border-gray-400 ">
+    <div className="flex items-center justify-between bg-white p-4 rounded-lg border border-gray-400  ">
       <div className="flex items-center gap-4">
         <button
           onClick={() => onRemove(item._id)}

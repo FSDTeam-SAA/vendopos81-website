@@ -29,7 +29,7 @@ const CartPresenter = ({
   total,
 }: Props) => {
   return (
-    <section className="container mx-auto grid grid-cols-12 gap-6">
+    <section className="container mx-auto grid grid-cols-12 gap-6 py-10">
       {/* Cart Items */}
       <div className="col-span-8">
       <div >

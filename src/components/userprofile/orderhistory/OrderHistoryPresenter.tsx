@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import {
@@ -13,19 +14,13 @@ import {
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { OrderList } from "@/lib/types/order"
 
-interface Order {
-  id: string
-  invoice: string
-  item: string
-  billingDate: string
-  amount: string
-  status: "paid" | "unpaid"
-}
+
 
 interface OrderHistoryPresenterProps {
-  data: Order[]
+  data: OrderList
   columns: any[]
 }
 
@@ -34,7 +29,7 @@ const OrderHistoryPresenter = ({ data, columns }: OrderHistoryPresenterProps) =>
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [statusFilter, setStatusFilter] = useState<string | null>(null)
 
-  const filteredData = statusFilter ? data.filter((order) => order.status === statusFilter) : data
+  const filteredData = statusFilter ? data.filter((order) => order.paymentStatus === statusFilter) : data
 
   const table = useReactTable({
     data: filteredData,
@@ -62,35 +57,7 @@ const OrderHistoryPresenter = ({ data, columns }: OrderHistoryPresenterProps) =>
 
         {/* Status Filters */}
         <div className="flex items-center gap-3">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="border-gray-300 bg-transparent">
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-                  />
-                </svg>
-                Sort by
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setSorting([{ id: "billingDate", desc: true }])}>
-                Newest First
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSorting([{ id: "billingDate", desc: false }])}>
-                Oldest First
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSorting([{ id: "amount", desc: true }])}>
-                Highest Amount
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSorting([{ id: "amount", desc: false }])}>
-                Lowest Amount
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+       
 
           <div className="flex gap-2">
             {[

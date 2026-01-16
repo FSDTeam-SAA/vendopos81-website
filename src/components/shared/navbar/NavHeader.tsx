@@ -27,6 +27,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
+import { useFetchCartData } from "@/lib/hooks/cart";
 
 const NAV_ITEMS = [
   { name: "Home", link: "/" },
@@ -42,9 +43,13 @@ const NavHeader = () => {
   const pathname = usePathname();
 
   const { data } = useWishlistData(currentPage);
+  const { data: cartResponse, isLoading, isError } = useFetchCartData();
+
   const { data: session } = useSession();
 
   const wishlist = data?.data?.length || 0;
+  console.log("card data", cartResponse?.data?.length);
+  const cardLength = cartResponse?.data?.length || 0;
   return (
     <header className="sticky top-0 z-50 ">
       <section className="">
@@ -150,7 +155,7 @@ const NavHeader = () => {
                     <div className="relative">
                       <ShoppingCart size={22} />
                       <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                        0
+                        {cardLength > 9 ? "9+" : cardLength}
                       </span>
                     </div>
                     <span className="text-xs xl:text-base mt-1 hidden xl:block">
@@ -162,13 +167,19 @@ const NavHeader = () => {
                 {/* Account */}
                 <div>
                   {session ? (
-                    <Link href="/profile" className="flex gap-2 items-center cursor-pointer text-gray-600 hover:text-primary transition-colors group">
+                    <Link
+                      href="/profile"
+                      className="flex gap-2 items-center cursor-pointer text-gray-600 hover:text-primary transition-colors group"
+                    >
                       <UserRound size={20} />
                       <span className="font-medium">Account</span>
                     </Link>
                   ) : (
-                    <Link href="/login" className="flex gap-2 items-center bg-primary text-white py-0.5 px-2 rounded-sm cursor-pointer  hover:bg-primary/90  transition-colors group">
-                      <UserRound size={20} />
+                    <Link
+                      href="/login"
+                      className="flex gap-2 items-center bg-primary text-white py-0.5 px-2 rounded-sm cursor-pointer  hover:bg-primary/90  transition-colors group"
+                    >
+                      {/* <UserRound size={20} /> */}
                       <span className="font-medium">Login</span>
                     </Link>
                   )}
@@ -191,7 +202,7 @@ const NavHeader = () => {
                 <button className="relative p-2 hover:bg-gray-100 rounded-full">
                   <ShoppingCart size={22} />
                   <span className="absolute top-1 right-1 bg-primary text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                    0
+                    {cardLength > 9 ? "9+" : cardLength}
                   </span>
                 </button>
               </Link>
@@ -255,8 +266,8 @@ const NavHeader = () => {
                   </DropdownMenuTrigger>
 
                   <DropdownMenuPortal>
-                    <DropdownMenuContent 
-                      align="start" 
+                    <DropdownMenuContent
+                      align="start"
                       className="w-56 bg-white border border-gray-100 shadow-xl rounded-lg p-1 z-[110]"
                       sideOffset={5}
                     >
@@ -294,7 +305,7 @@ const NavHeader = () => {
                     <div className="relative">
                       <ShoppingCart size={20} />
                       <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                        0
+                        {cardLength > 9 ? "9+" : cardLength}
                       </span>
                     </div>
                   </button>
@@ -311,13 +322,11 @@ const NavHeader = () => {
                   <Link href="/login">
                     <button className="flex items-center justify-between bg-primary text-white w-full p-3 rounded-sm hover:bg-primary/90 transition-colors">
                       <span className="font-medium">Login</span>
-                      <UserRound size={20} />
+                      {/* <UserRound size={20} /> */}
                     </button>
                   </Link>
                 )}
               </nav>
-
-              
 
               {/* Main Navigation Links */}
               <div className=" space-y-2 ">
@@ -330,7 +339,9 @@ const NavHeader = () => {
                       key={index}
                       onClick={() => setIsMenuOpen(false)}
                       className={`relative block p-3 rounded-lg font-medium transition-colors ${
-                        isActive ? "bg-primary/5 text-primary" : "hover:bg-gray-50 text-gray-700"
+                        isActive
+                          ? "bg-primary/5 text-primary"
+                          : "hover:bg-gray-50 text-gray-700"
                       }`}
                     >
                       {item.name}

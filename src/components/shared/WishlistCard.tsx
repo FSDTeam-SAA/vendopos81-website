@@ -27,7 +27,9 @@ const WishlistCard = ({ data, onAddToCart, onRemove }: WishlistCardProps) => {
     : product?.priceFrom
     ? product.priceFrom * 1.2
     : 0;
-  const brand = product?.supplierId?.brandName || "Brand";
+  const brand = (typeof product?.supplierId === 'object' && product?.supplierId?.brandName) 
+    ? product.supplierId.brandName 
+    : "Brand";
   const rating = product?.averageRating || 0;
   const weight = product?.variants?.[0]?.unit || "500g";
 

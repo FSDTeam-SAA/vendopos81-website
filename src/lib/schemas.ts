@@ -57,7 +57,7 @@ export const driverRegistrationSchema = z.object({
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 characters"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  // password: z.string().min(8, "Password must be at least 8 characters"),
   
   // Experience & License
   yearsOfExperience: z.string().min(1, "Years of experience is required"),

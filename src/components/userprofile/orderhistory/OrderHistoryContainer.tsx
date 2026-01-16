@@ -1,47 +1,53 @@
 "use client"
 
-import { useMemo } from "react"
+import { useState, useMemo } from "react"
 import { createColumnHelper, type ColumnDef } from "@tanstack/react-table"
 import OrderHistoryPresenter from "./OrderHistoryPresenter"
 import { Badge } from "@/components/ui/badge"
-
-interface Order {
-  id: string
-  invoice: string
-  item: string
-  billingDate: string
-  amount: string
-  status: "paid" | "unpaid"
-}
+import { useOrder } from "@/lib/hooks/useOrder"
+import { Order, OrderList } from "@/lib/types/order"
+import OrderDetailsModal from "./OrderDetailsModal"
 
 const OrderHistoryContainer = () => {
   const columnHelper = createColumnHelper<Order>()
+  const { data: orderData, isLoading, error } = useOrder("true", "false")
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const columns = useMemo<ColumnDef<Order>[]>(
+  const handleViewOrder = (order: Order) => {
+    setSelectedOrder(order)
+    setIsModalOpen(true)
+  }
+
+  const columns = useMemo(
     () => [
-      columnHelper.accessor("invoice", {
+      columnHelper.accessor("orderUniqueId", {
         header: "Invoice",
         cell: (info) => <span className="text-gray-900 font-medium">{info.getValue()}</span>,
       }),
-      columnHelper.accessor("item", {
-        header: "Item",
-        cell: (info) => <span className="text-gray-700">{info.getValue()}</span>,
+      columnHelper.accessor("items", {
+        header: "Items",
+        cell: (info) => <span className="text-gray-700">{info.getValue()?.length || 0} items</span>,
       }),
-      columnHelper.accessor("billingDate", {
+      columnHelper.accessor("purchaseDate", {
         header: "Billing Date",
-        cell: (info) => <span className="text-gray-700">{info.getValue()}</span>,
+        cell: (info) => {
+           const dateVal = info.getValue()
+           return <span className="text-gray-700">{dateVal ? new Date(dateVal).toLocaleDateString() : "N/A"}</span>
+        },
       }),
-      columnHelper.accessor("amount", {
+      columnHelper.accessor("totalPrice", {
         header: "Amount",
-        cell: (info) => <span className="text-gray-900 font-medium">{info.getValue()}</span>,
+        cell: (info) => <span className="text-gray-900 font-medium">${info.getValue()?.toFixed(2)}</span>,
       }),
-      columnHelper.accessor("status", {
+      columnHelper.accessor("paymentStatus", {
         header: "Status",
         cell: (info) => {
-          const status = info.getValue()
+          const status = info.getValue() || "unpaid"
+          const isPaid = status === "paid"
           return (
-            <Badge className={status === "paid" ? "bg-teal-100 text-teal-700" : "bg-red-100 text-red-700"}>
-              {status === "paid" ? "Paid" : "Unpaid"}
+            <Badge className={isPaid ? "bg-teal-100 text-teal-700 hover:bg-teal-200" : "bg-red-100 text-red-700 hover:bg-red-200"}>
+              {status.charAt(0).toUpperCase() + status.slice(1)}
             </Badge>
           )
         },
@@ -49,8 +55,11 @@ const OrderHistoryContainer = () => {
       columnHelper.display({
         id: "actions",
         header: "View",
-        cell: () => (
-          <button className="text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1">
+        cell: (info) => (
+          <button 
+            onClick={() => handleViewOrder(info.row.original)}
+            className="text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1"
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               <path
@@ -68,21 +77,28 @@ const OrderHistoryContainer = () => {
     [columnHelper],
   )
 
-  // Mock data
-  const data: Order[] = [
-    { id: "1", invoice: "12345", item: "Product Name", billingDate: "27/10/2025", amount: "$500.00", status: "unpaid" },
-    { id: "2", invoice: "12345", item: "Product Name", billingDate: "27/10/2025", amount: "$500.00", status: "paid" },
-    { id: "3", invoice: "12345", item: "Service Name", billingDate: "27/10/2025", amount: "$500.00", status: "paid" },
-    { id: "4", invoice: "12345", item: "Product Name", billingDate: "27/10/2025", amount: "$500.00", status: "paid" },
-    { id: "5", invoice: "12345", item: "Product Name", billingDate: "27/10/2025", amount: "$500.00", status: "paid" },
-    { id: "6", invoice: "12345", item: "Service Name", billingDate: "27/10/2025", amount: "$500.00", status: "unpaid" },
-    { id: "7", invoice: "12345", item: "Product Name", billingDate: "27/10/2025", amount: "$500.00", status: "paid" },
-    { id: "8", invoice: "12345", item: "Product Name", billingDate: "27/10/2025", amount: "$500.00", status: "paid" },
-    { id: "9", invoice: "12345", item: "Product Name", billingDate: "27/10/2025", amount: "$500.00", status: "paid" },
-    { id: "10", invoice: "12345", item: "Service Name", billingDate: "27/10/2025", amount: "$500.00", status: "paid" },
-  ]
+  if (isLoading) return <p>Loading...</p>
+  if (error) return <p>Something went wrong</p>
 
-  return <OrderHistoryPresenter data={data} columns={columns} />
+  // Ensure data is treated as an array of orders
+  // Based on api/order.ts, it returns res.data. 
+  // If res.data is the array, then orderData is the array. 
+  // If res.data has a data property, then it's orderData.data.
+  // The useOrder hook returns useQuery result. 
+  // The queryFn returns res.data.
+  // Safe check for array.
+  const data: OrderList = Array.isArray(orderData) ? orderData : (orderData?.data || [])
+
+  return (
+    <>
+      <OrderHistoryPresenter data={data} columns={columns} />
+      <OrderDetailsModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        order={selectedOrder} 
+      />
+    </>
+  )
 }
 
 export default OrderHistoryContainer

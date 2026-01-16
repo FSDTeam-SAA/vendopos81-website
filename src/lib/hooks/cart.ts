@@ -10,10 +10,17 @@ export function useFetchCartData() {
     });
 }
 
+interface AddToCartVariables {
+    productId: string
+    variantId?: string
+    wholesaleId?: string
+    quantity?: number
+}
+
 export function useAddToCart() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ productId,variantId, quantity }: { productId: string,variantId:string, quantity: number }) => addToCart(productId,variantId, quantity),
+        mutationFn: (variables: AddToCartVariables) => addToCart(variables),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["allProduct"] });
             toast.success("Item added to cart");
@@ -22,6 +29,35 @@ export function useAddToCart() {
             toast.error(error.message || "Failed to add item to cart");
         }
     });
+}
+
+import { Product } from "@/lib/types/product"
+
+export function useSmartAddToCart() {
+    const { mutate: addToCartMutate, isPending } = useAddToCart()
+
+    const smartAddToCart = (product: Product, quantity: number = 1) => {
+        let variantId: string | undefined
+        let wholesaleId: string | undefined
+
+        // Priority 1: Wholesale
+        if (product.wholesaleId && product.wholesaleId.length > 0) {
+            wholesaleId = product.wholesaleId[0]._id
+        } 
+        // Priority 2: Variant (only if no wholesale selected/available)
+        else if (product.variants && product.variants.length > 0) {
+            variantId = product.variants[0]._id
+        }
+
+        addToCartMutate({
+            productId: product._id,
+            variantId,
+            wholesaleId,
+            quantity
+        })
+    }
+
+    return { smartAddToCart, isPending }
 }
 
 export function useIncreaseQuantity() {
