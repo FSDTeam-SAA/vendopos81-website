@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { Product } from "@/lib/types/product";
 import { motion } from "framer-motion";
 import { useAddedWishlist } from "@/lib/hooks/wishlist";
+import { useSmartAddToCart } from "@/lib/hooks/cart";
 
 interface ProductCardProps {
   product: Product;
@@ -12,12 +13,15 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { mutate } = useAddedWishlist();
+  const { smartAddToCart } = useSmartAddToCart();
 
   const productImage =
     product.images?.[0]?.url || "/images/placeholder-product.png";
 
   const categoryName = product.categoryId?.slug || "Product";
-  const brandName = product.supplierId?.brandName || "Brand";
+  const brandName = (typeof product.supplierId === 'object' && product.supplierId?.brandName)
+    ? product.supplierId.brandName
+    : "Brand";
   const rating = product.averageRating || 0;
   const totalRatings = product.totalRatings || 0;
 
@@ -50,6 +54,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   const handleWishlist = (id: string) => {
     mutate(id);
+  };
+
+  const handleAddToCart = () => {
+    smartAddToCart(product);
   };
 
   return (
@@ -119,7 +127,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
             </h5>
           </div>
 
-          <Button className="flex items-center gap-1 rounded-lg bg-[#DEF9EC] px-3 py-1.5 text-sm font-bold text-primary hover:bg-primary/40">
+          <Button 
+            onClick={handleAddToCart}
+            className="flex items-center gap-1 rounded-lg bg-[#DEF9EC] px-3 py-1.5 text-sm font-bold text-primary hover:bg-primary/40"
+          >
             <ShoppingCart size={14} />
             Add
           </Button>

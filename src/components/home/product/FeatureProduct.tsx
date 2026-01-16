@@ -27,7 +27,7 @@ if (error) {
 }
   
   const productData = data?.data || [];
-  
+   console.log('product Data',productData)
   return (
     <section className="my-10 md:my-16 xl:my-20">
       <div className="container mx-auto">

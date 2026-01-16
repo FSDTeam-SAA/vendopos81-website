@@ -10,14 +10,6 @@ export type ProductParams = {
   categorySlug?: string;
 };
 
-// product interface.....
-
-// Image interface
-// types/product.ts
-
-// Image Interface
-// lib/types/product.ts
-
 // Image Interface
 export interface ProductImage {
   public_id: string;
@@ -32,19 +24,20 @@ export interface SEO {
   keywords?: string[];
 }
 
-// Category Interface
+// Category Interface - UPDATED
 export interface Category {
   _id: string;
   region: string;
-  slug: string;
+  slug?: string; // Added optional since your data doesn't have slug
 }
 
-// Supplier Interface
-export interface Supplier {
+// Supplier Interface - UPDATED (can be string or object based on your data)
+export type Supplier = string | {
   _id: string;
-  shopName: string;
-  brandName: string;
-}
+  shopName?: string;
+  brandName?: string;
+  // Add other supplier fields as needed
+};
 
 // Variant Interface
 export interface ProductVariant {
@@ -57,45 +50,51 @@ export interface ProductVariant {
   _id: string;
 }
 
-// Wholesale Item Interface
+// Wholesale Item Interfaces - UPDATED
+export interface PalletItem {
+  productId: string;
+  caseQuantity?: number; // Made optional since not all have it
+  _id: string;
+}
+
+export interface Pallet {
+  palletName: string;
+  items: PalletItem[];
+  totalCases: number;
+  price: number;
+  estimatedWeight: number;
+  isMixed: boolean;
+  isActive: boolean;
+  _id: string;
+}
+
+export interface CaseItem {
+  productId: string;
+  quantity?: number;
+  price?: number;
+  discount?: number;
+  isActive?: boolean;
+  _id: string;
+}
+
 export interface WholesaleItem {
   _id: string;
-  type: string;
+  type: 'pallet' | 'case' | string; // More specific type
   label: string;
-  palletItems?: Array<{
-    palletName: string;
-    items: Array<{
-      productId: string;
-      caseQuantity: number;
-      _id: string;
-    }>;
-    totalCases: number;
-    price: number;
-    estimatedWeight: number;
-    isMixed: boolean;
-    isActive: boolean;
-    _id: string;
-  }>;
-  caseItems?: Array<{
-    productId: string;
-    quantity?: number;
-    price?: number;
-    discount?: number;
-    isActive?: boolean;
-    _id: string;
-  }>;
+  palletItems?: Pallet[];
+  caseItems?: CaseItem[];
   isActive: boolean;
   fastMovingItems: any[];
   createdAt: string;
   updatedAt: string;
 }
 
-// Main Product Interface
+// Main Product Interface - UPDATED
 export interface Product {
   _id: string;
   userId: string;
   categoryId: Category;
-  supplierId: Supplier;
+  supplierId: Supplier; // Changed to the union type
   title: string;
   slug: string;
   shortDescription: string;
@@ -103,7 +102,7 @@ export interface Product {
   images: ProductImage[];
   productType: string;
   productName: string;
-  variants?: ProductVariant[];
+  variants?: ProductVariant[]; // Optional - only for variant-based products
   priceFrom?: number;
   shelfLife: string;
   originCountry: string;
@@ -114,15 +113,38 @@ export interface Product {
   seo: SEO;
   averageRating: number;
   totalRatings: number;
-  totalReviews: number;
+  totalReviews?: number; // Added optional since not in your data
   status: string;
   isFeatured: boolean;
   quantity?: number;
   isAvailable?: boolean;
-  wholesaleId: WholesaleItem[];
+  wholesaleId: WholesaleItem[]; // For wholesale products
   addBy: string;
   createdAt: string;
   updatedAt: string;
+  isCase?: boolean; // Added from your data
+  isPallet?: boolean; // Added from your data
+  isVendorBrand?: boolean; // Added from your data
+  // Based on your data, these fields are mutually exclusive:
+  // - If product has variants, it shouldn't have wholesaleId items (or they're empty)
+  // - If product has wholesaleId items, it shouldn't have variants
+}
+
+// Type guards to check product type
+export function isVariantProduct(product: Product): boolean {
+  return !!(product.variants && product.variants.length > 0);
+}
+
+export function isWholesaleProduct(product: Product): boolean {
+  return !!(product.wholesaleId && product.wholesaleId.length > 0);
+}
+
+export function isCaseProduct(product: Product): boolean {
+  return product.wholesaleId?.some(item => item.type === 'case') || false;
+}
+
+export function isPalletProduct(product: Product): boolean {
+  return product.wholesaleId?.some(item => item.type === 'pallet') || false;
 }
 
 // Meta/Pagination Interface
@@ -133,16 +155,16 @@ export interface Meta {
   totalPage: number;
 }
 
-// API Response Interface
+// API Response Interface - UPDATED
 export interface ProductsResponse {
   success: boolean;
   message: string;
   statusCode: number;
   data: Product[];
-  meta: Meta;
+  meta?: Meta; // Made optional since your featured products response doesn't have meta
 }
 
-// Query Parameters Interface (if you need it)
+// Query Parameters Interface
 export interface ProductQueryParams {
   search?: string;
   region?: string;
@@ -154,5 +176,11 @@ export interface ProductQueryParams {
   categorySlug?: string;
 }
 
-
-// feature product
+// Featured Products Response (specific type for your data)
+export interface FeaturedProductsResponse {
+  success: boolean;
+  message: string;
+  statusCode: number;
+  data: Product[];
+  // No meta in your featured products response
+}
