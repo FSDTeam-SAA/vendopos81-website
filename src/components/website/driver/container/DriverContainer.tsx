@@ -21,7 +21,7 @@ const DriverContainer = () => {
       lastName: "",
       email: "",
       phone: "",
-      password: "",
+      // password: "",
       yearsOfExperience: "",
       licenseExpiryDate: "",
       address: "",
@@ -39,7 +39,7 @@ const DriverContainer = () => {
     formData.append("lastName", data.lastName);
     formData.append("email", data.email);
     formData.append("phone", data.phone);
-    formData.append("password", data.password);
+    // formData.append("password", data.password);
     formData.append("yearsOfExperience", data.yearsOfExperience);
     formData.append("licenseExpiryDate", data.licenseExpiryDate);
     formData.append("address", data.address);
@@ -61,9 +61,9 @@ const DriverContainer = () => {
         });
         form.reset();
         if (data.accessToken) {
-          route.push(`/email-verify?token=${token}`);
+          route.push(`/`);
         }
-        route.push("/login");
+        route.push("/");
       },
       onError: () => {
         toast.error("Error", {
