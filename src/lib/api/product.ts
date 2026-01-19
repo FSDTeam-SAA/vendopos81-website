@@ -71,3 +71,15 @@ export async function caseDealsProduct() {
     throw error;
   }
 }
+
+
+export async function SingleProduct(id: string) {
+  const res = await api.get(`/product/${id}`);
+  return res.data;
+}
+
+
+export async function SingleProductReview(id: string) {
+  const res = await api.get(`/review/${id}`);
+  return res.data;
+}

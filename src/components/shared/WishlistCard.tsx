@@ -25,11 +25,12 @@ const WishlistCard = ({ data, onAddToCart, onRemove }: WishlistCardProps) => {
   const originalPrice = product?.variants?.[0]?.discountPrice
     ? product?.variants?.[0]?.price
     : product?.priceFrom
-    ? product.priceFrom * 1.2
-    : 0;
-  const brand = (typeof product?.supplierId === 'object' && product?.supplierId?.brandName) 
-    ? product.supplierId.brandName 
-    : "Brand";
+      ? product.priceFrom * 1.2
+      : 0;
+  const brand =
+    typeof product?.supplierId === "object" && product?.supplierId?.brandName
+      ? product.supplierId.brandName
+      : "Brand";
   const rating = product?.averageRating || 0;
   const weight = product?.variants?.[0]?.unit || "500g";
 
@@ -40,11 +41,12 @@ const WishlistCard = ({ data, onAddToCart, onRemove }: WishlistCardProps) => {
   };
 
   const handleRemove = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     onRemove(productId);
   };
 
-  const productDetailUrl = `/product/${productId}`;
+  const productDetailUrl = `/shop/${productId}`;
 
   return (
     <Link href={productDetailUrl} className="bg-white ">

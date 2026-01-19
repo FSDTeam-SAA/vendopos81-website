@@ -7,10 +7,10 @@ import React from 'react'
 const page = () => {
   return (
     <section>
-<AboutHero />
-<WhatWeProvide />
-<OurPerformance />
-<FAQ />
+      <AboutHero />
+      <WhatWeProvide />
+      <OurPerformance />
+      <FAQ />
     </section>
   )
 }

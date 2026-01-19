@@ -118,7 +118,7 @@ export interface Product {
   isFeatured: boolean;
   quantity?: number;
   isAvailable?: boolean;
-  wholesaleId: WholesaleItem[]; // For wholesale products
+  wholesaleId?: WholesaleItem[]; // For wholesale products
   addBy: string;
   createdAt: string;
   updatedAt: string;
@@ -183,4 +183,11 @@ export interface FeaturedProductsResponse {
   statusCode: number;
   data: Product[];
   // No meta in your featured products response
+}
+
+export interface SingleProductResponse {
+  success: boolean;
+  message: string;
+  statusCode: number;
+  data: Product;
 }
