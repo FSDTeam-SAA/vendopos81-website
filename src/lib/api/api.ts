@@ -17,7 +17,7 @@ import {
 import { User } from "next-auth";
 
 import { ProductParams } from "../types/product";
-import { da } from "zod/v4/locales";
+
 // import { Cagliostro } from "next/font/google";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;

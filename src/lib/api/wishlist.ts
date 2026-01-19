@@ -19,7 +19,7 @@ export async function wishlist(page: number = 1, limit: number = 10) {
 
 export async function removeFromWishlist(id: string) {
     try {
-        const res = await api.delete(`/wishlist/remove/${id}`);
+        const res = await api.delete(`/wishlist/delete/${id}`);
         return res.data;
     } catch (error) {
         if (error instanceof Error) {

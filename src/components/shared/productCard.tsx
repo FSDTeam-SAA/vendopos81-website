@@ -6,6 +6,7 @@ import { Product } from "@/lib/types/product";
 import { motion } from "framer-motion";
 import { useAddedWishlist } from "@/lib/hooks/wishlist";
 import { useSmartAddToCart } from "@/lib/hooks/cart";
+import Link from "next/link";
 
 interface ProductCardProps {
   product: Product;
@@ -56,11 +57,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
     mutate(id);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = ( e: React.MouseEvent,) => {
+     e.preventDefault();
+    e.stopPropagation();
     smartAddToCart(product);
   };
 
   return (
+    <Link href={`/shop/${product._id}`} >
+    
     <div className="group relative w-full max-w-[260px] mx-auto overflow-hidden rounded-2xl border bg-white p-4 shadow-sm hover:shadow-sm transition-shadow">
       {/* Badges */}
       {product.productType === "Organic" && (
@@ -137,6 +142,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 
