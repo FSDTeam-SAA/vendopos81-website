@@ -1,11 +1,9 @@
-
 import { CartItem } from "@/lib/types/cart";
 import CartItemComponent from "../common/CartItem";
 import OrderSummary from "../common/OrderSummary";
 import Link from "next/link";
 import { MoveLeftIcon } from "lucide-react";
-
-
+import OrderCheckoutModal, { CheckoutFormData } from "../order/orderCheckout/OrderCheckoutModal";
 
 interface Props {
   items: CartItem[];
@@ -16,6 +14,10 @@ interface Props {
   shipping: number;
   tax: number;
   total: number;
+  isModalOpen: boolean;
+  setIsModalOpen: (open: boolean) => void;
+  onHandleSubmit: (formData: CheckoutFormData) => void;
+  isPlacingOrder: boolean;
 }
 
 const CartPresenter = ({
@@ -27,11 +29,16 @@ const CartPresenter = ({
   shipping,
   tax,
   total,
+  isModalOpen,
+  setIsModalOpen,
+  onHandleSubmit,
+  isPlacingOrder,
 }: Props) => {
+
   return (
     <section className="container mx-auto grid grid-cols-12 gap-6 py-10">
       {/* Cart Items */}
-      <div className="col-span-8">
+      <div className="col-span-12 lg:col-span-8">
       <div >
         <Link href={'/shop'} className=" flex gap-2 items-center text-primary mb-10 mt-7.5">
           <MoveLeftIcon /> Continue Shopping
@@ -53,14 +60,24 @@ const CartPresenter = ({
       </div>
 
       {/* Order Summary */}
-      <div className="col-span-4">
+      <div className="col-span-12 lg:col-span-4">
         <OrderSummary
           subtotal={subtotal}
           shipping={shipping}
           tax={tax}
           total={total}
+          setIsModalOpen={setIsModalOpen}
         />
       </div>
+          <div className="p-8">
+
+      <OrderCheckoutModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={onHandleSubmit}
+        isPending={isPlacingOrder}
+      />
+    </div>
     </section>
   );
 };

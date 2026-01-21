@@ -80,6 +80,6 @@ export async function SingleProduct(id: string) {
 
 
 export async function SingleProductReview(id: string) {
-  const res = await api.get(`/review/${id}`);
+  const res = await api.get(`/review/review-by-product/${id}`);
   return res.data;
 }

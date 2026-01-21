@@ -3,9 +3,10 @@ interface Props {
   shipping: number;
   tax: number;
   total: number;
+  setIsModalOpen: (open: boolean) => void;
 }
 
-const OrderSummary = ({ subtotal, shipping, tax, total }: Props) => {
+const OrderSummary = ({ subtotal, shipping, tax, total, setIsModalOpen }: Props) => {
   return (
     <div className="bg-white p-6 rounded-lg">
       <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
@@ -30,7 +31,7 @@ const OrderSummary = ({ subtotal, shipping, tax, total }: Props) => {
         <span>${total}</span>
       </div>
 
-      <button className="w-full mt-6 bg-green-600 text-white py-3 rounded-lg">
+      <button onClick={()=>setIsModalOpen(true)} className="w-full mt-6 bg-green-600 text-white py-3 rounded-lg">
         Order now
       </button>
     </div>

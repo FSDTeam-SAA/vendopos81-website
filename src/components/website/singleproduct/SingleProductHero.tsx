@@ -228,7 +228,7 @@ export default function SingleProductHero({ product }: { product: Product }) {
                                 <span className="text-xs text-gray-500 line-clamp-1">{item.label}</span>
                             </div>
                             <span className="font-bold text-primary">${price}</span>
-                            {isSelected && <Check className="absolute top-2 right-2 h-4 w-4 text-primary" />}
+                            {/* {isSelected && <Check className="absolute top-2 right-2 h-4 w-4 text-primary" />} */}
                         </button>
                     )
                 })}
@@ -260,7 +260,7 @@ export default function SingleProductHero({ product }: { product: Product }) {
                                 {item.stock < 10 && <span className="text-xs text-red-500">Only {item.stock} left</span>}
                             </div>
                             <span className="font-bold text-primary">${price}</span>
-                            {isSelected && <Check className="absolute top-2 right-2 h-4 w-4 text-primary" />}
+                            {/* {isSelected && <Check className="absolute top-2 right-2 h-4 w-4 text-primary" />} */}
                         </button>
                     )
                 })}

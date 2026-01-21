@@ -6,7 +6,6 @@ import Subscription from "@/components/home/Subscription";
 
 import BannerSlider from "@/components/shared/BannerSlider";
 
-
 export default function Home() {
   return (
     <div className="">
@@ -14,9 +13,9 @@ export default function Home() {
       <CountryList />
       <FeatureProduct />
       <FreshProducts />
-     <MostCatagory />
-     <Subscription />
-     {/* <Footer /> */}
+      <MostCatagory />
+      <Subscription />
+      {/* <Footer /> */}
     </div>
   );
 }

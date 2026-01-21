@@ -141,3 +141,34 @@ export interface UpdateOrderDTO {
   billingInfo?: Partial<BillingInfo>;
   notes?: string;
 }
+
+// order ceate data
+export interface CreateOrderItem {
+  productId: string;
+  quantity: number;
+  variantId: string;
+}
+
+export interface CreateBillingInfo {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  country: string;
+}
+
+export interface CreateOrderData {
+  orderType: 'single' | 'subscription' | 'bulk' | string; 
+  paymentType: 'cod' | 'online' | 'card' | 'wallet' |string 
+  items: OrderItem[];
+  billingInfo: BillingInfo;
+}
+
+
+export interface SingleOrderExample {
+  orderType: 'single';
+  paymentType: 'cod';
+  items: OrderItem[];
+  billingInfo: BillingInfo;
+}

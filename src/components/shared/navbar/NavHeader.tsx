@@ -28,6 +28,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { useFetchCartData } from "@/lib/hooks/cart";
+import NavContainer from "@/components/home/nav/NavContainer";
 
 const NAV_ITEMS = [
   { name: "Home", link: "/" },
@@ -40,16 +41,15 @@ const NavHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchData,setSearchData]=useState('')
   const pathname = usePathname();
-
   const { data } = useWishlistData(currentPage);
   const { data: cartResponse, isLoading, isError } = useFetchCartData();
-
   const { data: session } = useSession();
-
   const wishlist = data?.data?.length || 0;
-  console.log("card data", cartResponse?.data?.length);
   const cardLength = cartResponse?.data?.length || 0;
+
+  
   return (
     <header className="sticky top-0 z-50 ">
       <section className="">
@@ -86,6 +86,7 @@ const NavHeader = () => {
                   </div> */}
                   <input
                     type="text"
+                    onChange={(e)=>setSearchData(e.target.value)}
                     placeholder="Search for products..."
                     className="w-full px-3 py-2 outline-none"
                   />
@@ -211,17 +212,19 @@ const NavHeader = () => {
 
           {/* Mobile Search Bar */}
           {isSearchOpen && (
-            <div className="md:hidden py-4 border-t">
+            <div className="md:hidden py-4 px-3 border-t">
               <div className="flex items-center border-2 border-[#BCE3C9] rounded-full overflow-hidden">
-                <div className="pl-4">
+                {/* <div className="pl-4">
                   <Search size={20} className="text-gray-400" />
-                </div>
+                </div> */}
                 <input
                   type="text"
+                  value={searchData}
+                  onChange={(e)=>setSearchData(e.target.value)}
                   placeholder="Search for products..."
-                  className="flex-1 px-3 py-3 outline-none"
+                  className="flex-1 px-3 py-1.5 outline-none"
                 />
-                <Button className="h-full rounded-none px-4">Go</Button>
+                <Button className="h-full rounded-none ">Go</Button>
               </div>
             </div>
           )}
@@ -364,6 +367,9 @@ const NavHeader = () => {
           </div>
         </>
       )}
+      <div className="container mx-auto relative px-7 lg:px-0">
+        <NavContainer searchData={searchData} />
+      </div>
     </header>
   );
 };
