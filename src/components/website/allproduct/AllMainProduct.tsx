@@ -1,12 +1,12 @@
-"use client";
-import ProductCard from "@/components/shared/productCard";
-import { useFetchAllProduct, useFetchFeatureProduct } from "@/lib/hooks/product";
-import { Product } from "@/lib/types/product";
-import React from "react";
-import ProductSkeleton from "./ProductSkeleton";
+'use client';
+import ProductSkeleton from '@/components/home/product/ProductSkeleton';
+import ProductCard from '@/components/shared/productCard';
+import { useFetchFeatureProduct } from '@/lib/hooks/product';
+import { Product } from '@/lib/types/mostcatagory';
+import React from 'react'
 
-const FeatureProduct = () => {
-  const { data, isLoading, error } = useFetchFeatureProduct();
+const AllMainProduct = () => {
+      const { data, isLoading, error } = useFetchFeatureProduct();
 
   if (isLoading) {
   return (
@@ -29,7 +29,8 @@ if (error) {
   const productData = data?.data || [];
    console.log('product Data',productData)
   return (
-    <section className="my-10 md:my-16 xl:my-20">
+  
+ <section className="my-10 md:my-16 xl:my-20">
       <div className="container mx-auto">
         <div className="mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -44,7 +45,7 @@ if (error) {
             <p className="text-gray-400 mt-2">Check back later for new products</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
             {productData.map((item: Product) => (
               <ProductCard key={item._id} product={item} />
             ))}
@@ -52,7 +53,8 @@ if (error) {
         )}
       </div>
     </section>
-  );
-};
 
-export default FeatureProduct;
+  )
+}
+
+export default AllMainProduct

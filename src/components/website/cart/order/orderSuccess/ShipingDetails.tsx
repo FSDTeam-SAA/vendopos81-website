@@ -1,7 +1,8 @@
-import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { MapPin, CreditCard, CheckCircle } from 'lucide-react'
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { MapPin, CreditCard, CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const ShippingDetails = () => {
   return (
@@ -12,7 +13,9 @@ const ShippingDetails = () => {
           <CardHeader className="pb-4">
             <div className="flex items-center space-x-2">
               <MapPin className="h-5 w-5 text-gray-600" />
-              <CardTitle className="text-xl font-semibold">Shipping Address</CardTitle>
+              <CardTitle className="text-xl font-semibold">
+                Shipping Address
+              </CardTitle>
             </div>
           </CardHeader>
           <Separator />
@@ -33,7 +36,9 @@ const ShippingDetails = () => {
           <CardHeader className="pb-4">
             <div className="flex items-center space-x-2">
               <CreditCard className="h-5 w-5 text-gray-600" />
-              <CardTitle className="text-xl font-semibold">Payment Method</CardTitle>
+              <CardTitle className="text-xl font-semibold">
+                Payment Method
+              </CardTitle>
             </div>
           </CardHeader>
           <Separator />
@@ -52,8 +57,14 @@ const ShippingDetails = () => {
           </CardContent>
         </Card>
       </div>
+      <Card className="mt-6 shadow-lg ">
+        <CardContent className="py-2 flex justify-center items-center mx-auto flex-col">
+          <h2 className="text-xl font-semibold mb-4">Looking for more Great Products?</h2>
+          <Button className="flex justify-center items-center py-5">Continue Shopping</Button>
+        </CardContent>
+      </Card>
     </div>
-  )
-}
+  );
+};
 
-export default ShippingDetails
+export default ShippingDetails;

@@ -76,7 +76,7 @@ const COUNTRIES =  [
 const Navitems = () => {
   const currentActive = usePathname();
   const route = useRouter();
-  console.log("curent pathname", currentActive);
+
 
   const handleCategory = (category: string) => {
     route.push(`/shop?productType=${category}`);

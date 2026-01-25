@@ -76,7 +76,7 @@ const SubscriptionCard = ({ data }: { data: SubscriptionCardInterface }) => {
 
             <Button
               type="submit"
-              disabled={subscriptionMutation.isPending || !email.trim()}
+              disabled={subscriptionMutation.isPending }
               className="rounded-full cursor-pointer px-2 sm:px-8 py-3 sm:py-6 bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {subscriptionMutation.isPending ? "Subscribing..." : "Subscribe"}
