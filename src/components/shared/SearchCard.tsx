@@ -6,7 +6,7 @@ import React from 'react'
 const SearchCard = ({ product }: { product: Product }) => {
   return (
     <Link 
-      href={`/product/${product.slug}`}
+      href={`/shop/${product._id}`}
       className='p-3 flex gap-5 items-center hover:bg-gray-50 transition-colors border-b last:border-b-0 group'
     >
          <Image 

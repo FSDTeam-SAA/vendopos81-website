@@ -9,7 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCatagoryData } from "@/lib/hooks/useCatagory";
+import { catagoryProduct } from "@/lib/types/catagory";
 import { ArrowDown, ChevronDown, LayoutList, MapPin } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -76,7 +79,7 @@ const COUNTRIES =  [
 const Navitems = () => {
   const currentActive = usePathname();
   const route = useRouter();
-
+const {data,isLoading,isError}=useCatagoryData();
 
   const handleCategory = (category: string) => {
     route.push(`/shop?productType=${category}`);
@@ -84,6 +87,7 @@ const Navitems = () => {
   const handleCountry = (country: string) => {
     route.push(`/shop?country=${country}`);
   };
+  const categories=data?.data ||  [];
   return (
     <section className="bg-white">
       <div className="container mx-auto px-4 md:px-0">
@@ -100,7 +104,7 @@ const Navitems = () => {
                       <LayoutList className="text-white" size={18} />
                       <SelectValue
                         placeholder={
-                          <span className="font-medium text-white">
+                          <span className="font-medium text-center text-white">
                             Browse All Category
                           </span>
                         }
@@ -108,22 +112,37 @@ const Navitems = () => {
                       <ChevronDown className="text-white" size={18} />
                     </div>
                   </SelectTrigger>
-                  <SelectContent position="popper" className="max-w-[300px] md:max-w-[300px] mt-2 lg:max-w-[400px]">
+                  <SelectContent 
+                    position="popper" 
+                    className="max-w-75 md:max-w-75 mt-2 lg:max-w-100 animate-in fade-in-0 slide-in-from-bottom-4 duration-300"
+                    sideOffset={8}
+                  >
                     <SelectGroup>
-                      <SelectLabel className="text-lg font-semibold px-4 py-2">
+                      <SelectLabel className="text-lg font-semibold px-4 py-2 text-center block w-full">
                         All Categories
                       </SelectLabel>
-                      <div className="grid grid-cols-2 md:grid-cols-3  ">
-                        {CATEGORIES.map((item, index) => (
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 p-3">
+                        {categories?.map((item:catagoryProduct) => (
                           <SelectItem
-                            key={index}
-                            value={item.value}
-                            className="py-3 cursor-pointer"
+                            key={item._id}
+                            value={item.productType}
+                            textValue={item.productType}
+                            className="p-3 cursor-pointer flex   flex-col-reverse justify-center rounded-xl hover:bg-primary/10 hover:text-primary transition-all duration-200 focus:bg-primary/10 focus:text-primary border border-gray-100 hover:border-primary/30 hover:scale-[1.02] [&>span:first-child]:hidden"
+                            displayContent={
+                              <div className="flex mx-auto flex-col items-center justify-center gap-2 text-center w-full">
+                                <Image 
+                                  className="object-cover rounded-lg max-w-12 mx-auto max-h-12"  
+                                  src={item.productImage.url} 
+                                  alt={item.productType} 
+                                  width={48} 
+                                  height={48}
+                                />
+                                {/* <span className="text-xs font-medium leading-tight">{item.productType}</span> */}
+                              </div>
+                            }
                           >
-                            <div className="flex items-center gap-2">
-                              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                              <span>{item.name}</span>
-                            </div>
+                            
+                            {item.productType}
                           </SelectItem>
                         ))}
                       </div>
