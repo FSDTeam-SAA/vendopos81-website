@@ -51,7 +51,7 @@ const NavHeader = () => {
 
   
   return (
-    <header className="sticky top-0 z-50 ">
+    <>
       <section className="">
         <div className="container mx-auto md:px-7 sm:px-4 lg:px-0">
           <div className="flex items-center justify-between h-16 lg:h-20">
@@ -370,7 +370,7 @@ const NavHeader = () => {
       <div className="container mx-auto relative px-7 lg:px-0">
         <NavContainer searchData={searchData} />
       </div>
-    </header>
+    </>
   );
 };
 

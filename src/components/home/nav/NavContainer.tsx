@@ -14,7 +14,7 @@ const NavContainer = ({ searchData }: { searchData: string }) => {
   if (!searchData || searchData.trim().length === 0) return null;
 
   return (
-    <div className='absolute left-0  top-full w-full max-w-xl bg-white shadow-2xl rounded-b-xl border border-t-0 z-[100] max-h-[400px] overflow-y-auto'>
+    <div className='absolute left-0  top-full w-full max-w-xl bg-white shadow-2xl rounded-b-xl border border-t-0 !z-50 max-h-[400px] overflow-y-auto'>
       {isLoading ? (
         <div className='p-4 text-center text-gray-500'>Searching...</div>
       ) : products.length > 0 ? (
