@@ -183,6 +183,7 @@ export const authService = {
 
 export async function FeatureProduct(params?: ProductParams) {
   try {
+
     const query = new URLSearchParams();
 
     if (params?.search) query.append("search", params.search);
@@ -192,7 +193,8 @@ export async function FeatureProduct(params?: ProductParams) {
     if (params?.productType) query.append("productType", params.productType);
     if (params?.minPrice) query.append("minPrice", String(params.minPrice));
     if (params?.maxPrice) query.append("maxPrice", String(params.maxPrice));
-
+    if (params?.categorySlug) query.append("categorySlug", params.categorySlug);
+      console.log('url 1',query.toString())
     const url = `/product/all${query.toString() ? `?${query}` : ""}`;
 
     const res = await api.get(url);
