@@ -1,12 +1,12 @@
 "use client";
 
 import { useDecreaseQuantity, useFetchCartData, useIncreaseQuantity, useRemoveCartItem } from "@/lib/hooks/cart";
-import { calculateCartTotal, CartItem } from "@/lib/types/cart";
+import { calculateCartTotal } from "@/lib/types/cart";
 
 import CartPresenter from "./CartPresenter";
 import { useState } from "react";
 import { CheckoutFormData } from "../order/orderCheckout/OrderCheckoutModal";
-import { useCreateOrder } from "@/lib/hooks/useOrder";
+import { useCreateOrder, usePayment } from "@/lib/hooks/useOrder";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -19,6 +19,8 @@ const CartContainer = () => {
   const { mutate: decreaseQty } = useDecreaseQuantity();
   const { mutate: removeItem } = useRemoveCartItem();
   const { mutate: createOrder, isPending: isPlacingOrder } = useCreateOrder();
+  const { mutate: payment } = usePayment();
+
 
   const cartItems = cartResponse?.data || [];
 
@@ -56,18 +58,46 @@ const CartContainer = () => {
       },
     };
 
-    createOrder(payload, {
-      onSuccess: (data) => {
-        toast.success("Order placed successfully!");
-        setIsModalOpen(false);
-        // router.push("/user/orders");
-        console.log('datas',data)
-      },
-      onError: (error) => {
-        toast.error("Failed to place order. Please try again.");
-        console.error("Order error:", error);
-      }
-    });
+  createOrder(payload, {
+  onSuccess: (data) => {
+    toast.success("Order placed successfully!");
+    setIsModalOpen(false);
+
+    const orderId = data?.data?._id;
+
+    if (orderId && formData.paymentMethod !== "cod") {
+      payment(
+        {
+          orderId
+        },
+        {
+          onSuccess: (res) => {
+       
+            if (res?.data?.checkoutUrl) {
+              window.location.href = res.data.checkoutUrl;
+            }else {
+              toast.error("Payment initiation failed. Please try again.");
+            }
+          },
+          onError: (error) => {
+            console.error("Payment error:", error);
+            toast.error("Payment failed. Please try again.");
+          },
+        }
+      );
+    }
+
+    if (formData.paymentMethod === "cod") {
+      router.push("/user/orders");
+    }
+  },
+
+  onError: (error) => {
+    toast.error("Failed to place order. Please try again.");
+    console.error("Order error:", error);
+  },
+});
+
   };
 
   

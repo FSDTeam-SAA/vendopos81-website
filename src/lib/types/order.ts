@@ -172,3 +172,10 @@ export interface SingleOrderExample {
   items: OrderItem[];
   billingInfo: BillingInfo;
 }
+
+
+export interface  paymentData   {
+  orderId: string;
+  successUrl?: string;
+  cancelUrl?: string;
+}

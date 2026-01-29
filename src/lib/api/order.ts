@@ -1,5 +1,5 @@
 
-import { CreateOrderData } from "../types/order";
+import { CreateOrderData, paymentData } from "../types/order";
 import api from "./api";
 
 export async function order(paid: string, unpaid: string) {
@@ -23,4 +23,9 @@ export async function CreateOrder(data:CreateOrderData ) {
       throw new Error(error.message || "Failed to Your Order.");
     }
   }
+}
+
+export async function payment(data: paymentData) {
+  const res = await api.post("/payment/process", data);
+  return res.data;
 }
