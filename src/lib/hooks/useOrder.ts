@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { CreateOrder, order } from "../api/order";
+import { CreateOrder, order, payment } from "../api/order";
 import { CreateOrderData } from "../types/order";
 
 
@@ -16,4 +16,11 @@ export function useCreateOrder(){
     mutationKey:['createorder'],
     mutationFn:(data:CreateOrderData)=>CreateOrder(data)
   })
+}
+
+export function usePayment() {
+  return useMutation({
+    mutationKey: ["payment"],
+    mutationFn: payment,
+  });
 }
