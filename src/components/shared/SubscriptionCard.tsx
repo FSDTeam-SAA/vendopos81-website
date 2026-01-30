@@ -62,7 +62,7 @@ const SubscriptionCard = ({ data }: { data: SubscriptionCardInterface }) => {
         <div className="">
           <form
             onSubmit={handleSubmit}
-            className="flex items-center bg-white rounded-full shadow-lg p-1 max-w-full sm:max-w-xl"
+            className="flex items-center bg-white rounded-full  p-1 max-w-full sm:max-w-xl"
           >
             <input
               type="email"

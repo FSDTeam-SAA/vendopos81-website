@@ -32,7 +32,7 @@ export interface Category {
 }
 
 // Supplier Interface - UPDATED (can be string or object based on your data)
-export type Supplier = string | {
+export type Supplier = {
   _id: string;
   shopName?: string;
   brandName?: string;

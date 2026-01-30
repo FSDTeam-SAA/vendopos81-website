@@ -9,8 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCatagoryData } from "@/lib/hooks/useCatagory";
-import { catagoryProduct } from "@/lib/types/catagory";
+import { useCategoryData } from "@/lib/hooks/useCategory";
+import { Category } from "@/lib/types/category";
 import { ArrowDown, ChevronDown, LayoutList, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -79,7 +79,7 @@ const COUNTRIES = [
 const Navitems = () => {
   const currentActive = usePathname();
   const route = useRouter();
-  const { data, isLoading, isError } = useCatagoryData();
+  const { data, isLoading, isError } = useCategoryData();
 
   const handleCategory = (category: string) => {
     route.push(`/shop?productType=${category}`);
@@ -122,7 +122,7 @@ const Navitems = () => {
                         All Categories
                       </SelectLabel>
                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3 p-3">
-                        {categories?.map((item: catagoryProduct) => (
+                        {categories?.map((item: Category) => (
                           <SelectItem
                             key={item._id}
                             value={item.productType}

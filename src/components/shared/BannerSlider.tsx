@@ -110,16 +110,28 @@ const BannerSlider = () => {
 
   return (
     <section
-      className="relative overflow-hidden bg-[#F2F3F7] min-h-[500px] lg:min-h-[600px] flex items-center"
+      className="relative overflow-hidden bg-[#F2F3F7] min-h-[450px] sm:min-h-[500px] lg:min-h-[600px] flex items-center"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
       {/* Decorative background shapes */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-white/40 -skew-x-12 translate-x-1/2 z-0" />
-      <div className="absolute bottom-10 left-20 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
-      <div className="absolute top-20 right-1/4 w-48 h-48 bg-pink-500/5 rounded-full blur-[80px]" />
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(
+              90deg,
+              rgba(0, 0, 0, 0.20) 14.42%,
+              rgba(255, 255, 255, 0.00) 100%
+            ),
+          `,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "right -147px top",
+          backgroundSize: "41.2% 147.035%",
+        }}
+      />
 
-      <div className="container mx-auto px-4 lg:px-6 relative z-10 py-12 lg:py-0">
+      <div className="container mx-auto px-4 lg:px-6 relative z-10 py-16 sm:py-20 lg:py-0">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={page}
@@ -132,43 +144,39 @@ const BannerSlider = () => {
               x: { type: "spring", stiffness: 300, damping: 30 },
               opacity: { duration: 0.2 },
             }}
-            className="grid lg:grid-cols-2 items-center gap-12 lg:gap-20"
+            className="grid lg:grid-cols-2 items-center gap-10 lg:gap-20"
           >
             {/* Content Section */}
             <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="space-y-6 lg:space-y-10"
+              className="space-y-6 lg:space-y-10 text-left"
             >
               <motion.div variants={itemVariants}>
-                {/* <span className="inline-block px-4 py-1.5 rounded-full bg-white shadow-sm text-sm font-bold text-primary mb-4 border border-primary/10">
-                  ⚡ Limited Offer
-                </span> */}
-                <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-[#253D4E] leading-[1.1] tracking-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-[#253D4E] leading-[1.2] lg:leading-[1.1] tracking-tight">
                   {slide.title}
                 </h1>
               </motion.div>
 
               <motion.p
                 variants={itemVariants}
-                className="text-lg md:text-xl text-gray-600 max-w-xl leading-relaxed font-medium"
+                className="text-base sm:text-lg md:text-xl text-gray-600 max-w-xl leading-relaxed font-medium"
               >
                 {slide.description}
               </motion.p>
 
               <motion.div
                 variants={itemVariants}
-                className="relative max-w-xl group"
+                className="relative max-w-md sm:max-w-xl group"
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-transparent rounded-full blur opacity-0 group-focus-within:opacity-100 transition duration-500" />
-                <div className="relative flex bg-white rounded-full shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] overflow-hidden border border-gray-100 backdrop-blur-sm">
+                <div className="relative flex bg-white rounded-full overflow-hidden border border-gray-100 backdrop-blur-sm">
                   <input
                     placeholder="Your Email Address"
-                    className="flex-1 px-8 py-5 outline-none text-gray-700 bg-transparent"
+                    className="flex-1 px-4 sm:px-8 py-3 sm:py-5 outline-none text-sm sm:text-base text-gray-700 bg-transparent"
                   />
-                  <Button className="rounded-full px-8 h-auto m-1.5 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all duration-300">
-                    <Send size={18} className="mr-2" />
+                  <Button className="rounded-full px-4 sm:px-8 h-auto text-sm sm:text-base bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all duration-300">
                     Subscribe
                   </Button>
                 </div>
@@ -184,29 +192,8 @@ const BannerSlider = () => {
                 ease: "easeOut" as const,
                 delay: 0.2,
               }}
-              className="relative w-full aspect-[4/3] lg:aspect-auto h-[350px] lg:h-[500px]"
+              className="relative w-full aspect-[4/3] lg:aspect-auto h-[250px] sm:h-[350px] lg:h-[500px]"
             >
-              {/* Floating decorative elements around image */}
-              {/* <motion.div
-                animate={{ y: [0, -15, 0] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut" as const,
-                }}
-                className="absolute top-10 right-10 bg-white p-4 rounded-2xl shadow-xl z-20 hidden md:block"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
-                    🔥
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-gray-400">Popular</p>
-                    <p className="text-sm font-black">Organic Fresh</p>
-                  </div>
-                </div>
-              </motion.div> */}
-
               <Image
                 src={slide.image}
                 alt={slide.title}
@@ -219,28 +206,31 @@ const BannerSlider = () => {
         </AnimatePresence>
       </div>
 
-      {/* Left button */}
-      <div className="absolute left-6 lg:left-12 top-1/2 -translate-y-1/2 z-20">
-        <button
-          onClick={() => paginate(-1)}
-          className="bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all duration-300 group hover:scale-110 active:scale-95 border border-gray-100"
-        >
-          <ChevronLeft className="w-6 h-6 text-gray-700 group-hover:text-primary transition-colors" />
-        </button>
+      {/* Navigation Controls - Hidden on mobile, flex on desktop */}
+      <div className="hidden lg:block">
+        {/* Left button */}
+        <div className="absolute left-6 lg:left-12 top-1/2 -translate-y-1/2 z-20">
+          <button
+            onClick={() => paginate(-1)}
+            className="bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all duration-300 group hover:scale-110 active:scale-95 border border-gray-100"
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-700 group-hover:text-primary transition-colors" />
+          </button>
+        </div>
+
+        {/* Right button */}
+        <div className="absolute right-6 lg:right-12 top-1/2 -translate-y-1/2 z-20">
+          <button
+            onClick={() => paginate(1)}
+            className="bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all duration-300 group hover:scale-110 active:scale-95 border border-gray-100"
+          >
+            <ChevronRight className="w-6 h-6 text-gray-700 group-hover:text-primary transition-colors" />
+          </button>
+        </div>
       </div>
 
-      {/* Right button */}
-      <div className="absolute right-6 lg:right-12 top-1/2 -translate-y-1/2 z-20">
-        <button
-          onClick={() => paginate(1)}
-          className="bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all duration-300 group hover:scale-110 active:scale-95 border border-gray-100"
-        >
-          <ChevronRight className="w-6 h-6 text-gray-700 group-hover:text-primary transition-colors" />
-        </button>
-      </div>
-
-      {/* Progress Indicators (Dots) */}
-      <div className="absolute bottom-10 left-12 flex gap-4 z-20">
+      {/* Progress Indicators (Dots) - Centered on mobile, left-aligned on desktop */}
+      <div className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 lg:left-12 lg:translate-x-0 flex gap-3 sm:gap-4 z-20">
         {slides.map((_, i) => (
           <button
             key={i}
@@ -251,10 +241,10 @@ const BannerSlider = () => {
             className="group relative h-4 transition-all duration-300"
           >
             <div
-              className={`h-1.5 rounded-full transition-all duration-500 ${
+              className={`h-1 sm:h-1.5 rounded-full transition-all duration-500 ${
                 i === index
-                  ? "w-12 bg-primary"
-                  : "w-4 bg-gray-300 group-hover:bg-gray-400"
+                  ? "w-8 sm:w-12 bg-primary"
+                  : "w-3 sm:w-4 bg-gray-300 group-hover:bg-gray-400"
               }`}
             />
           </button>

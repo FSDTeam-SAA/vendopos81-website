@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { useAddedWishlist } from "@/lib/hooks/wishlist";
 import { useSmartAddToCart } from "@/lib/hooks/cart";
 import Link from "next/link";
+import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 interface ProductCardProps {
   product: Product;
@@ -15,14 +17,15 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const { mutate } = useAddedWishlist();
   const { smartAddToCart } = useSmartAddToCart();
+  const { status } = useSession();
 
   const productImage =
     product.images?.[0]?.url || "/images/placeholder-product.png";
 
   const categoryName = product.categoryId?.slug || "Product";
-  const brandName = (typeof product.supplierId === 'object' && product.supplierId?.brandName)
-    ? product.supplierId.brandName
-    : "Brand";
+  // const brandName = (typeof product.supplierId === 'object' && product.supplierId?.brandName)
+  //   ? product.supplierId.brandName
+  //   : "N/A";
   const rating = product.averageRating || 0;
   const totalRatings = product.totalRatings || 0;
 
@@ -56,12 +59,20 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const handleWishlist = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     e.stopPropagation();
+    if (status !== "authenticated") {
+      toast.error("Please login first to use this feature.");
+      return;
+    }
     mutate(id);
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (status !== "authenticated") {
+      toast.error("Please login first to use this feature.");
+      return;
+    }
     smartAddToCart(product);
   };
 
@@ -86,7 +97,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Link href={`/shop/${product._id}`} className="block w-full">
-      <div className="group relative w-full mx-auto overflow-hidden rounded-2xl border bg-white p-4 shadow-sm hover:shadow-md transition-all duration-300">
+      <div className="group relative w-full mx-auto overflow-hidden rounded-2xl border bg-white p-4  transition-all duration-300">
         {/* Badges */}
         {product.productType === "Organic" && (
           <span className="absolute left-0 top-0 z-10 rounded-r-2xl rounded-tl-2xl bg-green-600 px-3 py-1 text-xs font-semibold text-white">
@@ -139,8 +150,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
             </span>
           </div>
 
-          <p className="text-xs text-gray-500">
-            By <span className="font-medium text-green-600">{brandName}</span>
+          <p className="text-lg text-gray-500">
+            By <span className="font-medium text-lg text-primary">{product?.supplierId?.brandName}</span>
           </p>
 
           <div className="mt-4 flex items-center justify-between gap-2">
