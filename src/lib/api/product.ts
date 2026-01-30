@@ -77,6 +77,11 @@ export async function SingleProduct(id: string) {
   const res = await api.get(`/product/${id}`);
   return res.data;
 }
+//related product
+export async function relatedProduct(id: string) {
+  const res = await api.get(`/product/related/${id}`);
+  return res.data;
+}
 
 
 export async function SingleProductReview(id: string) {

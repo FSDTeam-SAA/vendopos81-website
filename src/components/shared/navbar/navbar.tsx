@@ -20,13 +20,9 @@ const Navbar = () => {
         if (currentScrollY > lastScrollY) {
           // Scrolling down: Hide header
           setIsVisible(false);
-        } else if(scrollDelta > 5) {
-         
-          setIsVisible(true);
         }
       } else {
-        // Near top: Always show header
-          // console.log('test 3')
+      
 
         setIsVisible(true);
       }

@@ -1,13 +1,11 @@
-// Cloudinary image type
-export interface CloudinaryImage {
+export interface CategoryImage {
   public_id: string;
   url: string;
 }
 
-// Product item type
-export interface catagoryProduct {
-  productImage: CloudinaryImage;
-  regionImage?: CloudinaryImage; // Optional because one item doesn't have it
+export interface Category {
+  productImage: CategoryImage;
+  regionImage?: CategoryImage;
   _id: string;
   region: string;
   slug: string;
@@ -18,7 +16,6 @@ export interface catagoryProduct {
   updatedAt: string;
 }
 
-// Meta information for pagination
 export interface Meta {
   page: number;
   limit: number;
@@ -26,16 +23,14 @@ export interface Meta {
   totalPage: number;
 }
 
-// Main API response type
 export interface ApiResponse {
   success: boolean;
   message: string;
   statusCode: number;
-  data: catagoryProduct[];
+  data: Category[];
   meta: Meta;
 }
 
-// Alternative if you want more specific naming
 export interface CategoryResponse extends ApiResponse {
-  data: catagoryProduct[];
+  data: Category[];
 }
