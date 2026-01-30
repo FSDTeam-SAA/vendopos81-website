@@ -1,21 +1,21 @@
 import Image from "next/image";
 import React from "react";
-
 import Link from "next/link";
+import { Category } from "@/lib/types/category";
 
-type Country = {
-  img: string;
-  name: string;
-};
+const CountryCard = ({ data }: { data: Category }) => {
+  const imageUrl = data.regionImage?.url || data.productImage.url;
 
-const CountryCard = ({ data }: { data: Country }) => {
   return (
-    <Link href={`/shop?country=${data.name}`} className="flex flex-col items-center text-center group">
+    <Link
+      href={`/shop?country=${data.region}`}
+      className="flex flex-col items-center text-center group"
+    >
       {/* Circle Image */}
       <div className="relative w-[150px] h-[150px] rounded-full border overflow-hidden bg-white transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
         <Image
-          src={data.img}
-          alt={data.name}
+          src={imageUrl}
+          alt={data.region}
           fill
           className="object-contain p-6"
           sizes="150px"
@@ -23,7 +23,9 @@ const CountryCard = ({ data }: { data: Country }) => {
       </div>
 
       {/* Text */}
-      <p className="mt-3 text-sm font-medium group-hover:text-primary transition-colors">{data.name}</p>
+      <p className="mt-3 text-sm font-medium group-hover:text-primary transition-colors">
+        {data.region}
+      </p>
     </Link>
   );
 };

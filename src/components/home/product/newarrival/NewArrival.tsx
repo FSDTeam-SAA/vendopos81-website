@@ -1,12 +1,16 @@
 "use client";
 import ProductCard from "@/components/shared/productCard";
-import { useFetchAllProduct, useFetchFeatureProduct } from "@/lib/hooks/product";
+import { useFetchAllProduct } from "@/lib/hooks/product";
 import { Product } from "@/lib/types/product";
 import React from "react";
-import ProductSkeleton from "./ProductSkeleton";
+import ProductSkeleton from "../ProductSkeleton";
 
-const FeatureProduct = () => {
-  const { data, isLoading, error } = useFetchFeatureProduct();
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+
+
+const NewArrival = () => {
+  const { data, isLoading, error } = useFetchAllProduct();
 
   if (isLoading) {
   return (
@@ -26,16 +30,22 @@ if (error) {
   );
 }
   
-  const productData = data?.data || [];
+  const productData = data?.data.slice(0,5) || [];
    console.log('product Data',productData)
   return (
-    <section className="my-10 md:my-12 xl:my-16">
+    <section className="my-10 md:my-16 xl:my-20">
       <div className="container mx-auto">
-        <div className="mb-8">
+        <div className="mb-8 flex justify-between items-center">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-            Featured Products
+            New Arrival
           </h2>
-          {/* <p className="text-gray-600 mt-2">Discover our best products</p> */}
+          <Link href={'/allproduct'}>
+          
+          <h5  className="text-[#09714E] ho flex items-center  gap-2">
+            View All
+      <ChevronRight className="  text-2xl! ml-1" />
+          </h5>
+          </Link>
         </div>
 
         {productData.length === 0 ? (
@@ -55,4 +65,4 @@ if (error) {
   );
 };
 
-export default FeatureProduct;
+export default NewArrival
