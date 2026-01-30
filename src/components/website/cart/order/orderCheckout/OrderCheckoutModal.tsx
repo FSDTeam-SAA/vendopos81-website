@@ -163,7 +163,7 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
                   onClick={() => handlePaymentMethodChange('cod')}
                   className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${
                     formData.paymentMethod === 'cod'
-                      ? 'border-blue-500 bg-blue-50 text-blue-700'
+                      ? 'border-primary/75 bg-blue-50 text-primary/90'
                       : 'border-gray-300 hover:border-gray-400'
                   }`}
                 >
@@ -174,7 +174,7 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
                   onClick={() => handlePaymentMethodChange('online')}
                   className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${
                     formData.paymentMethod === 'online'
-                      ? 'border-blue-500 bg-blue-50 text-blue-700'
+                      ? 'border-primary/75 bg-blue-50 text-primary/90'
                       : 'border-gray-300 hover:border-gray-400'
                   }`}
                 >
@@ -195,7 +195,7 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
               <button
                 type="submit"
                 disabled={isPending}
-                className="flex-1 py-3 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-3 px-4 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isPending ? 'Placing Order...' : 'Place Order'}
               </button>

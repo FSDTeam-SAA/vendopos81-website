@@ -1,14 +1,31 @@
+"use client"
+
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CreateOrder, order, payment } from "../api/order";
 import { CreateOrderData } from "../types/order";
 
 
-export function useOrder(paid: string, unpaid: string) {
+export function useOrder(params: {
+  page?: number | string;
+  limit?: number | string;
+  orderStatus?: string;
+  paymentStatus?: string;
+} = {}) {
+  const normParams = {
+    page: Number(params.page) || 1,
+    limit: Number(params.limit) || 10,
+    orderStatus: params.orderStatus,
+    paymentStatus: params.paymentStatus,
+  };
+
   return useQuery({
-    queryKey: ["orders", paid, unpaid],
-    queryFn: () => order(paid, unpaid),
-    enabled: !!paid || !!unpaid, // optional safety
+    queryKey: ["orders", normParams],
+    queryFn: () => order(normParams),
   });
+}
+
+export function useOrders(params = {}) {
+  return useOrder(params);
 }
 
 export function useCreateOrder(){

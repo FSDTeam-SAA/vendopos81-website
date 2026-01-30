@@ -1,42 +1,48 @@
+"use client"
+
 import React from 'react'
 import { 
-  CheckCircle2, 
-  Package, 
-  Truck, 
-  Home,
   CheckCircle,
   Circle
 } from 'lucide-react'
+import { useOrders } from '@/lib/hooks/useOrder'
+
 
 const OrderStatus = () => {
+  const { data: orderResponse } = useOrders({ page: 1, limit: 10 })
+  const orders = orderResponse?.data || []
+  const latestOrder = orders[0]
+  
+  const currentStatus = latestOrder?.orderStatus || 'pending'
+
   const statusSteps = [
     {
       id: 1,
       title: "Order Confirmed",
       description: "Your order has been placed successfully",
-      time: "Just now",
       completed: true,
+      status: 'pending'
     },
     {
       id: 2,
       title: "Processing",
       description: "We're preparing your items",
-      time: "Estimated: 1-2 hours",
-      completed: false,
+      completed: ['processing', 'shipped', 'completed'].includes(currentStatus),
+      status: 'processing'
     },
     {
       id: 3,
       title: "Shipped",
       description: "Your package is on its way",
-      time: "Estimated: 2-3 days",
-      completed: false,
+      completed: ['shipped', 'completed'].includes(currentStatus),
+      status: 'shipped'
     },
     {
       id: 4,
       title: "Delivered",
-      description: "Estimated delivery by Tuesday, December 30, 2025",
-      time: "",
-      completed: false,
+      description: currentStatus === 'completed' ? "Your order has been delivered" : "Waiting for delivery",
+      completed: currentStatus === 'completed',
+      status: 'completed'
     },
   ]
 
@@ -82,7 +88,7 @@ const OrderStatus = () => {
                       </h3>
                       {step.completed && (
                         <span className="px-3 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-                          Completed
+                          {step.status === currentStatus ? 'Active' : 'Completed'}
                         </span>
                       )}
                     </div>
@@ -92,14 +98,6 @@ const OrderStatus = () => {
                     }`}>
                       {step.description}
                     </p>
-                    
-                    {step.time && (
-                      <p className={`mt-2 text-sm ${
-                        step.completed ? 'text-green-600 font-medium' : 'text-gray-400'
-                      }`}>
-                        {step.time}
-                      </p>
-                    )}
                   </div>
                 </div>
               </div>

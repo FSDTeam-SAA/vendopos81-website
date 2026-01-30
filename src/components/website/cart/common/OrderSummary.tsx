@@ -28,10 +28,10 @@ const OrderSummary = ({ subtotal, shipping, tax, total, setIsModalOpen }: Props)
 
       <div className="flex justify-between font-semibold mt-4">
         <span>Total</span>
-        <span>${total}</span>
+        <span>${Math.round(total * 100) / 100}</span>
       </div>
 
-      <button onClick={()=>setIsModalOpen(true)} className="w-full mt-6 bg-green-600 text-white py-3 rounded-lg">
+      <button onClick={()=>setIsModalOpen(true)} className="w-full mt-6 bg-primary text-white py-3 rounded-lg">
         Order now
       </button>
     </div>
