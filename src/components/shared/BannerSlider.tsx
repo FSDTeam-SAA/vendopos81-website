@@ -11,28 +11,28 @@ const slides = [
     title: "Your Favourite Food Delivered Hot & Fresh",
     description:
       "The World on Your Shelf. From Every Continent to Your Business.",
-    image: "/images/bannerimage.png",
+    image: "/images/banner.jpg",
     accentColor: "#3BB77E",
     bgPattern:
-      "bg-[radial-gradient(circle_at_30%_50%,rgba(59,183,126,0.1)_0%,transparent_50%)]",
+      "bg-[radial-gradient(circle_at_30%_50%,rgba(59,183,126,0.1)_0%,transparent_50%)] rounded-2xl" ,
   },
   {
     title: "Fresh Groceries at Your Doorstep",
     description:
       "Premium quality fruits, vegetables and daily essentials delivered fresh.",
-    image: "/images/bannerimage.png",
+    image: "/images/banner2.jpg",
     accentColor: "#F74B81",
     bgPattern:
-      "bg-[radial-gradient(circle_at_30%_50%,rgba(247,75,129,0.1)_0%,transparent_50%)]",
+      "bg-[radial-gradient(circle_at_30%_50%,rgba(247,75,129,0.1)_0%,transparent_50%)] rounded-2xl",
   },
   {
     title: "Special Discounts Up to 50% Off",
     description:
       "Limited time offers on your favorite products. Don't miss out!",
-    image: "/images/bannerimage.png",
+    image: "/images/banner3.jpeg",
     accentColor: "#FFB74D",
     bgPattern:
-      "bg-[radial-gradient(circle_at_30%_50%,rgba(255,183,77,0.1)_0%,transparent_50%)]",
+      "bg-[radial-gradient(circle_at_30%_50%,rgba(255,183,77,0.1)_0%,transparent_50%)] rounded-2xl",
   },
 ];
 
@@ -199,7 +199,7 @@ const BannerSlider = () => {
                 alt={slide.title}
                 fill
                 priority
-                className="object-contain filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-transform duration-500 hover:scale-105"
+                className="object-contain rounded-3xl object-cover  filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-transform duration-500 hover:scale-105"
               />
             </motion.div>
           </motion.div>

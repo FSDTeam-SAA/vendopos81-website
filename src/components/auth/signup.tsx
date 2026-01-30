@@ -178,7 +178,7 @@ function onSubmit(values: FormValues) {
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full rounded-full hover:bg-gray-800 text-white font-semibold py-2.5 mt-2"
+              className="w-full rounded-full hover:bg-primary/80 text-white font-semibold py-2.5 mt-2"
             >
               {isPending ? "Creating Account..." : "Sign Up"}
             </Button>
