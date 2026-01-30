@@ -26,7 +26,7 @@ const Navbar = () => {
         }
       } else {
         // Near top: Always show header
-          console.log('test 3')
+          // console.log('test 3')
 
         setIsVisible(true);
       }

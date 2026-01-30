@@ -1,39 +1,46 @@
+"use client"
+
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { useOrder } from '@/lib/hooks/useOrder'
+import { Order, OrderItem } from '@/lib/types/orderSuccess'
+
+
 
 const OrderItems = () => {
-  const orderItems = [
-    {
-      id: 1,
-      name: "Wireless Headphones Pro",
-      quantity: 1,
-      price: 199.99,
-    },
-    {
-      id: 2,
-      name: "Smart Watch Ultra",
-      quantity: 1,
-      price: 399.99,
-    },
-    {
-      id: 3,
-      name: "Portable Speaker",
-      quantity: 1,
-      price: 89.99,
-    },
-  ]
-
-  const subtotal = orderItems.reduce((sum, item) => sum + item.price, 0)
-  const shipping = 0
-  const tax = 0
-  const total = subtotal + shipping + tax
+  const { data: orderResponse, isLoading } = useOrder({ page: 1, limit: 10 })
+  
+  // Get the latest order (assuming first in the array)
+  const orders = orderResponse?.data || []
+  const latestOrder = orders[0] as Order
+  
+  const orderItems = latestOrder?.items || []
+  const subtotal = latestOrder?.totalPrice || 0
+  const total = subtotal 
+  const currency = 'USD' // Defaulting to USD as it's not in the Order type from orderSuccess.ts
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD',
+      currency: currency,
     }).format(amount)
+  }
+
+  if (isLoading) {
+    return <div className="p-10 text-center">Loading order items...</div>
+  }
+
+  if (!latestOrder) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Card className="shadow-lg">
+          <CardContent className="p-10 text-center text-gray-500">
+            No recent orders found.
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -45,14 +52,14 @@ const OrderItems = () => {
         <CardContent className="p-6">
           {/* Order Items List */}
           <div className="space-y-6 mb-8">
-            {orderItems.map((item) => (
-              <div key={item.id} className="flex justify-between items-start pb-6 border-b">
+            {orderItems.map((item: OrderItem, index: number) => (
+              <div key={index} className="flex justify-between items-start pb-6 border-b">
                 <div>
-                  <h3 className="font-semibold text-gray-900">{item.name}</h3>
+                  <h3 className="font-semibold text-gray-900">{item.product?.title || 'Product'}</h3>
                   <p className="text-sm text-gray-500 mt-1">Quantity: {item.quantity}</p>
                 </div>
                 <p className="font-semibold text-gray-900">
-                  {formatCurrency(item.price)}
+                  {formatCurrency(item.unitPrice)}
                 </p>
               </div>
             ))}
@@ -64,18 +71,8 @@ const OrderItems = () => {
           {/* Order Summary */}
           <div className="space-y-4">
             <div className="flex justify-between">
-              <span className="text-gray-600">Subtotal</span>
-              <span className="font-medium">{formatCurrency(subtotal)}</span>
-            </div>
-            
-            <div className="flex justify-between">
-              <span className="text-gray-600">Shipping</span>
-              <span className="font-medium text-green-600">FREE</span>
-            </div>
-            
-            <div className="flex justify-between">
-              <span className="text-gray-600">Tax</span>
-              <span className="font-medium">{formatCurrency(tax)}</span>
+              <span className="text-gray-600">Total Price</span>
+              <span className="font-medium text-lg">{formatCurrency(total)}</span>
             </div>
 
             {/* Divider before total */}

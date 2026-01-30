@@ -22,28 +22,35 @@ import { OrderList } from "@/lib/types/order"
 interface OrderHistoryPresenterProps {
   data: OrderList
   columns: any[]
+  totalPages: number
+  currentPage: number
+  onPageChange: (page: number) => void
+  onFilterChange: (filter: { paymentStatus?: string; orderStatus?: string }) => void
+  currentFilters: { paymentStatus?: string; orderStatus?: string }
 }
 
-const OrderHistoryPresenter = ({ data, columns }: OrderHistoryPresenterProps) => {
+const OrderHistoryPresenter = ({ 
+  data, 
+  columns, 
+  totalPages, 
+  currentPage, 
+  onPageChange, 
+  onFilterChange,
+  currentFilters 
+}: OrderHistoryPresenterProps) => {
   const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [statusFilter, setStatusFilter] = useState<string | null>(null)
-
-  const filteredData = statusFilter ? data.filter((order) => order.paymentStatus === statusFilter) : data
 
   const table = useReactTable({
-    data: filteredData,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    // getPaginationRowModel removed for server-side pagination
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
-      columnFilters,
     },
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
   })
 
   return (
@@ -57,8 +64,6 @@ const OrderHistoryPresenter = ({ data, columns }: OrderHistoryPresenterProps) =>
 
         {/* Status Filters */}
         <div className="flex items-center gap-3">
-       
-
           <div className="flex gap-2">
             {[
               { label: "Unpaid", value: "unpaid", color: "text-red-500" },
@@ -66,9 +71,11 @@ const OrderHistoryPresenter = ({ data, columns }: OrderHistoryPresenterProps) =>
             ].map((filter) => (
               <button
                 key={filter.value}
-                onClick={() => setStatusFilter(statusFilter === filter.value ? null : filter.value)}
+                onClick={() => onFilterChange({ 
+                  paymentStatus: currentFilters.paymentStatus === filter.value ? undefined : filter.value 
+                })}
                 className={`text-xs font-medium px-3 py-1 rounded transition-colors ${
-                  statusFilter === filter.value ? `${filter.color} bg-gray-100` : `${filter.color} hover:bg-gray-50`
+                  currentFilters.paymentStatus === filter.value ? `${filter.color} bg-gray-100` : `${filter.color} hover:bg-gray-50`
                 }`}
               >
                 {filter.label}
@@ -124,33 +131,87 @@ const OrderHistoryPresenter = ({ data, columns }: OrderHistoryPresenterProps) =>
                 ))}
               </TableRow>
             ))}
+            {data.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No orders found.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
 
       {/* Pagination */}
       <div className="flex items-center justify-between mt-6">
-        <p className="text-gray-600 text-sm">
-          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+        <p className="text-gray-600 text-sm font-medium">
+          Showing <span className="text-gray-900">{data.length}</span> orders on page <span className="text-gray-900">{currentPage}</span> of <span className="text-gray-900">{totalPages}</span>
         </p>
-        <div className="flex gap-2">
+        
+        <div className="flex items-center gap-1">
+          {/* Previous Button */}
           <Button
-            variant="outline"
+            variant="ghost"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="border-gray-300 text-gray-700"
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage <= 1}
+            className="hover:bg-gray-100 text-gray-700 h-9 w-9 p-0"
           >
-            Previous
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
           </Button>
+
+          {/* Page Numbers */}
+          <div className="flex items-center gap-1">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+              // Show logic (e.g., first, last, and around current)
+              if (
+                totalPages <= 7 ||
+                page === 1 ||
+                page === totalPages ||
+                (page >= currentPage - 1 && page <= currentPage + 1)
+              ) {
+                return (
+                  <Button
+                    key={page}
+                    variant={currentPage === page ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => onPageChange(page)}
+                    className={`h-9 w-9 p-0 text-sm rounded-md transition-all duration-200 ${
+                      currentPage === page 
+                        ? "bg-[#086646] text-white hover:bg-[#06553a] shadow-sm transform scale-105" 
+                        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                    }`}
+                  >
+                    {page}
+                  </Button>
+                )
+              } else if (
+                (page === 2 && currentPage > 4) ||
+                (page === totalPages - 1 && currentPage < totalPages - 3)
+              ) {
+                return (
+                  <span key={page} className="px-2 text-gray-400">
+                    ...
+                  </span>
+                )
+              }
+              return null
+            })}
+          </div>
+
+          {/* Next Button */}
           <Button
-            variant="outline"
+            variant="ghost"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="border-gray-300 text-gray-700"
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage >= totalPages}
+            className="hover:bg-gray-100 text-gray-700 h-9 w-9 p-0"
           >
-            Next
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </Button>
         </div>
       </div>

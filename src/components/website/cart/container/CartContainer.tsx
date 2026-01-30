@@ -26,8 +26,8 @@ const CartContainer = () => {
 
   // Calculate totals
   const subtotal = calculateCartTotal(cartItems);
-  const shipping = 5; 
-  const tax = subtotal * 0.13; 
+  const shipping = 2; 
+  const tax = Math.round(subtotal * 0.13 * 100) / 100; // Round to 2 decimal places
   const total = subtotal + shipping + tax;
 
   if (isLoading) return <div className="p-10 text-center">Loading cart...</div>;
@@ -88,7 +88,7 @@ const CartContainer = () => {
     }
 
     if (formData.paymentMethod === "cod") {
-      router.push("/user/orders");
+      router.push("/payment/success");
     }
   },
 

@@ -5,14 +5,37 @@ import { createColumnHelper, type ColumnDef } from "@tanstack/react-table"
 import OrderHistoryPresenter from "./OrderHistoryPresenter"
 import { Badge } from "@/components/ui/badge"
 import { useOrder } from "@/lib/hooks/useOrder"
-import { Order, OrderList } from "@/lib/types/order"
+
 import OrderDetailsModal from "./OrderDetailsModal"
+import { Order } from "@/lib/types/orderSuccess"
 
 const OrderHistoryContainer = () => {
   const columnHelper = createColumnHelper<Order>()
-  const { data: orderData, isLoading, error } = useOrder("true", "false")
+  const [params, setParams] = useState({
+    page: 1,
+    limit: 10000,
+    paymentStatus: undefined as string | undefined,
+    orderStatus: undefined as string | undefined,
+  })
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 6
+
+  const { data: orderResponse, isLoading, error } = useOrder(params)
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage)
+  }
+
+  const handleFilterChange = (filter: { paymentStatus?: string; orderStatus?: string }) => {
+    setParams((prev) => ({ 
+      ...prev, 
+      paymentStatus: filter.paymentStatus,
+      orderStatus: filter.orderStatus 
+    }))
+    setCurrentPage(1) // Reset to first page when filtering
+  }
 
   const handleViewOrder = (order: Order) => {
     setSelectedOrder(order)
@@ -21,9 +44,12 @@ const OrderHistoryContainer = () => {
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor("orderUniqueId", {
+      columnHelper.accessor("_id", {
         header: "Invoice",
-        cell: (info) => <span className="text-gray-900 font-medium">{info.getValue()}</span>,
+        cell: (info) => {
+          const id = info.getValue()
+          return <span className="text-gray-900 font-medium">ORD-{id.slice(-8).toUpperCase()}</span>
+        },
       }),
       columnHelper.accessor("items", {
         header: "Items",
@@ -80,18 +106,29 @@ const OrderHistoryContainer = () => {
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Something went wrong</p>
 
-  // Ensure data is treated as an array of orders
-  // Based on api/order.ts, it returns res.data. 
-  // If res.data is the array, then orderData is the array. 
-  // If res.data has a data property, then it's orderData.data.
-  // The useOrder hook returns useQuery result. 
-  // The queryFn returns res.data.
-  // Safe check for array.
-  const data: OrderList = Array.isArray(orderData) ? orderData : (orderData?.data || [])
+  const allOrders = orderResponse?.data || []
+  const totalPages = Math.ceil(allOrders.length / itemsPerPage)
+  
+  // Custom pagination slicing
+  const displayedOrders = allOrders.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
 
   return (
     <>
-      <OrderHistoryPresenter data={data} columns={columns} />
+      <OrderHistoryPresenter 
+        data={displayedOrders} 
+        columns={columns}
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+        onFilterChange={handleFilterChange}
+        currentFilters={{
+          paymentStatus: params.paymentStatus,
+          orderStatus: params.orderStatus
+        }}
+      />
       <OrderDetailsModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 

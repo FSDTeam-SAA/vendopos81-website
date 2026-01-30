@@ -136,15 +136,15 @@ const Footer = () => {
             <ul className="space-y-4">
               <li>
                 <Link
-                  href="/vendor"
+                  href="/driver"
                   className="text-gray-600 hover:text-primary transition-colors"
                 >
-                  Become a Vendor
+                  Become a Driver
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/supplier"
+                  href="/vendor"
                   className="text-gray-600 hover:text-primary transition-colors"
                 >
                   Became a Supplier
