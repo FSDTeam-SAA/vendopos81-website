@@ -8,7 +8,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
-import { Order } from "@/lib/types/order"
+import { Order, OrderItem } from "@/lib/types/orderSuccess"
+
 
 interface OrderDetailsModalProps {
   isOpen: boolean
@@ -37,7 +38,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }: OrderDetailsModalProps) =
               </Badge>
           </div>
           <DialogDescription>
-             Invoice ID: <span className="font-medium text-gray-900">{order.orderUniqueId}</span>
+             Invoice ID: <span className="font-medium text-gray-900">ORD-{order._id.slice(-8).toUpperCase()}</span>
           </DialogDescription>
         </DialogHeader>
 
@@ -65,31 +66,31 @@ const OrderDetailsModal = ({ isOpen, onClose, order }: OrderDetailsModalProps) =
             <div>
               <h4 className="font-medium mb-3">Items</h4>
               <div className="space-y-3">
-                {order.items.map((item, index) => (
+                {order.items.map((item: OrderItem, index: number) => (
                   <div key={index} className="flex justify-between items-start text-sm">
                     <div className="flex-1">
-                      <p className="font-medium text-gray-900">{item.name || "Product Name Unavailable"}</p>
+                      <p className="font-medium text-gray-900">{item.product?.title || "Product Name Unavailable"}</p>
                       <p className="text-gray-500 text-xs">Qty: {item.quantity}</p>
                     </div>
                     <p className="font-medium text-gray-900">
-                      ${item.price?.toFixed(2)}
+                      ${(item.unitPrice || item.unitPrice || 0).toFixed(2)}
                     </p>
                   </div>
                 ))}
               </div>
             </div>
 
-             <hr className="my-4 border-gray-200" />
+            <hr className="my-4 border-gray-200" />
 
             {/* Billing Info */}
              <div>
               <h4 className="font-medium mb-2">Billing Information</h4>
               <div className="text-sm text-gray-600">
-                <p className="font-medium text-gray-900">{order.billingInfo.name}</p>
-                <p>{order.billingInfo.email}</p>
-                <p>{order.billingInfo.phone}</p>
-                <p>{order.billingInfo.address}</p>
-                <p>{order.billingInfo.city}</p>
+                <p className="font-medium text-gray-900">{order.billingInfo?.name}</p>
+                <p>{order.billingInfo?.email}</p>
+                <p>{order.billingInfo?.phone}</p>
+                <p>{order.billingInfo?.address}</p>
+                <p>{order.billingInfo?.city}</p>
               </div>
             </div>
 
@@ -98,7 +99,7 @@ const OrderDetailsModal = ({ isOpen, onClose, order }: OrderDetailsModalProps) =
             {/* Total */}
             <div className="flex justify-between items-center pt-2">
               <span className="font-bold text-gray-900">Total Amount</span>
-              <span className="font-bold text-xl text-primary">
+              <span className="font-bold text-xl text-[#086646]">
                 ${order.totalPrice?.toFixed(2)}
               </span>
             </div>

@@ -1,8 +1,33 @@
+'use client'
 import { Button } from "@/components/ui/button";
+import { useOrder } from "@/lib/hooks/useOrder";
+import { generateInvoicePDF } from "@/lib/utils/invoice";
+import { Order } from "@/lib/types/orderSuccess";
+
 import { Check } from "lucide-react";
 import React from "react";
 
 const OrderTrackAndInvoice = () => {
+  const { data: orderResponse } = useOrder({ page: 1, limit: 10000 });
+  const orders = orderResponse?.data || [];
+  const latestOrder = orders[0] as Order;
+
+  const orderNumber = latestOrder?._id ? `ORD-${latestOrder._id.slice(-8).toUpperCase()}` : "ORD-0000-00000";
+  const orderDate = latestOrder?.purchaseDate 
+    ? new Date(latestOrder.purchaseDate).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    : "Date not available";
+
+  const handleDownloadInvoice = () => {
+    if (latestOrder) {
+      generateInvoicePDF(latestOrder);
+    }
+  };
+
   return (
     <section className="">
       <div className=" container mx-auto my-8 shadow-2xl ">
@@ -24,11 +49,11 @@ const OrderTrackAndInvoice = () => {
             <div className="grid grid-cols-2 gap-10 mx-auto my-5">
           <div  className="bg-[#F9FAFB] py-3 px-5">
             <p>Order Number</p>
-            <p>ORD-2024-41235</p>
+            <p>{orderNumber}</p>
           </div>
           <div className="bg-[#F9FAFB] py-3 px-5">
             <p>Order Date</p>
-            <p>Thursday, December 25, 2025</p>
+            <p>{orderDate}</p>
           </div>
 
             </div>
@@ -36,7 +61,11 @@ const OrderTrackAndInvoice = () => {
                 <Button>
                     Track Order
                 </Button>
-                <Button className="bg-white text-secondary-foreground border-2 hover:bg-white/80">
+                <Button 
+                  onClick={handleDownloadInvoice}
+                  disabled={!latestOrder}
+                  className="bg-white text-secondary-foreground border-2 hover:bg-white/80"
+                >
                     Download Invoice
                 </Button>
                 <Button  className="bg-white text-secondary-foreground border-2 hover:bg-white/80">

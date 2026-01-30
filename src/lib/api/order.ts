@@ -2,9 +2,19 @@
 import { CreateOrderData, paymentData } from "../types/order";
 import api from "./api";
 
-export async function order(paid: string, unpaid: string) {
+export async function order(params: {
+  page?: number;
+  limit?: number;
+  orderStatus?: string;
+  paymentStatus?: string;
+} = {}) {
   try {
-    const res = await api.get(`/order/my-orders?paid=${paid}&unpaid=${unpaid}`);
+    const { page = 1, limit = 5, orderStatus, paymentStatus } = params;
+    let url = `/order/my-orders?page=${page}&limit=${limit}`;
+    if (orderStatus) url += `&orderStatus=${orderStatus}`;
+    if (paymentStatus) url += `&paymentStatus=${paymentStatus}`;
+    
+    const res = await api.get(url);
     return res.data;
   } catch (error) {
     if (error instanceof Error) {

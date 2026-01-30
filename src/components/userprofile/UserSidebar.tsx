@@ -33,8 +33,9 @@ const UserSidebar = () => {
             <div className="relative w-24 h-24">
               <Image
                 src={profileData?.image?.url || "/images/no.jpg"}
-                alt={profileData?.firstName}
+                alt={profileData?.firstName|| 'User Avatar'}
                 fill
+              
                 className="rounded-full object-cover border-4 border-white shadow-lg"
               />
               {/* Verified Badge */}
