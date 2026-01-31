@@ -192,7 +192,7 @@ const BannerSlider = () => {
                 ease: "easeOut" as const,
                 delay: 0.2,
               }}
-              className="relative w-full aspect-[4/3] lg:aspect-auto h-[250px] sm:h-[350px] lg:h-[500px]"
+              className="relative w-full aspect-4/3 lg:aspect-auto h-[250px] sm:h-[350px] lg:h-[500px]"
             >
               <Image
                 src={slide.image}
