@@ -183,7 +183,6 @@ export const authService = {
 
 export async function FeatureProduct(params?: ProductParams) {
   try {
-
     const query = new URLSearchParams();
 
     if (params?.search) query.append("search", params.search);
@@ -194,7 +193,15 @@ export async function FeatureProduct(params?: ProductParams) {
     if (params?.minPrice) query.append("minPrice", String(params.minPrice));
     if (params?.maxPrice) query.append("maxPrice", String(params.maxPrice));
     if (params?.categorySlug) query.append("categorySlug", params.categorySlug);
-      console.log('url 1',query.toString())
+    if (params?.originCountry) query.append("originCountry", params.originCountry);
+    if (params?.country) query.append("country", params.country);
+    if (params?.unit) query.append("unit", params.unit);
+    if (params?.isHalal !== undefined) query.append("isHalal", String(params.isHalal));
+    if (params?.isOrganic !== undefined) query.append("isOrganic", String(params.isOrganic));
+    if (params?.isFrozen !== undefined) query.append("isFrozen", String(params.isFrozen));
+    if (params?.isKosher !== undefined) query.append("isKosher", String(params.isKosher));
+
+    console.log('url 1', query.toString());
     const url = `/product/all${query.toString() ? `?${query}` : ""}`;
 
     const res = await api.get(url);
@@ -216,6 +223,17 @@ export async function subcription(email:string ) {
     console.log('hello')
     if (err instanceof Error) {
       throw new Error(err.message || "fail to register ");
+    }
+  }
+}
+
+export async function addReview(data: { orderId: string; productId: string; rating: number; comment: string }) {
+  try {
+    const res = await api.post(`/review/add-review`, data);
+    return res.data;
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message || "Failed to add review");
     }
   }
 }

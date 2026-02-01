@@ -63,6 +63,7 @@ const WishlistPresenterComponent = () => {
       },
     },
   }
+  console.log('whish list',wishlistItems)
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },

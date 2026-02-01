@@ -4,10 +4,17 @@ export type ProductParams = {
   region?: string;
   page?: number;
   limit?: number;
+  country?: string;
   productType?: string;
   minPrice?: number | string;
   maxPrice?: number | string;
   categorySlug?: string;
+  originCountry?: string;
+  unit?: string;
+  isHalal?: boolean | string;
+  isOrganic?: boolean | string;
+  isFrozen?: boolean | string;
+  isKosher?: boolean | string;
 };
 
 // Image Interface
