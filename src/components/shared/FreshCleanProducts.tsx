@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
 import { MoveRightIcon } from "lucide-react";
+import Link from "next/link";
 
 interface Data {
   image: string;
@@ -31,7 +32,8 @@ const FreshCleanProducts = ({ data }: { data: Data }) => {
           >
             {data.tittle}
           </h2>
-
+          <Link href={'/shop'}>
+          
           <Button
             className=" w-fit bg-[#3BB77E] hover:bg-[#2add89]
             text-white rounded-sm 
@@ -40,6 +42,7 @@ const FreshCleanProducts = ({ data }: { data: Data }) => {
             Shop Now
             <MoveRightIcon className="ml-2 h-4 w-4" />
           </Button>
+          </Link>
         </div>
 
         {/* IMAGE */}

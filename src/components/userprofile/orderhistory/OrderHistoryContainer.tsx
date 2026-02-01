@@ -7,7 +7,9 @@ import { Badge } from "@/components/ui/badge"
 import { useOrder } from "@/lib/hooks/useOrder"
 
 import OrderDetailsModal from "./OrderDetailsModal"
+import ReviewModal from "./ReviewModal"
 import { Order } from "@/lib/types/orderSuccess"
+import { Button } from "@/components/ui/button"
 
 const OrderHistoryContainer = () => {
   const columnHelper = createColumnHelper<Order>()
@@ -23,6 +25,7 @@ const OrderHistoryContainer = () => {
   const { data: orderResponse, isLoading, error } = useOrder(params)
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
@@ -40,6 +43,11 @@ const OrderHistoryContainer = () => {
   const handleViewOrder = (order: Order) => {
     setSelectedOrder(order)
     setIsModalOpen(true)
+  }
+
+  const handleReviewOrder = (order: Order) => {
+    setSelectedOrder(order)
+    setIsReviewModalOpen(true)
   }
 
   const columns = useMemo(
@@ -66,6 +74,19 @@ const OrderHistoryContainer = () => {
         header: "Amount",
         cell: (info) => <span className="text-gray-900 font-medium">${info.getValue()?.toFixed(2)}</span>,
       }),
+      columnHelper.display({
+        id: "review",
+        header: "Review",
+        cell: (info) => (
+          <Button
+            className="cursor-pointer"
+            onClick={() => handleReviewOrder(info.row.original)}
+          >
+            Review
+          </Button>
+        ),
+      }),
+      ,
       columnHelper.accessor("paymentStatus", {
         header: "Status",
         cell: (info) => {
@@ -133,6 +154,11 @@ const OrderHistoryContainer = () => {
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         order={selectedOrder} 
+      />
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        order={selectedOrder}
       />
     </>
   )

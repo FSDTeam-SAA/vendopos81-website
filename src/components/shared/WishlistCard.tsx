@@ -43,7 +43,7 @@ const WishlistCard = ({ data, onAddToCart, onRemove }: WishlistCardProps) => {
   const handleRemove = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onRemove(productId);
+    onRemove(product._id);
   };
 
   const productDetailUrl = `/shop/${productId}`;

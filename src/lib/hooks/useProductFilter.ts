@@ -27,6 +27,12 @@ export function useProductFilter(initialFilters?: ProductParams) {
     },
     setPage: (page: number) => {
         setFilters(prev => ({ ...prev, page }));
+    },
+    setCountry: (country: string | null) => {
+        setFilters(prev => ({ ...prev, country: country || undefined, originCountry: country || undefined }));
+    },
+    setFilterAttribute: <K extends keyof ProductParams>(key: K, value: ProductParams[K]) => {
+        setFilters(prev => ({ ...prev, [key]: value }));
     }
   };
 }

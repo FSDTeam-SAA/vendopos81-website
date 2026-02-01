@@ -36,3 +36,10 @@ export type ReviewResponse = {
   statusCode: number;
   data: Review[];
 };
+
+export type AddReviewInput = {
+  orderId: string;
+  productId: string;
+  rating: number;
+  comment: string;
+};
