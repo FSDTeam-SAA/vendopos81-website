@@ -18,6 +18,7 @@ interface HeadShowFilterProps {
   onFilterChange?: (filters: string[]) => void;
   onRegionChange?: (region: string | null) => void;
   onProductTypeChange?: (type: string | null) => void;
+  onOriginCountryChange?: (country: string | null) => void;
   onClearFilters?: () => void;
   showBreadcrumb?: boolean;
   breadcrumbItems?: { label: string; href: string }[];
@@ -29,6 +30,7 @@ const HeadShowFilter: React.FC<HeadShowFilterProps> = ({
   onFilterChange,
   onRegionChange,
   onProductTypeChange,
+  onOriginCountryChange,
   showBreadcrumb = true,
   breadcrumbItems = [
      { label: 'Home', href: '/' },
@@ -38,7 +40,7 @@ const HeadShowFilter: React.FC<HeadShowFilterProps> = ({
 }) => {
  
   // Aggregate all active filters for display
-  const activeChips: { id: string; type: 'category' | 'region' | 'productType'; value: string; label: string }[] = [];
+  const activeChips: { id: string; type: 'category' | 'region' | 'productType' | 'originCountry'; value: string; label: string }[] = [];
 
   if (query.categorySlug) {
     query.categorySlug.split(',').forEach(slug => {
@@ -54,6 +56,10 @@ const HeadShowFilter: React.FC<HeadShowFilterProps> = ({
     activeChips.push({ id: `type-${query.productType}`, type: 'productType', value: query.productType, label: query.productType });
   }
 
+  if (query.originCountry) {
+    activeChips.push({ id: `country-${query.originCountry}`, type: 'originCountry', value: query.originCountry, label: query.originCountry });
+  }
+
   const handleRemoveChip = (chip: typeof activeChips[0]) => {
     if (chip.type === 'category') {
       const newCategories = query.categorySlug?.split(',').filter(s => s !== chip.value) || [];
@@ -62,6 +68,8 @@ const HeadShowFilter: React.FC<HeadShowFilterProps> = ({
       if (onRegionChange) onRegionChange(null);
     } else if (chip.type === 'productType') {
       if (onProductTypeChange) onProductTypeChange(null);
+    } else if (chip.type === 'originCountry') {
+      if (onOriginCountryChange) onOriginCountryChange(null);
     }
   };
 

@@ -5,6 +5,9 @@ import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { useMutation } from "@tanstack/react-query";
+import { subcription } from "@/lib/api/api";
+import { toast } from "sonner";
 
 const slides = [
   {
@@ -39,7 +42,28 @@ const slides = [
 const BannerSlider = () => {
   const [index, setIndex] = useState(0);
   const [[page, direction], setPage] = useState([0, 0]);
+  const [email, setEmail] = useState("");
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const subscriptionMutation = useMutation({
+    mutationKey: ["subscription"],
+    mutationFn: (email: string) => subcription(email),
+    // If you have your own toast implementation
+    onSuccess: () => {
+      setEmail("");
+      toast.success("You have been subscribed to our newsletter.");
+    },
+    onError: (error: Error) => {
+      toast.error(error?.message || "Unable to subscribe. Please try again.");
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      subscriptionMutation.mutate(email);
+    }
+  };
 
   const paginate = useCallback(
     (newDirection: number) => {
@@ -171,15 +195,29 @@ const BannerSlider = () => {
                 className="relative max-w-md sm:max-w-xl group"
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-transparent rounded-full blur opacity-0 group-focus-within:opacity-100 transition duration-500" />
-                <div className="relative flex bg-white rounded-full overflow-hidden border border-gray-100 backdrop-blur-sm">
+                <form
+                  onSubmit={handleSubmit}
+                  className="relative flex bg-white rounded-full overflow-hidden border border-gray-100 backdrop-blur-sm"
+                >
                   <input
+                    type="email"
                     placeholder="Your Email Address"
-                    className="flex-1 px-4 sm:px-8 py-3 sm:py-5 outline-none text-sm sm:text-base text-gray-700 bg-transparent"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={subscriptionMutation.isPending}
+                    className="flex-1 px-4 sm:px-8 py-3 sm:py-5 outline-none text-sm sm:text-base text-gray-700 bg-transparent disabled:opacity-50"
+                    required
                   />
-                  <Button className="rounded-full px-4 sm:px-8 h-auto text-sm sm:text-base bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all duration-300">
-                    Subscribe
+                  <Button
+                    type="submit"
+                    disabled={subscriptionMutation.isPending}
+                    className="rounded-full px-4 sm:px-8 h-auto text-sm sm:text-base bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all duration-300 disabled:opacity-50 cursor-pointer"
+                  >
+                    {subscriptionMutation.isPending
+                      ? "Subscribing..."
+                      : "Subscribe"}
                   </Button>
-                </div>
+                </form>
               </motion.div>
             </motion.div>
 

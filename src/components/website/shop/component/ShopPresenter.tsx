@@ -20,7 +20,9 @@ interface Props {
   onCategoryChange: (v: string[]) => void;
   onPriceChange: (v: [number, number]) => void;
   onRegionChange: (v: string | null) => void;
+  onOriginCountryChange: (v: string | null) => void;
   onProductTypeChange: (v: string | null) => void;
+  onAttributeChange: <K extends keyof ProductParams>(key: K, value: ProductParams[K]) => void;
   query: ProductParams;
 }
 
@@ -30,7 +32,9 @@ const ShopPresenter = ({
   onCategoryChange,
   onPriceChange,
   onRegionChange,
+  onOriginCountryChange,
   onProductTypeChange,
+  onAttributeChange,
   query,
 }: Props) => {
   const gridVariants = {
@@ -47,6 +51,7 @@ const ShopPresenter = ({
         query={query}
         onFilterChange={onCategoryChange}
         onRegionChange={onRegionChange}
+        onOriginCountryChange={onOriginCountryChange}
         onProductTypeChange={onProductTypeChange}
       />
 
@@ -58,6 +63,7 @@ const ShopPresenter = ({
             onPriceChange={onPriceChange}
             onRegionChange={onRegionChange}
             onProductTypeChange={onProductTypeChange}
+            onAttributeChange={onAttributeChange}
             query={query}
           />
         </aside>
