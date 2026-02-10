@@ -47,9 +47,9 @@ const OrderStatus = () => {
   ]
 
   return (
-    <div className=" container mx-auto bg-gray-50 flex items-center justify-center p-4">
+    <div className=" container mx-auto bg-[#FFFFFF] px-5 lg:px-0   flex items-center justify-center   shadow-md rounded-xl">
       <div className="m w-full">
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+        <div className="bg-white rounded-2xl p-6 md:p-8">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
             Order Status
           </h1>

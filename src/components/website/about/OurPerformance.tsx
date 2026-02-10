@@ -8,19 +8,19 @@ interface PerformanceCard {
 const OurPerformance = () => {
   const performanceCards: PerformanceCard[] = [
     {
-      title: "Who we are",
+      title: "Who We Are",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore in some form",
+        "Vendo Food Distribution is a technology-driven B2B marketplace bridging the gap between specialty food suppliers and businesses across Canada.",
     },
     {
-      title: "Our history",
+      title: "Our Model",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore in some form",
+        "We operate on a supplier-direct model, ensuring real-time inventory accuracy and transparent pricing for every order placed on our platform.",
     },
     {
-      title: "Our mission",
+      title: "Our Mission",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore in some form",
+        "To empower food businesses by streamlining multicultural sourcing through innovative digital solutions and reliable logistics.",
     },
   ]
 
@@ -54,19 +54,16 @@ const OurPerformance = () => {
               <p className="text-sm md:text-base font-semibold text-gray-600 mb-2 uppercase tracking-wide">
                 Our performance
               </p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 text-balance mb-4">
-                Your Partner for e-commerce grocery solution
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 text-balance mb-6">
+                Your Partner for E-Commerce Grocery Solutions
               </h2>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                Quisque a quam. Sed ut justo. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                More than a marketplace, we are your technology and distribution partner, helping you streamline sourcing, reduce operational friction, and scale your business.
               </p>
             </div>
 
             <p className="text-gray-600 text-base leading-relaxed">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur
-              excepteur sint occaecat cupidatat non proident. Sunt in culpa qui officia deserunt mollit anim id est
-              laborum.
+              At Vendo Food Distribution, we recognize that sourcing is one of the most significant challenges for food businesses. That&apos;s why we&apos;ve built a system that integrates technology and logistics to provide a seamless experience from supplier to store.
             </p>
           </div>
         </div>

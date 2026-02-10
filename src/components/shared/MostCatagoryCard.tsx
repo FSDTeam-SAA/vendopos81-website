@@ -10,7 +10,7 @@ const MostCatagoryCard = ({ data }: { data: TopRatedProduct }) => {
 
   return (
     <Link
-      href={`/shop?productType=${data._id}`}
+      href={`/shop/${data._id}`}
       className="flex items-center gap-3 sm:gap-4 group w-full"
     >
       {/* IMAGE */}

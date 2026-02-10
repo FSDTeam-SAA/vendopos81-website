@@ -155,8 +155,8 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="text-center text-gray-500 text-sm">
-          <p>© 2025 Logoipsum. All rights reserved.</p>
+        <div className="text-center text-[#6C757D] text-sm font-normal leading-[150%] bg-[#f9fff9]">
+          <p>© {new Date().getFullYear()} Logoipsum. All rights reserved.</p>
         </div>
       </div>
     </footer>

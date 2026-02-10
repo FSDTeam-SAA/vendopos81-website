@@ -154,9 +154,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
             By <span className="font-medium text-lg text-primary">{product?.supplierId?.brandName}</span>
           </p>
 
-          <div className="mt-4 flex items-center justify-between gap-2">
+          <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-2">
             <div className="flex items-baseline gap-2 flex-wrap">
-              <h4 className="text-lg font-bold text-primary">
+              <h4 className="text-lg  font-bold text-primary">
                 ${displayPrice || "N/A"}
               </h4>
               {displayPrice && (
@@ -168,7 +168,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
             <Button
               onClick={handleAddToCart}
-              className="flex items-center gap-1 rounded-lg bg-[#DEF9EC] px-3 py-1.5 text-xs md:text-sm font-bold text-primary hover:bg-primary hover:text-white transition-colors border-none shadow-none"
+              className="flex items-center w-full md:w-auto gap-1 rounded-lg bg-[#DEF9EC] px-3 py-1.5 text-xs md:text-sm font-bold text-primary hover:bg-primary hover:text-white transition-colors border-none shadow-none"
             >
               <ShoppingCart size={14} />
               Add

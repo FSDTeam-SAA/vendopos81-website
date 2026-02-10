@@ -19,26 +19,28 @@ interface PersonalInformationPresenterProps {
   onSubmit: (data: PersonalInformationFormData) => void;
   isLoading?: boolean;
   profile?: ProfileResponse;
+  onDiscard: () => void;
 }
 
 const PersonalInformationPresenter = ({
   form,
   onSubmit,
   isLoading = false,
-  profile
+  profile,
+  onDiscard,
 }: PersonalInformationPresenterProps) => {
   // console.log('profile edit data',profile)
   const profileData=profile?.data;
   return (
-    <div className="flex-1 bg-white rounded-lg border border-gray-200 p-8">
+    <div className="flex-1 h-full bg-white rounded-lg border border-gray-200 p-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
-            Personal Information
+            Edit Personal Information
           </h1>
           <p className="text-gray-600 text-sm mt-1">
-            Manage your personal information and profile details.
+            Update your personal details below.
           </p>
         </div>
       </div>
@@ -211,51 +213,13 @@ const PersonalInformationPresenter = ({
             />
           </div>
 
-          {/* Email (Read-only if needed) */}
-          {/* <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-gray-700 font-medium">
-                  Email Address (Read-only)
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="bessieedwards@gmail.com"
-                    {...field}
-                    defaultValue={profile?.email || ""}
-                    readOnly
-                    className="border-gray-300 bg-gray-50 focus:border-teal-600 focus:ring-teal-600"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
-
           {/* Action Buttons */}
           <div className="flex gap-4 pt-6">
             <Button
               type="button"
               variant="outline"
               className="border-gray-300 text-gray-700 hover:bg-gray-50 bg-transparent"
-              onClick={() => {
-                // Reset form to original profile values
-                if (profileData) {
-                  form.reset({
-                    firstName: profileData.firstName || "",
-                    lastName: profileData.lastName || "",
-                    // email: profileData.email || "",
-                    location: profileData.location || "",
-                    postalCode: profileData.postalCode || "",
-                    street: profileData.street || "",
-                    phone: profileData.phone || "",
-                    image: null, // Reset image file input
-                  });
-                }
-              }}
+              onClick={onDiscard}
             >
               Discard Changes
             </Button>

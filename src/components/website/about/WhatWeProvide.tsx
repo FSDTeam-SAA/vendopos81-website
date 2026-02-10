@@ -12,37 +12,37 @@ const WhatWeProvide = () => {
       icon: "images/about/provide1.svg",
       title: "Best Prices & Offers",
       description:
-        "There are many variations of passages of lorem ipsum dolor sit amet, consectetur adipiscing in some form",
+        "We work directly with trusted suppliers to bring you competitive B2B pricing, volume discounts, and exclusive offers-helping you protect margins and stay profitable.",
     },
     {
       icon: "images/about/provide2.svg",
       title: "Wide Assortment",
       description:
-        "There are many variations of passages of lorem ipsum dolor sit amet, consectetur adipiscing in some form",
+        "Access a diverse catalog of African, Haitian, Caribbean, Latino, Canadian, and Mediterranean products from multiple suppliers, all in one place.",
     },
     {
       icon: "images/about/provide3.svg",
-      title: "Free Delivery",
+      title: "Reliable Delivery",
       description:
-        "There are many variations of passages of lorem ipsum dolor sit amet, consectetur adipiscing in some form",
+        "Get fast, dependable delivery options designed for business needs, with clear lead times and order tracking from supplier to store.",
     },
     {
       icon: "images/about/provide4.svg",
       title: "Easy Returns",
       description:
-        "There are many variations of passages of lorem ipsum dolor sit amet, consectetur adipiscing in some form",
+        "Our return process is simple and transparent. Approved returns are handled efficiently to minimize disruption to your operations.",
     },
     {
       icon: "images/about/provide5.svg",
       title: "100% Satisfaction",
       description:
-        "There are many variations of passages of lorem ipsum dolor sit amet, consectetur adipiscing in some form",
+        "We are committed to reliability, accuracy, and service quality so you can order with confidence every time.",
     },
     {
       icon: "images/about/provide6.svg",
-      title: "Great Daily Deal",
+      title: "Great Daily Deals",
       description:
-        "There are many variations of passages of lorem ipsum dolor sit amet, consectetur adipiscing in some form",
+        "Take advantage of daily promotions and special deals on selected products to maximize value and manage costs effectively.",
     },
   ]
 
@@ -63,7 +63,7 @@ const WhatWeProvide = () => {
             >
               {/* Icon Container */}
               <div className="text-5xl md:text-6xl p-4 bg-white rounded-full group-hover:scale-110 transition-transform duration-300">
-                <Image src={service.icon}  width={100} height={100} alt="icon"/>
+                <Image src={service.icon} width={80} height={80} alt="icon" className="w-12 h-12 md:w-16 md:h-16" />
               </div>
 
               {/* Title */}
@@ -74,6 +74,7 @@ const WhatWeProvide = () => {
             </div>
           ))}
         </div>
+
       </div>
     </section>
   )

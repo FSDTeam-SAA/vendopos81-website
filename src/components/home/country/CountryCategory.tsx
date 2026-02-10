@@ -30,7 +30,6 @@ const CountryCategory = () => {
     }
   };
 
-
   // Touch & Drag support
   useEffect(() => {
     const el = scrollRef.current;
@@ -61,7 +60,8 @@ const CountryCategory = () => {
 
     // Touch events
     let startTouchX: number | null = null;
-    const onTouchStart = (e: TouchEvent) => (startTouchX = e.touches[0].clientX);
+    const onTouchStart = (e: TouchEvent) =>
+      (startTouchX = e.touches[0].clientX);
     const onTouchMove = (e: TouchEvent) => {
       if (startTouchX === null) return;
       const delta = startTouchX - e.touches[0].clientX;
@@ -86,9 +86,11 @@ const CountryCategory = () => {
   }, [isDragging, startX, scrollLeft]);
 
   if (isLoading) return null;
+  if (!countryData || countryData.length === 0) return null;
 
   return (
     <section className="overflow-hidden my-10 container mx-auto ">
+
       <div className="relative  mx-auto">
         {/* Navigation Buttons */}
         <button
@@ -119,7 +121,7 @@ const CountryCategory = () => {
               "linear-gradient(270deg, #F9FFF9 15.79%, rgba(255, 255, 255, 0.00) 100%)",
           }}
         ></div>
- {/* <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none"></div>
+        {/* <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none"></div>
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none"></div> */}
         {/* Scrollable Container */}
         <div

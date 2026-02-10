@@ -121,28 +121,34 @@ const Navitems = () => {
                       <SelectLabel className="text-lg font-semibold px-4 py-2 text-center block w-full">
                         All Categories
                       </SelectLabel>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3 p-3">
-                        {categories?.map((item: Category) => (
-                          <SelectItem
-                            key={item._id}
-                            value={item.productType}
-                            textValue={item.productType}
-                            className="p-3 cursor-pointer flex flex-col-reverse justify-center rounded-xl hover:bg-primary/10 hover:text-primary transition-all duration-200 focus:bg-primary/10 focus:text-primary border border-gray-100 hover:border-primary/30 hover:scale-[1.02] [&>span:first-child]:hidden"
-                            displayContent={
-                              <div className="flex mx-auto flex-col items-center justify-center gap-2 text-center w-full">
-                                <Image
-                                  className="object-cover rounded-lg max-w-12 mx-auto max-h-12"
-                                  src={item.productImage.url}
-                                  alt={item.productType}
-                                  width={48}
-                                  height={48}
-                                />
-                              </div>
-                            }
-                          >
-                            {item.productType}
-                          </SelectItem>
-                        ))}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 p-3">
+                        {categories?.length > 0 ? (
+                          categories?.map((item: Category) => (
+                            <SelectItem
+                              key={item._id}
+                              value={item.productType}
+                              textValue={item.productType}
+                              className="p-3 cursor-pointer flex flex-col-reverse justify-center rounded-xl hover:bg-primary/10 hover:text-primary transition-all duration-200 focus:bg-primary/10 focus:text-primary border border-gray-100 hover:border-primary/30 hover:scale-[1.02] [&>span:first-child]:hidden"
+                              displayContent={
+                                <div className="flex mx-auto flex-col items-center justify-center gap-2 text-center w-full">
+                                  <Image
+                                    className="object-cover rounded-lg max-w-10 sm:max-w-12 mx-auto max-h-10 sm:max-h-12"
+                                    src={item?.productImage?.url}
+                                    alt={item.productType}
+                                    width={48}
+                                    height={48}
+                                  />
+                                </div>
+                              }
+                            >
+                              <span className="text-xs sm:text-sm font-medium">{item.productType}</span>
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <div className="col-span-full py-8 text-center text-gray-500 font-medium">
+                            You have no category
+                          </div>
+                        )}
                       </div>
                     </SelectGroup>
                   </SelectContent>
@@ -160,13 +166,13 @@ const Navitems = () => {
                   </SelectTrigger>
                   <SelectContent
                     position="popper"
-                    className="max-h-[400px] w-[300px] md:w-[450px] lg:w-[600px] overflow-y-auto mt-2 bg-white border-gray-100 shadow-xl rounded-xl p-2"
+                    className="max-h-[400px] w-[calc(100vw-2rem)] sm:w-[500px] md:w-[600px] overflow-y-auto mt-2 bg-white border-gray-100 shadow-xl rounded-xl p-2"
                   >
                     <SelectGroup>
                       <SelectLabel className="text-gray-400 text-xs font-bold uppercase tracking-wider px-3 py-2">
                         Select Country
                       </SelectLabel>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-1">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
                         {COUNTRIES.map((item, index) => (
                           <SelectItem
                             key={index}
@@ -175,7 +181,7 @@ const Navitems = () => {
                           >
                             <div className="flex items-center gap-2">
                               <div className="w-1.5 h-1.5 rounded-full bg-primary/30 group-data-[state=checked]:bg-primary" />
-                              <span className="truncate font-medium">
+                              <span className="truncate font-medium text-sm">
                                 {item.name}
                               </span>
                             </div>
