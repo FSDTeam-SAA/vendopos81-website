@@ -21,7 +21,7 @@ const PersonalDataShow = ({ onSetEdit, edit }: EditProps) => {
   const profile = data?.data || session?.user
  console.log('user profile',profile)
   return (
-    <div className="flex-1 bg-white rounded-lg border border-gray-200 p-8">
+    <div className="flex-1 h-full bg-white rounded-lg border border-gray-200 p-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -63,8 +63,8 @@ const PersonalDataShow = ({ onSetEdit, edit }: EditProps) => {
         {/* Meta */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoItem label="Role" value={profile?.role} />
-          <InfoItem label="Verified" value={profile?.isVerified ? "Yes" : "No"} />
-          <InfoItem label="Suspended" value={profile?.isSuspended ? "Yes" : "No"} />
+          {/* <InfoItem label="Verified" value={profile?.isVerified ? "Yes" : "No"} /> */}
+          {/* <InfoItem label="Suspended" value={profile?.isSuspended ? "Yes" : "No"} /> */}
         </div>
       </div>
     </div>

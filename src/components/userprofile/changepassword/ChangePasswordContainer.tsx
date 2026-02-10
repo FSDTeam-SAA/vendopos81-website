@@ -49,6 +49,7 @@ const ChangePasswordContainer = () => {
       form={form}
       onSubmit={onSubmit}
       isLoading={isPending}
+      onDiscard={() => form.reset()}
     />
   );
 };

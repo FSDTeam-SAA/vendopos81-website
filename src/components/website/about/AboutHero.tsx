@@ -21,19 +21,26 @@ const AboutHero = () => {
           {/* Right side - Content */}
           <div className="flex flex-col gap-6 md:gap-8">
             <div>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 text-balance">
-                Welcome to Nest
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 text-balance">
+                About Us
               </h1>
-              <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempore incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat.
-              </p>
-              <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-                laborum.
-              </p>
+              <div className="space-y-4 text-gray-600 text-base md:text-lg leading-relaxed">
+                <p>
+                  Vendo Food Distribution is a division of Vendo Group, created to simplify and modernize how food businesses source products. Our B2B online ordering platform allows store owners, restaurants, and specialty markets to purchase a wide range of food products from multiple suppliers all in one place.
+                </p>
+                <p>
+                  We offer a carefully curated selection of African, Haitian, Caribbean, Latino, Canadian, and Mediterranean foods, designed to meet the growing demand for authentic and specialty products across Canada. Instead of dealing with multiple vendors, phone calls, and manual orders, buyers can access everything through a single, easy-to-use digital platform.
+                </p>
+                <p>
+                  Our marketplace operates on a supplier-direct model, meaning products are listed directly by approved suppliers using a real-time inventory system. This ensures accurate availability, transparent pricing, and faster order fulfillment, giving buyers confidence and control when placing orders.
+                </p>
+                <p>
+                  Our platform is built to scale, helping businesses grow efficiently without increasing operational complexity.
+                </p>
+                <p>
+                  At Vendo Food Distribution, we help food businesses save time, reduce sourcing challenges, and access diverse products-by bringing technology, logistics, and multicultural food sourcing together into one powerful B2B marketplace.
+                </p>
+              </div>
             </div>
 
             {/* Image Gallery */}

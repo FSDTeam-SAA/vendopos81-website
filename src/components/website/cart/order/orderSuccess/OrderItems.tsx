@@ -44,7 +44,7 @@ const OrderItems = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 ">
+    <div className="container mx-auto px-4 lg:px-0 py-8 ">
       <Card className="shadow-lg">
         <CardHeader className="border-b">
           <CardTitle className="text-2xl font-bold">Order Items</CardTitle>

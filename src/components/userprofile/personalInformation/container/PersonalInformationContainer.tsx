@@ -11,7 +11,11 @@ import { useGetProfile, useUpdateProfile } from "@/lib/hooks/profile"
 import { useSession } from "next-auth/react"
 import { useQueryClient } from "@tanstack/react-query"
 
-const PersonalInformationContainer = () => {
+interface ContainerProps {
+  onSetEdit: (edit: boolean) => void;
+}
+
+const PersonalInformationContainer = ({ onSetEdit }: ContainerProps) => {
   const { data } = useGetProfile()
   const { data: session } = useSession()
   const {mutate, isPending}=useUpdateProfile();
@@ -68,6 +72,7 @@ const form = useForm<PersonalInformationFormData>({
         queryclient.invalidateQueries({
           queryKey:['profile']
         })
+        onSetEdit(false);
       },
       onError: () => {
         toast.error("Error", {
@@ -77,7 +82,7 @@ const form = useForm<PersonalInformationFormData>({
     })
   }
 
-  return <PersonalInformationPresenter form={form} onSubmit={onSubmit} isLoading={isPending} profile={profile} />
+  return <PersonalInformationPresenter form={form} onSubmit={onSubmit} isLoading={isPending} profile={profile} onDiscard={() => onSetEdit(false)} />
 }
 
 export default PersonalInformationContainer

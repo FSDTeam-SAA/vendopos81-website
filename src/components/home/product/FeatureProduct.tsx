@@ -29,7 +29,7 @@ if (error) {
   const productData = data?.data || [];
    console.log('product Data',productData)
   return (
-    <section className="my-10 md:my-12 xl:my-16">
+    <section className="my-10 md:my-12 xl:my-16 px-5 lg:px-0">
       <div className="container mx-auto">
         <div className="mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -44,7 +44,7 @@ if (error) {
             <p className="text-gray-400 mt-2">Check back later for new products</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-6">
             {productData.map((item: Product) => (
               <ProductCard key={item._id} product={item} />
             ))}

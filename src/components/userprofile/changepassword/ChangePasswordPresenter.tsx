@@ -11,9 +11,10 @@ interface ChangePasswordPresenterProps {
   form: UseFormReturn<ChangePasswordFormData>
   onSubmit: (data: ChangePasswordFormData) => void
   isLoading?: boolean
+  onDiscard: () => void
 }
 
-const ChangePasswordPresenter = ({ form, onSubmit, isLoading = false }: ChangePasswordPresenterProps) => {
+const ChangePasswordPresenter = ({ form, onSubmit, isLoading = false, onDiscard }: ChangePasswordPresenterProps) => {
   const [showPasswords, setShowPasswords] = useState({
     current: false,
     new: false,
@@ -200,6 +201,7 @@ const ChangePasswordPresenter = ({ form, onSubmit, isLoading = false }: ChangePa
               type="button"
               variant="outline"
               className="border-gray-300 text-gray-700 hover:bg-gray-50 bg-transparent"
+              onClick={onDiscard}
             >
               Discard Changes
             </Button>
