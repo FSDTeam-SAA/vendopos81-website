@@ -254,6 +254,33 @@ const NavHeader = () => {
                 </div>
               </div>
 
+
+                
+              {/* Main Navigation Links */}
+              <div className=" space-y-2 ">
+                {/* <p className="text-xs font-bold text-gray-400 uppercase tracking-widest px-3 mb-2">Navigation</p> */}
+                {NAV_ITEMS.map((item, index) => {
+                  const isActive = pathname === item.link;
+                  return (
+                    <Link
+                      href={item.link}
+                      key={index}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`relative block p-3 rounded-lg font-medium transition-colors ${
+                        isActive
+                          ? "bg-primary/5 text-primary"
+                          : "hover:bg-gray-50 text-gray-700"
+                      }`}
+                    >
+                      {item.name}
+                      {isActive && (
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+
               {/* Navigation Links */}
               <nav className="space-y-4">
                 <DropdownMenu>
@@ -323,7 +350,7 @@ const NavHeader = () => {
                   </Link>
                 ) : (
                   <Link href="/login">
-                    <button className="flex items-center justify-between bg-primary text-white w-full p-3 rounded-sm hover:bg-primary/90 transition-colors">
+                    <button className="flex items-center justify-between  text-gray-700 w-full p-3 rounded-sm hover:bg-primary transition-colors">
                       <span className="font-medium">Login</span>
                       {/* <UserRound size={20} /> */}
                     </button>
@@ -331,30 +358,6 @@ const NavHeader = () => {
                 )}
               </nav>
 
-              {/* Main Navigation Links */}
-              <div className=" space-y-2 ">
-                {/* <p className="text-xs font-bold text-gray-400 uppercase tracking-widest px-3 mb-2">Navigation</p> */}
-                {NAV_ITEMS.map((item, index) => {
-                  const isActive = pathname === item.link;
-                  return (
-                    <Link
-                      href={item.link}
-                      key={index}
-                      onClick={() => setIsMenuOpen(false)}
-                      className={`relative block p-3 rounded-lg font-medium transition-colors ${
-                        isActive
-                          ? "bg-primary/5 text-primary"
-                          : "hover:bg-gray-50 text-gray-700"
-                      }`}
-                    >
-                      {item.name}
-                      {isActive && (
-                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" />
-                      )}
-                    </Link>
-                  );
-                })}
-              </div>
 
               {/* Additional Links */}
               {/* <div className="pt-4 border-t space-y-3">

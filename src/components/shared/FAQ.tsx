@@ -14,45 +14,45 @@ const FAQ = () => {
   const faqs: FAQItem[] = [
     {
       id: "faq-1",
-      question: "Is there a free trial available?",
+      question: "How do I create a business account?",
       answer:
-        "Yes, you can try us for free for 30 days. If you want, we will provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.",
+        "Click 'Sign Up' to register your food business. You'll need to provide valid business details. Once approved, you can start ordering immediately.",
     },
     {
       id: "faq-2",
-      question: "Can I change my plan later?",
+      question: "Is there a minimum order requirement?",
       answer:
-        "Of course! You can change or cancel your plan at any time. Changes will take effect at the next billing cycle.",
+        "Minimum order quantities (MOQ) or values are determined by each individual supplier. These details are clearly listed on product pages and in your cart.",
     },
     {
       id: "faq-3",
-      question: "What is your cancellation policy?",
+      question: "Can I order from multiple suppliers in one go?",
       answer:
-        "We offer a 30-day money-back guarantee on all our plans. If you are not satisfied with our service, you can cancel anytime and receive a full refund.",
+        "Absolutely. Our platform allows you to shop from multiple vendors in a single checkout session, simplifying your procurement process.",
     },
     {
       id: "faq-4",
-      question: "Can other info be added to an invoice?",
+      question: "How are shipping rates calculated?",
       answer:
-        "Yes, you can customize your invoices with additional information such as company details, purchase order numbers, and payment terms.",
+        "Shipping rates vary based on the supplier's location, your delivery address, and the total weight/volume of the order. You'll see the exact cost at checkout.",
     },
     {
       id: "faq-5",
-      question: "How does billing work?",
+      question: "What is your return policy for damaged goods?",
       answer:
-        "We offer monthly and annual billing options. You will be charged based on your selected plan, and you can manage your billing information at any time in your account settings.",
+        "If you receive damaged or incorrect items, please report it through our support portal within 24 hours of delivery. We work with suppliers to resolve issues quickly.",
     },
     {
       id: "faq-6",
-      question: "How do I change my account email?",
+      question: "Do you offer credit terms for businesses?",
       answer:
-        'You can change your email address in your account settings under "Email and Password". Make sure to verify your new email address before confirming the change.',
+        "We offer flexible payment terms for qualified businesses. Please contact our finance team after registration to apply for credit verification.",
     },
   ]
 
   return (
     <section className="w-full py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 text-balance">

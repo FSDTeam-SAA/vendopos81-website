@@ -1,18 +1,12 @@
 "use client";
+import { useEffect } from "react";
 import ProductCard from "@/components/shared/productCard";
 import HeadShowFilter from "../common/HeadShowFilter";
 import SidebarFilter from "../common/SidebarFilter";
 import { motion } from "framer-motion";
 
 import { Product, ProductParams } from "@/lib/types/product";
-
-// const CATEGORIES = [
-//   { id: '1', label: 'Cabbage', value: 'cabbage' },
-//   { id: '2', label: 'Broccoli', value: 'broccoli' },
-//   { id: '3', label: 'Artichoke', value: 'artichoke' },
-//   { id: '4', label: 'Celery', value: 'celery' },
-//   { id: '5', label: 'Spinach', value: 'spinach' },
-// ];
+import Pagination from "@/components/wishlist/common/Pagination";
 
 interface Props {
   products: Product[];
@@ -23,7 +17,14 @@ interface Props {
   onOriginCountryChange: (v: string | null) => void;
   onProductTypeChange: (v: string | null) => void;
   onAttributeChange: <K extends keyof ProductParams>(key: K, value: ProductParams[K]) => void;
+  onPageChange: (page: number) => void;
   query: ProductParams;
+  metaData: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPage: number;
+  };
 }
 
 const ShopPresenter = ({
@@ -35,16 +36,30 @@ const ShopPresenter = ({
   onOriginCountryChange,
   onProductTypeChange,
   onAttributeChange,
+  onPageChange,
   query,
+  metaData,
 }: Props) => {
   const gridVariants = {
-    hidden: {},
+    hidden: { opacity: 0 },
     show: {
+      opacity: 1,
       transition: {
-        staggerChildren: 0.12,
+        staggerChildren: 0.1,
+        duration: 0.5,
       },
     },
   };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 50, damping: 20 } },
+  };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [metaData.page]);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <HeadShowFilter
@@ -75,44 +90,42 @@ const ShopPresenter = ({
             <p className="text-gray-500 text-sm font-medium mb-4 sm:mb-0">
               We found{" "}
               <span className="text-primary font-bold">
-                {products?.length || 0}
+                {metaData?.total || 0}
               </span>{" "}
               items for you!
             </p>
-            {/* 
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-500 hidden sm:inline">Show:</span>
-                        <select className="border-gray-200 text-sm rounded-lg focus:ring-primary focus:border-primary p-2 bg-white text-gray-700">
-                            <option>50</option>
-                            <option>100</option>
-                            <option>All</option>
-                        </select>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                         <span className="text-sm text-gray-500 hidden sm:inline">Sort by:</span>
-                        <select className="border-gray-200 text-sm rounded-lg focus:ring-primary focus:border-primary p-2 bg-white text-gray-700 min-w-[120px]">
-                            <option>Featured</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                            <option>Rating</option>
-                        </select>
-                    </div>
-                </div> */}
           </div>
 
           {/* Product Grid */}
           <motion.div
+            key={metaData.page} // Forces re-animation on page change
             variants={gridVariants}
             initial="hidden"
             animate="show"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           >
             {products?.map((item) => (
-              <ProductCard key={item._id} product={item} />
+              <motion.div
+                key={item._id}
+                variants={itemVariants}
+                className="h-full"
+              >
+                <ProductCard product={item} />
+              </motion.div>
             ))}
           </motion.div>
+          
+          <div className="mt-8">  
+            {metaData?.totalPage > 1 && (
+              <Pagination
+                currentPage={metaData.page}
+                totalPages={metaData.totalPage}
+                onPageChange={onPageChange}
+                itemsPerPage={metaData.limit}
+                totalItems={metaData.total}
+              />
+            )}
+          </div>
 
           {/* Empty State */}
           {!loading && products?.length === 0 && (

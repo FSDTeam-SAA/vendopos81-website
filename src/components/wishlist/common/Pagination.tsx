@@ -15,14 +15,14 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
   totalItems,
-  itemsPerPage = 10,
+  itemsPerPage = 12,
 }) => {
   // Generate page numbers to display
   const getPageNumbers = () => {
-    const delta = 1; // Number of pages to show on each side of current page
+    const delta = 1; 
     const range: number[] = [];
     const rangeWithDots: (number | string)[] = [];
-    let l: number;
+
 
     for (let i = 1; i <= totalPages; i++) {
       if (
@@ -36,15 +36,16 @@ const Pagination: React.FC<PaginationProps> = ({
 
     range.forEach((i, index) => {
       const previous = range[index - 1];
-      if (i === 2 && previous === 1) {
-        rangeWithDots.push(i);
-      } else if (i - previous === 2) {
-        rangeWithDots.push(previous! + 1);
-      } else if (i - previous! > 2) {
-        rangeWithDots.push("...");
+      if (previous) {
+        if (i - previous === 2) {
+          rangeWithDots.push(previous + 1);
+        } else if (i - previous > 2) {
+          rangeWithDots.push("...");
+        }
       }
       rangeWithDots.push(i);
     });
+    
 
     return rangeWithDots;
   };

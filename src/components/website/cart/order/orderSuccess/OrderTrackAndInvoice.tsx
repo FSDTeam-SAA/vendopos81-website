@@ -30,7 +30,7 @@ const OrderTrackAndInvoice = () => {
 
   return (
     <section className="">
-      <div className=" container mx-auto my-8 shadow-2xl ">
+      <div className=" container mx-auto my-8 shadow-md    ">
         <div
           className="flex flex-col items-center text-center gap-3 p-6 rounded-t-xl
   bg-[linear-gradient(90deg,#00C950_0%,#00A63E_100%)] text-white"
@@ -45,8 +45,8 @@ const OrderTrackAndInvoice = () => {
             Thank you for your purchase. Your order has been confirmed.
           </h5>
         </div>
-        <div className="rounded-b-xl p-8">
-            <div className="grid grid-cols-2 gap-10 mx-auto my-5">
+        <div className="rounded-b-xl p-8 bg-white px-5 lg:px-0  ">
+            <div className="grid grid-cols-2 gap-10 mx-auto px-5  my-5">
           <div  className="bg-[#F9FAFB] py-3 px-5">
             <p>Order Number</p>
             <p>{orderNumber}</p>
@@ -57,7 +57,7 @@ const OrderTrackAndInvoice = () => {
           </div>
 
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:grid-cols-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-5  lg:grid-cols-2">
                 <Button>
                     Track Order
                 </Button>
@@ -68,9 +68,7 @@ const OrderTrackAndInvoice = () => {
                 >
                     Download Invoice
                 </Button>
-                <Button  className="bg-white text-secondary-foreground border-2 hover:bg-white/80">
-                    Email Receipt
-                </Button>
+            
             </div>
         </div>
       </div>

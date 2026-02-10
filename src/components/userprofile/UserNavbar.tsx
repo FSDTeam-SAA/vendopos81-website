@@ -5,12 +5,24 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useState } from "react";
+
 interface UserNavbarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
 }
 
 const UserNavbar = ({ activeTab, setActiveTab }: UserNavbarProps) => {
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const navItems = [
     { label: "Profile", id: "personal" },
     { label: "Change Password", id: "password" },
@@ -52,13 +64,41 @@ const UserNavbar = ({ activeTab, setActiveTab }: UserNavbarProps) => {
                 {item.label}
               </button>
             ))}
-            <Button 
-              variant="ghost" 
-              className="text-red-500 hover:text-red-600 cursor-pointer hover:bg-red-50"
-              onClick={handleLogout}
-            >
-              Log Out
-            </Button>
+            
+            <Dialog open={isLogoutModalOpen} onOpenChange={setIsLogoutModalOpen}>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  className="text-gray-700 hover:text-red-600 cursor-pointer hover:bg-red-50"
+                >
+                  Log Out
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle className="text-xl font-bold">Confirm Logout</DialogTitle>
+                  <DialogDescription className="text-gray-500 pt-2">
+                    Are you sure you want to log out of your account? You will need to sign in again to access your profile.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="flex gap-3 sm:gap-0 mt-6">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setIsLogoutModalOpen(false)}
+                    className="flex-1 sm:flex-none"
+                  >
+                    Cancel
+                  </Button>
+                  <Button 
+                    variant="destructive" 
+                    onClick={handleLogout}
+                    className="flex-1 sm:flex-none bg-red-600 hover:bg-red-700"
+                  >
+                    Logout
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
 
           {/* Mobile Menu */}

@@ -21,10 +21,10 @@ const UserSidebar = () => {
   const profileData: UserProfile = data?.data || userInfo;
   console.log("profile phone number", profileData.phone);
   return (
-    <aside className="w-full max-w-sm">
-      <div className="bg-white rounded-lg overflow-hidden border border-gray-200">
+    <div className="w-full max-w-sm h-full rounded-lg overflow-hidden border  border-gray-200">
+      <div className=" ">
         {/* Header Background */}
-        <div className="h-24 bg-primary"></div>
+        <div className="h-24 bg-[#09714E]"></div>
 
         {/* Profile Section */}
         <div className="px-6 pb-6">
@@ -57,18 +57,18 @@ const UserSidebar = () => {
 
           {/* Name */}
           <h2 className="text-center font-semibold text-gray-900 text-lg mb-1">
-            {profileData.firstName} {profileData.lastName}{" "}
+            {profileData.firstName}{" "}{profileData.lastName}
           </h2>
-          <p className="text-center text-gray-600 text-sm mb-6">
-            ID: {userInfo.id}
-          </p>
+          {/* <p className="text-center text-gray-600 text-sm mb-6">
+            ID: {userInfo.id} 
+          </p> */}
 
           {/* Info Items */}
           <div className="space-y-4 border-t border-gray-200 pt-6">
             {[
               {
                 label: "Name:",
-                value: profileData.firstName + profileData.lastName,
+                value: profileData.firstName + " " + profileData.lastName,
               },
               { label: "Email:", value: profileData.email },
               { label: "Phone:", value: profileData.phone },
@@ -87,7 +87,7 @@ const UserSidebar = () => {
           </div>
         </div>
       </div>
-    </aside>
+    </div>
   );
 };
 
