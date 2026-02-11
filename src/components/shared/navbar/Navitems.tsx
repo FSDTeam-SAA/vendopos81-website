@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -11,28 +12,16 @@ import {
 } from "@/components/ui/select";
 import { useCategoryData } from "@/lib/hooks/useCategory";
 import { Category } from "@/lib/types/category";
-import { ArrowDown, ChevronDown, LayoutList, MapPin } from "lucide-react";
+import { ChevronDown, LayoutList, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-
-import React from "react";
 
 const NAV_ITEMS = [
   { name: "Home", link: "/" },
   { name: "Shop", link: "/shop" },
   { name: "About", link: "/about" },
   { name: "Contact", link: "/contact" },
-];
-
-const CATEGORIES = [
-  { name: "Fruits & Vegetables", value: "fruits-vegetables" },
-  { name: "Dairy & Eggs", value: "dairy-eggs" },
-  { name: "Meat & Fish", value: "meat-fish" },
-  { name: "Beverages", value: "beverages" },
-  { name: "Snacks", value: "snacks" },
-  { name: "Bakery", value: "bakery" },
-  { name: "Home & Cleaning", value: "home-cleaning" },
 ];
 
 const COUNTRIES = [
@@ -79,7 +68,9 @@ const COUNTRIES = [
 const Navitems = () => {
   const currentActive = usePathname();
   const route = useRouter();
-  const { data, isLoading, isError } = useCategoryData();
+  const { data } = useCategoryData();
+  const categories =
+    data?.data?.flatMap((region: any) => region.categories) || [];
 
   const handleCategory = (category: string) => {
     route.push(`/shop?productType=${category}`);
@@ -87,7 +78,7 @@ const Navitems = () => {
   const handleCountry = (country: string) => {
     route.push(`/shop?country=${country}`);
   };
-  const categories = data?.data || [];
+
   return (
     <section className="bg-white">
       <div className="container mx-auto px-4 md:px-0">
@@ -123,9 +114,9 @@ const Navitems = () => {
                       </SelectLabel>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 p-3">
                         {categories?.length > 0 ? (
-                          categories?.map((item: Category) => (
+                          categories.map((item: Category, idx: number) => (
                             <SelectItem
-                              key={item._id}
+                              key={`${item.region}-${item.productType}-${idx}`}
                               value={item.productType}
                               textValue={item.productType}
                               className="p-3 cursor-pointer flex flex-col-reverse justify-center rounded-xl hover:bg-primary/10 hover:text-primary transition-all duration-200 focus:bg-primary/10 focus:text-primary border border-gray-100 hover:border-primary/30 hover:scale-[1.02] [&>span:first-child]:hidden"
@@ -141,7 +132,9 @@ const Navitems = () => {
                                 </div>
                               }
                             >
-                              <span className="text-xs sm:text-sm font-medium">{item.productType}</span>
+                              <span className="text-xs sm:text-sm font-medium">
+                                {item.productType}
+                              </span>
                             </SelectItem>
                           ))
                         ) : (
