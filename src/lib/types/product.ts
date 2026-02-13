@@ -106,6 +106,8 @@ export interface Product {
   slug: string;
   shortDescription: string;
   description: string;
+  showOnlyDiscount: number;
+  discountPriceFrom?: number;
   images: ProductImage[];
   productType: string;
   productName: string;

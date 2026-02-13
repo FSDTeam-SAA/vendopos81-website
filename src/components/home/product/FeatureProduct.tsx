@@ -1,33 +1,32 @@
 "use client";
 import ProductCard from "@/components/shared/productCard";
-import { useFetchAllProduct, useFetchFeatureProduct } from "@/lib/hooks/product";
+import { useFetchFeatureProduct } from "@/lib/hooks/product";
 import { Product } from "@/lib/types/product";
-import React from "react";
 import ProductSkeleton from "./ProductSkeleton";
 
 const FeatureProduct = () => {
   const { data, isLoading, error } = useFetchFeatureProduct();
 
   if (isLoading) {
-  return (
-    <div className="grid container mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <ProductSkeleton key={i} />
-      ))}
-    </div>
-  );
-}
+    return (
+      <div className="grid container mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <ProductSkeleton key={i} />
+        ))}
+      </div>
+    );
+  }
 
-if (error) {
-  return (
-    <div className="flex container mx-auto justify-center py-20 text-gray-500">
-      Something went wrong. Please refresh the page.
-    </div>
-  );
-}
-  
+  if (error) {
+    return (
+      <div className="flex container mx-auto justify-center py-20 text-gray-500">
+        Something went wrong. Please refresh the page.
+      </div>
+    );
+  }
+
   const productData = data?.data || [];
-   console.log('product Data',productData)
+
   return (
     <section className="my-10 md:my-12 xl:my-16 px-5 lg:px-0">
       <div className="container mx-auto">
@@ -40,8 +39,12 @@ if (error) {
 
         {productData.length === 0 ? (
           <div className="text-center py-10">
-            <h3 className="text-lg font-medium text-gray-500">No products found</h3>
-            <p className="text-gray-400 mt-2">Check back later for new products</p>
+            <h3 className="text-lg font-medium text-gray-500">
+              No products found
+            </h3>
+            <p className="text-gray-400 mt-2">
+              Check back later for new products
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-6">
