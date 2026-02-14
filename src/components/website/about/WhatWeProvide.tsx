@@ -47,11 +47,13 @@ const WhatWeProvide = () => {
   ]
 
   return (
-    <section className="w-full py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="w-full py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-[#f9fff9]">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 text-balance">What We Provide?</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 text-balance">
+            What We Provide?
+          </h2>
         </div>
 
         {/* Service Cards Grid */}
@@ -63,21 +65,30 @@ const WhatWeProvide = () => {
             >
               {/* Icon Container */}
               <div className="text-5xl md:text-6xl p-4 bg-white rounded-full group-hover:scale-110 transition-transform duration-300">
-                <Image src={service.icon} width={80} height={80} alt="icon" className="w-12 h-12 md:w-16 md:h-16" />
+                <Image
+                  src={service.icon}
+                  width={80}
+                  height={80}
+                  alt="icon"
+                  className="w-12 h-12 md:w-16 md:h-16"
+                />
               </div>
 
               {/* Title */}
-              <h3 className="text-lg md:text-xl font-bold text-gray-900">{service.title}</h3>
+              <h3 className="text-lg md:text-xl font-bold text-gray-900">
+                {service.title}
+              </h3>
 
               {/* Description */}
-              <p className="text-gray-600 text-sm md:text-base leading-relaxed">{service.description}</p>
+              <p className="text-gray-600 text-sm md:text-base leading-relaxed">
+                {service.description}
+              </p>
             </div>
           ))}
         </div>
-
       </div>
     </section>
-  )
+  );
 }
 
 export default WhatWeProvide

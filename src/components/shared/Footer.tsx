@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { Button } from "../ui/button";
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -80,14 +79,7 @@ const Footer = () => {
                   Privacy Policy
                 </Link>
               </li>
-              {/* <li>
-                <Link
-                  href="/terms"
-                  className="text-gray-600 hover:text-primary transition-colors"
-                >
-                  Terms & Conditions
-                </Link>
-              </li> */}
+
               <li>
                 <Link
                   href="/contact"
@@ -156,7 +148,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="text-center text-[#6C757D] text-sm font-normal leading-[150%] bg-[#f9fff9]">
-          <p>© {new Date().getFullYear()} Logoipsum. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Vendo Store. All rights reserved.</p>
         </div>
       </div>
     </footer>

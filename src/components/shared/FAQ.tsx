@@ -51,7 +51,7 @@ const FAQ = () => {
   ]
 
   return (
-    <section className="w-full py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="w-full py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-[#f9fff9]">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-16">
@@ -76,7 +76,9 @@ const FAQ = () => {
                 aria-expanded={openId === faq.id}
                 aria-controls={`faq-answer-${faq.id}`}
               >
-                <span className="text-base md:text-lg font-semibold text-gray-900">{faq.question}</span>
+                <span className="text-base md:text-lg font-semibold text-gray-900">
+                  {faq.question}
+                </span>
                 <span
                   className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 font-bold text-lg transition-transform duration-300 ${
                     openId === faq.id ? "rotate-45" : ""
@@ -95,7 +97,9 @@ const FAQ = () => {
                 }`}
               >
                 <div className="px-6 md:px-8 py-4 md:py-5 bg-gray-50 border-t border-gray-200">
-                  <p className="text-gray-600 text-base leading-relaxed">{faq.answer}</p>
+                  <p className="text-gray-600 text-base leading-relaxed">
+                    {faq.answer}
+                  </p>
                 </div>
               </div>
             </div>
@@ -103,7 +107,7 @@ const FAQ = () => {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 export default FAQ
