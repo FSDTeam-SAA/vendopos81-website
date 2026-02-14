@@ -1,15 +1,13 @@
-import Subscription from '@/components/home/Subscription'
-import WishlistCard from '@/components/shared/WishlistCard'
-import WishlistPresenterComponent from '@/components/wishlist/components/WishlistPresenterComponent'
-import React from 'react'
+import Subscription from "@/components/home/Subscription";
+import WishlistPresenterComponent from "@/components/wishlist/components/WishlistPresenterComponent";
 
 const page = () => {
   return (
     <div>
-           <WishlistPresenterComponent />
-           <Subscription />
+      <WishlistPresenterComponent />
+      <Subscription />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
