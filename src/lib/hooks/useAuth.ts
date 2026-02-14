@@ -1,12 +1,15 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-
-
-import { forgetPassword, registerUser, verifyEmail, verifyOtp } from "../api/api";
+import {
+  forgetPassword,
+  getMyProfile,
+  registerUser,
+  verifyEmail,
+  verifyOtp,
+} from "../api/api";
 import { VerifyOtp } from "../types/auth";
-
 
 // useAuth Hook
 // --------------------
@@ -44,3 +47,10 @@ export function useVerifyOtp() {
 }
 //
 
+export function useGetMyProfile(token?: string) {
+  return useQuery({
+    queryKey: ["my-profile"],
+    queryFn: () => getMyProfile({ token: token! }),
+    enabled: !!token,
+  });
+}
