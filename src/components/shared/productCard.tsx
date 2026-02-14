@@ -98,7 +98,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <motion.div
             whileHover={{ scale: 1.2 }} // increased from 1.05 to 1.1
             transition={{ duration: 0.3, ease: "easeOut" }} // slightly longer for smoother effect
-            className="relative mx-auto mt-8 h-48 w-full overflow-hidden rounded-lg"
+            className="relative mx-auto mt-8 h-36 w-full overflow-hidden rounded-lg"
           >
             <Image
               src={productImage}
