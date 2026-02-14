@@ -35,7 +35,6 @@ export default function RootLayout({
       >
         <TanstackProvider>
           <AuthProvider>
-            
             {children}
             <Toaster position="top-right" richColors />
           </AuthProvider>
