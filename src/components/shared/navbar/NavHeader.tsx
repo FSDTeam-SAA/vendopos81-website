@@ -1,16 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useWishlistData } from "@/lib/hooks/wishlist";
 import NavContainer from "@/components/home/nav/NavContainer";
+import { Button } from "@/components/ui/button";
 import { useFetchCartData } from "@/lib/hooks/cart";
-import { Heart, Menu, Search, ShoppingCart, UserRound, X } from "lucide-react";
+import { useWishlistData } from "@/lib/hooks/wishlist";
+import { Heart, Menu, Search, ShoppingCart, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import JoinWithUsDropdown from "../JoinWithUsDropDown";
+import ProfileInfo from "./ProfileInfo";
 
 const NAV_ITEMS = [
   { name: "Home", link: "/" },
@@ -98,19 +99,24 @@ const NavHeader = () => {
               </Link>
 
               {/* Account */}
-              {session ? (
-                <Link href="/profile" className="flex gap-2 items-center">
-                  <UserRound size={20} />
-                  <span>Account</span>
-                </Link>
-              ) : (
-                <Link
-                  href="/login"
-                  className="bg-primary text-white px-4 py-1 rounded-sm"
-                >
-                  Login
-                </Link>
-              )}
+              <div>
+                {session ? (
+                  <Link
+                    title="click to go dashboard"
+                    href="/profile"
+                    className="flex items-center gap-2"
+                  >
+                    <ProfileInfo />
+                  </Link>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="bg-primary text-white px-4 py-1.5 rounded-sm hover:bg-primary/90 transition-colors"
+                  >
+                    Login
+                  </Link>
+                )}
+              </div>
             </div>
 
             {/* Mobile Navbar Icons */}
@@ -171,7 +177,6 @@ const NavHeader = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex justify-between mb-6">
-           
             <button onClick={() => setIsMenuOpen(false)}>
               <X size={20} />
             </button>
@@ -198,19 +203,21 @@ const NavHeader = () => {
             <JoinWithUsDropdown />
           </div>
 
-          <div className="mt-6 space-y-2">
+          <div className="mt-5">
             {session ? (
-              <Link href="/profile" onClick={() => setIsMenuOpen(false)}>
-                <button className="flex items-center justify-between w-full p-3 rounded-lg border border-gray-200 hover:bg-primary/5 transition-colors">
-                  <span className="font-medium text-gray-700">My Account</span>
-                  <UserRound size={20} className="text-gray-600" />
-                </button>
+              <Link
+                title="click to go dashboard"
+                href="/profile"
+                className="flex items-center gap-2"
+              >
+                <ProfileInfo />
               </Link>
             ) : (
-              <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                <button className="flex items-center justify-center w-full p-3 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
-                  <span className="font-medium">Login</span>
-                </button>
+              <Link
+                href="/login"
+                className="bg-primary text-white px-4 py-1.5 rounded-sm hover:bg-primary/90 transition-colors"
+              >
+                Login
               </Link>
             )}
           </div>
