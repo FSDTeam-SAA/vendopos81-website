@@ -1,29 +1,29 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Send } from "lucide-react";
-import React, { useEffect, useState, useCallback, useRef } from "react";
-import { Button } from "../ui/button";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { useMutation } from "@tanstack/react-query";
 import { subcription } from "@/lib/api/api";
+import { useMutation } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { Button } from "../ui/button";
 
 const slides = [
   {
     title: "Your Favourite Food Delivered Hot & Fresh",
     description:
       "The World on Your Shelf. From Every Continent to Your Business.",
-    image: "/images/banner.jpg",
+    image: "/images/bannerImg-1.png",
     accentColor: "#3BB77E",
     bgPattern:
-      "bg-[radial-gradient(circle_at_30%_50%,rgba(59,183,126,0.1)_0%,transparent_50%)] rounded-2xl" ,
+      "bg-[radial-gradient(circle_at_30%_50%,rgba(59,183,126,0.1)_0%,transparent_50%)] rounded-2xl",
   },
   {
-    title: "Fresh Groceries at Your Doorstep",
+    title: "Get fresh Grocery Enjoy health life.",
     description:
       "Premium quality fruits, vegetables and daily essentials delivered fresh.",
-    image: "/images/banner2.jpg",
+    image: "/images/bannerimg.webp",
     accentColor: "#F74B81",
     bgPattern:
       "bg-[radial-gradient(circle_at_30%_50%,rgba(247,75,129,0.1)_0%,transparent_50%)] rounded-2xl",
@@ -32,10 +32,10 @@ const slides = [
     title: "Special Discounts Up to 50% Off",
     description:
       "Limited time offers on your favorite products. Don't miss out!",
-    image: "/images/banner3.jpeg",
+    image: "/images/bannerImg-3.png",
     accentColor: "#FFB74D",
     bgPattern:
-      "bg-[radial-gradient(circle_at_30%_50%,rgba(255,183,77,0.1)_0%,transparent_50%)] rounded-2xl",
+      "bg-[radial-gradient(circle_at_30%_50%,rgba(255,183,77,0.1)_0%,transparent_50%)] h-full rounded-2xl",
   },
 ];
 
@@ -237,7 +237,7 @@ const BannerSlider = () => {
                 alt={slide.title}
                 fill
                 priority
-                className="object-contain rounded-3xl object-cover  filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-transform duration-500 hover:scale-105"
+                className="object-cover"
               />
             </motion.div>
           </motion.div>
@@ -250,7 +250,7 @@ const BannerSlider = () => {
         <div className="absolute left-6 lg:left-12 top-1/2 -translate-y-1/2 z-20">
           <button
             onClick={() => paginate(-1)}
-            className="bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all duration-300 group hover:scale-110 active:scale-95 border border-gray-100"
+            className="bg-white/90 hover:bg-white p-4 rounded-full  transition-all duration-300 group hover:scale-110 active:scale-95 border border-gray-100"
           >
             <ChevronLeft className="w-6 h-6 text-gray-700 group-hover:text-primary transition-colors" />
           </button>
@@ -260,7 +260,7 @@ const BannerSlider = () => {
         <div className="absolute right-6 lg:right-12 top-1/2 -translate-y-1/2 z-20">
           <button
             onClick={() => paginate(1)}
-            className="bg-white/90 hover:bg-white p-4 rounded-full shadow-lg transition-all duration-300 group hover:scale-110 active:scale-95 border border-gray-100"
+            className="bg-white/90 hover:bg-white p-4 rounded-full  transition-all duration-300 group hover:scale-110 active:scale-95 border border-gray-100"
           >
             <ChevronRight className="w-6 h-6 text-gray-700 group-hover:text-primary transition-colors" />
           </button>
