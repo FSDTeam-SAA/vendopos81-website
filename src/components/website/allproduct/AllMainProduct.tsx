@@ -1,36 +1,25 @@
-'use client';
-import ProductSkeleton from '@/components/home/product/ProductSkeleton';
-import ProductCard from '@/components/shared/productCard';
-import { useFetchFeatureProduct } from '@/lib/hooks/product';
-import { Product } from '@/lib/types/mostcatagory';
-import React from 'react'
+"use client";
+import ErrorPage from "@/components/shared/error";
+import LoadingPage from "@/components/shared/Loading";
+import ProductCard from "@/components/shared/productCard";
+import { useFetchFeatureProduct } from "@/lib/hooks/product";
+import { Product } from "@/lib/types/mostcatagory";
 
 const AllMainProduct = () => {
-      const { data, isLoading, error } = useFetchFeatureProduct();
+  const { data, isLoading, error } = useFetchFeatureProduct();
 
   if (isLoading) {
-  return (
-    <div className="grid container mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <ProductSkeleton key={i} />
-      ))}
-    </div>
-  );
-}
+    return <LoadingPage />;
+  }
 
-if (error) {
-  return (
-    <div className="flex container mx-auto justify-center py-20 text-gray-500">
-      Something went wrong. Please refresh the page.
-    </div>
-  );
-}
-  
+  if (error) {
+    return <ErrorPage noNeed={false} />;
+  }
+
   const productData = data?.data || [];
-   console.log('product Data',productData)
+  console.log("product Data", productData);
   return (
-  
- <section className="my-10 md:my-16 xl:my-20">
+    <section className="my-10 md:my-16 xl:my-20">
       <div className="container mx-auto">
         <div className="mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -41,8 +30,12 @@ if (error) {
 
         {productData.length === 0 ? (
           <div className="text-center py-10">
-            <h3 className="text-lg font-medium text-gray-500">No products found</h3>
-            <p className="text-gray-400 mt-2">Check back later for new products</p>
+            <h3 className="text-lg font-medium text-gray-500">
+              No products found
+            </h3>
+            <p className="text-gray-400 mt-2">
+              Check back later for new products
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
@@ -53,8 +46,7 @@ if (error) {
         )}
       </div>
     </section>
+  );
+};
 
-  )
-}
-
-export default AllMainProduct
+export default AllMainProduct;

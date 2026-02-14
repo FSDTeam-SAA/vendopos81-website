@@ -1,28 +1,19 @@
 "use client";
+import ErrorPage from "@/components/shared/error";
+import LoadingPage from "@/components/shared/Loading";
 import ProductCard from "@/components/shared/productCard";
 import { useFetchFeatureProduct } from "@/lib/hooks/product";
 import { Product } from "@/lib/types/product";
-import ProductSkeleton from "./ProductSkeleton";
 
 const FeatureProduct = () => {
   const { data, isLoading, error } = useFetchFeatureProduct();
 
   if (isLoading) {
-    return (
-      <div className="grid container mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <ProductSkeleton key={i} />
-        ))}
-      </div>
-    );
+    return <LoadingPage />;
   }
 
   if (error) {
-    return (
-      <div className="flex container mx-auto justify-center py-20 text-gray-500">
-        Something went wrong. Please refresh the page.
-      </div>
-    );
+    return <ErrorPage noNeed={false} />;
   }
 
   const productData = data?.data || [];
