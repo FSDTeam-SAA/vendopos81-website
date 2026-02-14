@@ -4,12 +4,13 @@ import NavContainer from "@/components/home/nav/NavContainer";
 import { Button } from "@/components/ui/button";
 import { useFetchCartData } from "@/lib/hooks/cart";
 import { useWishlistData } from "@/lib/hooks/wishlist";
-import { Heart, Menu, Search, ShoppingCart, X } from "lucide-react";
+import { Heart, Menu, ShoppingCart, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import AuthModal from "../AuthModal";
 import JoinWithUsDropdown from "../JoinWithUsDropDown";
 import ProfileInfo from "./ProfileInfo";
 
@@ -25,6 +26,7 @@ const NavHeader = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentPage] = useState(1);
   const [searchData, setSearchData] = useState("");
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const pathname = usePathname();
   const { data } = useWishlistData(currentPage);
@@ -33,6 +35,15 @@ const NavHeader = () => {
 
   const wishlist = data?.data?.length || 0;
   const cardLength = cartResponse?.data?.length || 0;
+
+  const handleClick = (path: string) => {
+    if (!session?.accessToken) {
+      setIsAuthModalOpen(true); // modal open
+    } else {
+      // redirect if logged in
+      window.location.href = path;
+    }
+  };
 
   return (
     <>
@@ -79,24 +90,35 @@ const NavHeader = () => {
               <JoinWithUsDropdown />
 
               {/* Wishlist */}
-              <Link href="/wishlist">
-                <div className="relative cursor-pointer">
-                  <Heart size={22} />
+              <div className="flex gap-4">
+                {/* Wishlist */}
+                <div
+                  className="relative cursor-pointer "
+                  onClick={() => handleClick("/wishlist")}
+                >
+                  <Heart size={26} />
                   <span className="absolute -top-2 -right-2 bg-primary text-white text-xs h-5 w-5 rounded-full flex items-center justify-center">
                     {wishlist > 9 ? "9+" : wishlist}
                   </span>
                 </div>
-              </Link>
 
-              {/* Cart */}
-              <Link href="/cart">
-                <div className="relative cursor-pointer">
-                  <ShoppingCart size={22} />
+                {/* Cart */}
+                <div
+                  className="relative cursor-pointer"
+                  onClick={() => handleClick("/cart")}
+                >
+                  <ShoppingCart size={26} />
                   <span className="absolute -top-2 -right-2 bg-primary text-white text-xs h-5 w-5 rounded-full flex items-center justify-center">
                     {cardLength > 9 ? "9+" : cardLength}
                   </span>
                 </div>
-              </Link>
+
+                {/* Auth Modal */}
+                <AuthModal
+                  isOpen={isAuthModalOpen}
+                  onClose={() => setIsAuthModalOpen(false)}
+                />
+              </div>
 
               {/* Account */}
               <div>
@@ -120,28 +142,34 @@ const NavHeader = () => {
             </div>
 
             {/* Mobile Navbar Icons */}
-            <div className="flex md:hidden items-center gap-5 mr-5">
-              <button onClick={() => setIsSearchOpen(!isSearchOpen)}>
-                <Search size={20} />
-              </button>
+            <div className="md:hidden flex items-center gap-4 mr-6">
+              {/* Wishlist */}
+              <div
+                className="relative cursor-pointer"
+                onClick={() => handleClick("/wishlist")}
+              >
+                <Heart size={26} />
+                <span className="absolute -top-2 -right-2 bg-primary text-white text-xs h-5 w-5 rounded-full flex items-center justify-center">
+                  {wishlist > 9 ? "9+" : wishlist}
+                </span>
+              </div>
 
-              <Link href="/wishlist">
-                <div className="relative">
-                  <Heart size={20} />
-                  <span className="absolute -top-2 -right-2 bg-primary text-white text-xs h-4 w-4 rounded-full flex items-center justify-center">
-                    {wishlist > 9 ? "9+" : wishlist}
-                  </span>
-                </div>
-              </Link>
+              {/* Cart */}
+              <div
+                className="relative cursor-pointer"
+                onClick={() => handleClick("/cart")}
+              >
+                <ShoppingCart size={26} />
+                <span className="absolute -top-2 -right-2 bg-primary text-white text-xs h-5 w-5 rounded-full flex items-center justify-center">
+                  {cardLength > 9 ? "9+" : cardLength}
+                </span>
+              </div>
 
-              <Link href="/cart">
-                <div className="relative">
-                  <ShoppingCart size={20} />
-                  <span className="absolute -top-2 -right-2 bg-primary text-white text-xs h-4 w-4 rounded-full flex items-center justify-center">
-                    {cardLength > 9 ? "9+" : cardLength}
-                  </span>
-                </div>
-              </Link>
+              {/* Auth Modal */}
+              <AuthModal
+                isOpen={isAuthModalOpen}
+                onClose={() => setIsAuthModalOpen(false)}
+              />
             </div>
           </div>
 
