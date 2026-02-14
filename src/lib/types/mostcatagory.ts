@@ -81,6 +81,7 @@ export interface TopRatedProduct {
   title: string;
   slug: string;
   shortDescription: string;
+  showOnlyDiscount: number;
   description: string;
   images: Image[];
   productType: string;

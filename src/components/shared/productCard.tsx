@@ -1,14 +1,14 @@
-import Image from "next/image";
-import React from "react";
-import { Heart, ShoppingCart, Star, StarIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { useSmartAddToCart } from "@/lib/hooks/cart";
+import { useAddedWishlist } from "@/lib/hooks/wishlist";
 import { Product } from "@/lib/types/product";
 import { motion } from "framer-motion";
-import { useAddedWishlist } from "@/lib/hooks/wishlist";
-import { useSmartAddToCart } from "@/lib/hooks/cart";
-import Link from "next/link";
-import { toast } from "sonner";
+import { Heart, ShoppingCart, Star, StarIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useState } from "react";
+import { Button } from "../ui/button";
+import AuthModal from "./AuthModal";
 
 interface ProductCardProps {
   product: Product;
@@ -18,14 +18,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const { mutate } = useAddedWishlist();
   const { smartAddToCart } = useSmartAddToCart();
   const { status } = useSession();
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const productImage =
     product.images?.[0]?.url || "/images/placeholder-product.png";
 
-  const categoryName = product.categoryId?.slug || "Product";
-  // const brandName = (typeof product.supplierId === 'object' && product.supplierId?.brandName)
-  //   ? product.supplierId.brandName
-  //   : "N/A";
   const rating = product.averageRating || 0;
   const totalRatings = product.totalRatings || 0;
 
@@ -40,14 +37,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <StarIcon
             key={i}
             className="w-4 h-4 fill-yellow-400 text-yellow-400"
-          />
+          />,
         );
       } else if (i === fullStars && hasHalfStar) {
         stars.push(
-          <Star
-            key={i}
-            className="w-4 h-4 fill-yellow-400 text-yellow-400"
-          />
+          <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />,
         );
       } else {
         stars.push(<Star key={i} className="w-4 h-4 text-gray-300" />);
@@ -59,124 +53,110 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const handleWishlist = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     e.stopPropagation();
+
     if (status !== "authenticated") {
-      toast.error("Please login first to use this feature.");
+      setShowAuthModal(true);
       return;
     }
+
     mutate(id);
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
     if (status !== "authenticated") {
-      toast.error("Please login first to use this feature.");
+      setShowAuthModal(true);
       return;
     }
+
     smartAddToCart(product);
   };
 
-  // Improved price logic
-  const displayPrice = (() => {
-    if (product.wholesaleId && product.wholesaleId.length > 0) {
-      const wholesale = product.wholesaleId[0];
-      if (wholesale.type === "pallet" && wholesale.palletItems?.[0]) {
-        return wholesale.palletItems[0].price;
-      }
-      if (wholesale.type === "case" && wholesale.caseItems?.[0]) {
-        return wholesale.caseItems[0].price;
-      }
-    }
-    if (product.variants && product.variants.length > 0) {
-      return product.variants[0].price;
-    }
-    return product.priceFrom || 0;
-  })();
-
-  const originalPrice = displayPrice ? displayPrice + 2 : 0;
-
   return (
-    <Link href={`/shop/${product._id}`} className="block w-full">
-      <div className="group relative w-full mx-auto overflow-hidden rounded-2xl border bg-white p-4  transition-all duration-300">
-        {/* Badges */}
-        {product.productType === "Organic" && (
-          <span className="absolute left-0 top-0 z-10 rounded-r-2xl rounded-tl-2xl bg-green-600 px-3 py-1 text-xs font-semibold text-white">
-            Organic
-          </span>
-        )}
+    <>
+      <Link href={`/shop/${product._id}`} className="block w-full">
+        <div className="group relative w-full mx-auto overflow-hidden rounded-2xl border bg-[#ffffff] p-4  transition-all duration-300">
+          {product.showOnlyDiscount > 0 && (
+            <button className="absolute left-0 top-0 rounded-tl-2xl rounded-r-2xl bg-primary px-5 py-2 text-white text-[14px] z-10">
+              {product.showOnlyDiscount}%
+            </button>
+          )}
 
-        <button className="absolute left-0 top-0 rounded-tl-2xl rounded-r-2xl bg-primary px-3 py-1 text-white text-xs z-10">
-          13%
-        </button>
+          {/* Wishlist */}
+          <Button
+            onClick={(e) => handleWishlist(e, product._id)}
+            title="add to wishlist"
+            className="absolute -top-28 right-5 group-hover:top-3 z-20 rounded-full duration-700 transform ease-in-out transition-all opacity-0 group-hover:opacity-100 bg-white hover:bg-white text-primary shadow-md border hover:border-primary"
+            size="icon"
+          >
+            <Heart className="w-6 h-6" />
+          </Button>
 
-        {/* Wishlist */}
-        <Button
-          onClick={(e) => handleWishlist(e, product._id)}
-          className="absolute -top-28 right-5 group-hover:top-3 z-20 rounded-full duration-700 transform ease-in-out transition-all opacity-0 group-hover:opacity-100 bg-white hover:bg-white text-primary shadow-md border hover:border-primary"
-          size="icon"
-        >
-          <Heart className="w-5 h-5" />
-        </Button>
+          {/* Image */}
+          <motion.div
+            whileHover={{ scale: 1.2 }} // increased from 1.05 to 1.1
+            transition={{ duration: 0.3, ease: "easeOut" }} // slightly longer for smoother effect
+            className="relative mx-auto mt-8 h-48 w-full overflow-hidden rounded-lg"
+          >
+            <Image
+              src={productImage}
+              alt={product.title || product.productName}
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </motion.div>
 
-        {/* Image */}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-          className="relative mx-auto mt-8 h-48 w-full overflow-hidden rounded-lg"
-        >
-          <Image
-            src={productImage}
-            alt={product.title || product.productName}
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        </motion.div>
-
-        {/* Content */}
-        <div className="mt-4 space-y-2">
-          <span className="text-xs text-[#ADADAD] tracking-wide font-medium">
-            {categoryName}
-          </span>
-
-          <h3 className="text-sm md:text-base font-bold text-[#253D4E] line-clamp-2 min-h-[2.5rem] leading-tight">
-            {product.title || product.productName}
-          </h3>
-
-          <div className="flex items-center gap-1">
-            <div className="flex">{renderStars()}</div>
-            <span className="ml-1 text-xs text-gray-500">
-              ({totalRatings})
+          {/* Content */}
+          <div className="mt-4 space-y-2">
+            <span className="text-xs text-[#ADADAD] tracking-wide font-medium">
+              {product.productName}
             </span>
-          </div>
 
-          <p className="text-lg text-gray-500">
-            By <span className="font-medium text-lg text-primary">{product?.supplierId?.brandName}</span>
-          </p>
+            <h3 className="lg:text-xl  mt-2 md:text-base font-bold text-[#253D4E] line-clamp-2 min-h-[2.5rem] leading-tight">
+              {product.title || product.productName}
+            </h3>
 
-          <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-2">
-            <div className="flex items-baseline gap-2 flex-wrap">
-              <h4 className="text-lg  font-bold text-primary">
-                ${displayPrice || "N/A"}
-              </h4>
-              {displayPrice && (
-                <h5 className="text-sm font-medium text-[#ADADAD] line-through">
-                  ${originalPrice}
-                </h5>
-              )}
+            <div className="flex items-center gap-1">
+              <div className="flex text-[20px]">{renderStars()}</div>
+              <span className="ml-1 text-lg text-gray-500">{totalRatings}</span>
             </div>
 
-            <Button
-              onClick={handleAddToCart}
-              className="flex items-center w-full md:w-auto gap-1 rounded-lg bg-[#DEF9EC] px-3 py-1.5 text-xs md:text-sm font-bold text-primary hover:bg-primary hover:text-white transition-colors border-none shadow-none"
-            >
-              <ShoppingCart size={14} />
-              Add
-            </Button>
+            {/* Price + Add to Cart */}
+            <div className="mt-4 flex flex-col md:flex-row md:items-center justify-between gap-2">
+              <div className="flex items-baseline gap-2 flex-wrap">
+                {product?.discountPriceFrom && product.discountPriceFrom > 0 ? (
+                  <>
+                    <h4 className="text-xl sm:text-2xl font-bold text-primary underline">
+                      ${product.discountPriceFrom}
+                    </h4>
+                    <h5 className="text-[15px] sm:text-[17px] font-medium text-[#ADADAD] line-through">
+                      ${product.priceFrom}
+                    </h5>
+                  </>
+                ) : product?.priceFrom && product.priceFrom > 0 ? (
+                  <h4 className="text-xl sm:text-2xl font-bold text-primary underline">
+                    ${product.priceFrom}
+                  </h4>
+                ) : null}
+              </div>
+
+              <Button
+                onClick={handleAddToCart}
+                title="add to cart"
+                className="flex items-center w-full md:w-auto gap-2 rounded-md bg-[#DEF9EC] px-3 py-2 text-sm sm:text-base font-semibold text-primary hover:bg-primary hover:text-white transition-all duration-300 border-none "
+              >
+                <ShoppingCart size={22} />
+                Add
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+    </>
   );
 };
 
