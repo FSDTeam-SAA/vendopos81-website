@@ -20,7 +20,7 @@ const slides = [
       "bg-[radial-gradient(circle_at_30%_50%,rgba(59,183,126,0.1)_0%,transparent_50%)] rounded-2xl",
   },
   {
-    title: "Get fresh Grocery Enjoy health life.",
+    title: "Hassle-free grocery delivery, in 10-minutes",
     description:
       "Premium quality fruits, vegetables and daily essentials delivered fresh.",
     image: "/images/bannerimg.webp",
@@ -29,7 +29,7 @@ const slides = [
       "bg-[radial-gradient(circle_at_30%_50%,rgba(247,75,129,0.1)_0%,transparent_50%)] rounded-2xl",
   },
   {
-    title: "Special Discounts Up to 50% Off",
+    title: "Get fresh Grocery Enjoy health life.",
     description:
       "Limited time offers on your favorite products. Don't miss out!",
     image: "/images/bannerImg-3.png",
