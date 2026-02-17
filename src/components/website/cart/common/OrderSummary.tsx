@@ -6,9 +6,9 @@ interface Props {
   setIsModalOpen: (open: boolean) => void;
 }
 
-const OrderSummary = ({ subtotal, shipping, tax, total, setIsModalOpen }: Props) => {
+const OrderSummary = ({ subtotal, shipping, total, tax, setIsModalOpen }: Props) => {
   return (
-    <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm sticky top-24">
+    <div className="bg-white p-6 rounded-xl border border-gray-100  sticky top-24">
       <h2 className="text-xl font-bold text-gray-800 mb-6 pb-4 border-b border-gray-50">Order Summary</h2>
 
       <div className="space-y-4 text-sm md:text-base">
@@ -37,7 +37,7 @@ const OrderSummary = ({ subtotal, shipping, tax, total, setIsModalOpen }: Props)
 
       <button 
         onClick={() => setIsModalOpen(true)} 
-        className="w-full mt-8 bg-primary text-white py-3 rounded-xl font-bold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 active:scale-[0.98] cursor-pointer"
+        className="w-full mt-8 bg-primary text-white py-3 rounded-xl font-bold text-lg hover:bg-primary/90 transition-all  active:scale-[0.98] cursor-pointer"
       >
         Proceed to Checkout
       </button>

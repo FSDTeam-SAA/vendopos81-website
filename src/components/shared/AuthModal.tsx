@@ -1,6 +1,6 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, LogIn, UserPlus, LogOut } from "lucide-react"; // icons
+import { LogIn, LogOut, TriangleAlert, UserPlus, X } from "lucide-react"; // icons
 import Link from "next/link";
 
 interface AuthModalProps {
@@ -62,7 +62,7 @@ const AuthModal = ({
                   <Link
                     href="/login"
                     onClick={onClose}
-                    className="w-full flex items-center justify-center gap-2 rounded-lg bg-primary py-2.5 text-center text-sm font-semibold text-white hover:bg-primary/90 transition transform hover:scale-105"
+                    className="w-full flex items-center justify-center gap-2 rounded-md  bg-primary py-2.5 text-center text-sm font-semibold text-white hover:bg-primary/90 transition transform hover:scale-105"
                   >
                     <LogIn className="w-5 h-5" /> Login
                   </Link>
@@ -70,7 +70,7 @@ const AuthModal = ({
                   <Link
                     href="/signup"
                     onClick={onClose}
-                    className="w-full flex items-center justify-center gap-2 rounded-lg border border-gray-300 py-2.5 text-center text-sm font-semibold text-gray-700 hover:bg-gray-50 transition transform hover:scale-105"
+                    className="w-full flex items-center justify-center gap-2 rounded-md  border border-gray-300 py-2.5 text-center text-sm font-semibold text-gray-700 hover:bg-gray-50 transition transform hover:scale-105"
                   >
                     <UserPlus className="w-5 h-5" /> Sign Up
                   </Link>
@@ -84,8 +84,15 @@ const AuthModal = ({
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
-                className="text-center"
               >
+                <div className="my-3 flex items-start ml-2">
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute h-16 w-16 rounded-full bg-red-100 opacity-50"></div>
+                    <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+                      <TriangleAlert className="h-6 w-6 text-red-500" />
+                    </div>
+                  </div>
+                </div>
                 <h2 className="text-xl font-bold text-gray-800">
                   Are You Sure?
                 </h2>
@@ -96,14 +103,14 @@ const AuthModal = ({
                 <div className="mt-6 flex justify-center gap-3">
                   <button
                     onClick={onClose}
-                    className="w-full flex items-center justify-center gap-2 rounded-lg border border-gray-300 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition transform hover:scale-105"
+                    className="w-full flex items-center justify-center gap-2 rounded-md border border-gray-300 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition transform hover:scale-105"
                   >
                     Cancel
                   </button>
 
                   <button
                     onClick={onLogout}
-                    className="w-full flex items-center justify-center gap-2 rounded-lg bg-red-500 py-2.5 text-sm font-semibold text-white hover:bg-red-600 transition transform hover:scale-105"
+                    className="w-full flex items-center justify-center gap-2 rounded-md bg-[#e5102e] py-2.5 text-sm font-semibold text-white hover:bg-red-600 transition transform hover:scale-105"
                   >
                     <LogOut className="w-5 h-5" /> Logout
                   </button>
