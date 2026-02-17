@@ -7,6 +7,8 @@ import {
   useRemoveCartItem,
 } from "@/lib/hooks/cart";
 
+import Loader from "@/components/shared/Loader";
+import ErrorPage from "@/components/shared/error";
 import { useCreateOrder, usePayment } from "@/lib/hooks/useOrder";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -32,11 +34,10 @@ const CartContainer = () => {
   const tax = 0;
   const total = subtotal + shipping + tax;
 
-  if (isLoading) return <div className="p-10 text-center">Loading cart...</div>;
-  if (isError)
-    return (
-      <div className="p-10 text-center text-red-500">Error loading cart</div>
-    );
+  if (isLoading) return <Loader message="Loading cart..." />;
+  if (isError) {
+    return <ErrorPage noNeed={false} />;
+  }
 
   const handleSubmit = (formData: CheckoutFormData) => {
     const items = cartItems.map((item) => {
