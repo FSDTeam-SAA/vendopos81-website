@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-import { Trash2 } from "lucide-react";
 import { CartItem as CartItemModel } from "@/lib/types/cart";
+import { Trash2 } from "lucide-react";
 
 interface Props {
   item: CartItemModel;
@@ -20,7 +20,7 @@ const CartItem = ({ item, onIncrease, onDecrease, onRemove }: Props) => {
       <div className="flex items-center gap-4">
         <button
           onClick={() => onRemove(item._id)}
-          className="text-primary hover:text-red-600 p-2"
+          className="text-red-500 hover:text-red-600 p-2"
         >
           <Trash2 size={18} />
         </button>
@@ -29,10 +29,12 @@ const CartItem = ({ item, onIncrease, onDecrease, onRemove }: Props) => {
           alt={title}
           width={100}
           height={100}
-          className="w-20 h-20 rounded object-cover shadow-md"
+          className="w-20 h-20 rounded object-cover"
         />
         <div>
-          <h4 className="font-semibold text-primary text-base md:text-lg mb-1.5">{title}</h4>
+          <h4 className="font-semibold text-primary text-base md:text-lg mb-1.5">
+            {title}
+          </h4>
           <p className="text-sm text-[#6C757D]">{description}</p>
         </div>
       </div>
@@ -48,7 +50,9 @@ const CartItem = ({ item, onIncrease, onDecrease, onRemove }: Props) => {
           >
             -
           </button>
-          <span className="font-medium w-6 text-center text-primary">{item.quantity}</span>
+          <span className="font-medium w-6 text-center text-primary">
+            {item.quantity}
+          </span>
           <button
             onClick={() => onIncrease(item._id)}
             className="w-8 h-8 rounded-xs  border-2 border-primary text-primary  flex items-center justify-center"

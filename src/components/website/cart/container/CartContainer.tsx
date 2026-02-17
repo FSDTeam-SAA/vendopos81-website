@@ -26,8 +26,8 @@ const CartContainer = () => {
 
   // Calculate totals
   const subtotal = calculateCartTotal(cartItems);
-  const shipping = 2; 
-  const tax = Math.round(subtotal * 0.13 * 100) / 100; // Round to 2 decimal places
+  const shipping = 0; 
+  const tax = 0;
   const total = subtotal + shipping + tax;
 
   if (isLoading) return <div className="p-10 text-center">Loading cart...</div>;
