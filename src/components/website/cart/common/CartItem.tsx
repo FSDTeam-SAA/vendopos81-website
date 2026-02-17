@@ -11,9 +11,11 @@ interface Props {
 }
 
 const CartItem = ({ item, onIncrease, onDecrease, onRemove }: Props) => {
+
+
   const image = item?.product?.images?.[0]?.url || "/images/placeholder.png";
   const title = item?.product.title || "Unknown Product";
-  const description = item.variant?.label || "Standard";
+  const label = item.variant?.label || "Standard";
   console.log("product?.images?.[0]?.url", item?.product?.images?.[0]?.url);
   return (
     <div className="flex items-center justify-between bg-white p-4 rounded-lg border border-gray-400  ">
@@ -32,10 +34,13 @@ const CartItem = ({ item, onIncrease, onDecrease, onRemove }: Props) => {
           className="w-20 h-20 rounded object-cover"
         />
         <div>
-          <h4 className="font-semibold text-primary text-base md:text-lg mb-1.5">
-            {title}
-          </h4>
-          <p className="text-sm text-[#6C757D]">{description}</p>
+          <div className="flex items-center ">
+            <h4 className="font-semibold text-primary text-base md:text-lg mb-1.5">
+              {title}
+            </h4>
+          </div>
+          <p className="text-sm text-[#6C757D]">{label}</p>
+          {/* <p className="text-sm text-[#6C757D]">{label}</p> */}
         </div>
       </div>
 
