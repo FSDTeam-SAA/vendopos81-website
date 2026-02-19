@@ -40,9 +40,13 @@ const DriverPresenter = ({
                 <Upload className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-2xl text-white font-bold">Join as a Driver</h4>
+                <h4 className="text-2xl text-white font-bold">
+                  Join as a Driver
+                </h4>
                 <h6 className="text-white text-sm mt-1">
-                  Complete your driver profile information
+                  Join our delivery network and help connect suppliers with
+                  businesses. Flexible opportunities with reliable routes and
+                  consistent demand.
                 </h6>
               </div>
             </div>

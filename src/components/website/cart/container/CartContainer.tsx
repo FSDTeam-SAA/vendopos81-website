@@ -1,14 +1,20 @@
 "use client";
 
-import { useDecreaseQuantity, useFetchCartData, useIncreaseQuantity, useRemoveCartItem } from "@/lib/hooks/cart";
-import { calculateCartTotal } from "@/lib/types/cart";
+import {
+  useDecreaseQuantity,
+  useFetchCartData,
+  useIncreaseQuantity,
+  useRemoveCartItem,
+} from "@/lib/hooks/cart";
 
-import CartPresenter from "./CartPresenter";
-import { useState } from "react";
-import { CheckoutFormData } from "../order/orderCheckout/OrderCheckoutModal";
+import Loader from "@/components/shared/Loader";
+import ErrorPage from "@/components/shared/error";
 import { useCreateOrder, usePayment } from "@/lib/hooks/useOrder";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import { CheckoutFormData } from "../order/orderCheckout/OrderCheckoutModal";
+import CartPresenter from "./CartPresenter";
 
 const CartContainer = () => {
   const router = useRouter();
@@ -21,21 +27,26 @@ const CartContainer = () => {
   const { mutate: createOrder, isPending: isPlacingOrder } = useCreateOrder();
   const { mutate: payment } = usePayment();
 
-
   const cartItems = cartResponse?.data || [];
-
   // Calculate totals
-  const subtotal = calculateCartTotal(cartItems);
-  const shipping = 2; 
-  const tax = Math.round(subtotal * 0.13 * 100) / 100; // Round to 2 decimal places
+  const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+  const shipping = 0;
+  const tax = 0;
   const total = subtotal + shipping + tax;
 
-  if (isLoading) return <div className="p-10 text-center">Loading cart...</div>;
-  if (isError) return <div className="p-10 text-center text-red-500">Error loading cart</div>;
+  if (isLoading) return <Loader message="Loading cart..." />;
+  if (isError) {
+    return <ErrorPage noNeed={false} />;
+  }
 
   const handleSubmit = (formData: CheckoutFormData) => {
-    const items = cartItems.map(item => {
-      const itemData:{productId:string,quantity:number,variantId?:string,wholesaleId?:string} = {
+    const items = cartItems.map((item) => {
+      const itemData: {
+        productId: string;
+        quantity: number;
+        variantId?: string;
+        wholesaleId?: string;
+      } = {
         productId: item.product?._id,
         quantity: item.quantity,
       };
@@ -58,64 +69,60 @@ const CartContainer = () => {
       },
     };
 
-  createOrder(payload, {
-  onSuccess: (data) => {
-    toast.success("Order placed successfully!");
-    setIsModalOpen(false);
+    createOrder(payload, {
+      onSuccess: (data) => {
+        toast.success("Order placed successfully!");
+        setIsModalOpen(false);
 
-    const orderId = data?.data?._id;
+        const orderId = data?.data?._id;
 
-    if (orderId && formData.paymentMethod !== "cod") {
-      payment(
-        {
-          orderId
-        },
-        {
-          onSuccess: (res) => {
-       
-            if (res?.data?.checkoutUrl) {
-              window.location.href = res.data.checkoutUrl;
-            }else {
-              toast.error("Payment initiation failed. Please try again.");
-            }
-          },
-          onError: (error) => {
-            console.error("Payment error:", error);
-            toast.error("Payment failed. Please try again.");
-          },
+        if (orderId && formData.paymentMethod !== "cod") {
+          payment(
+            {
+              orderId,
+            },
+            {
+              onSuccess: (res) => {
+                if (res?.data?.checkoutUrl) {
+                  window.location.href = res.data.checkoutUrl;
+                } else {
+                  toast.error("Payment initiation failed. Please try again.");
+                }
+              },
+              onError: (error) => {
+                console.error("Payment error:", error);
+                toast.error("Payment failed. Please try again.");
+              },
+            },
+          );
         }
-      );
-    }
 
-    if (formData.paymentMethod === "cod") {
-      router.push("/payment/success");
-    }
-  },
+        if (formData.paymentMethod === "cod") {
+          router.push("/payment/success");
+        }
+      },
 
-  onError: (error) => {
-    toast.error("Failed to place order. Please try again.");
-    console.error("Order error:", error);
-  },
-});
-
+      onError: (error) => {
+        toast.error("Failed to place order. Please try again.");
+        console.error("Order error:", error);
+      },
+    });
   };
 
-  
-
   return (
-    <CartPresenter 
-        items={cartItems}
-        increaseQty={(id) => increaseQty(id)}
-        decreaseQty={(id) => decreaseQty(id)}
-        removeItem={(id) => removeItem(id)}
-        subtotal={subtotal}
-        shipping={shipping}
-        tax={tax}
-        total={total}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        onHandleSubmit={handleSubmit}
-        isPlacingOrder={isPlacingOrder}
+    <CartPresenter
+      items={cartItems}
+      increaseQty={(id) => increaseQty(id)}
+      decreaseQty={(id) => decreaseQty(id)}
+      removeItem={(id) => removeItem(id)}
+      subtotal={subtotal}
+      shipping={shipping}
+      tax={tax}
+      total={total}
+      isModalOpen={isModalOpen}
+      setIsModalOpen={setIsModalOpen}
+      onHandleSubmit={handleSubmit}
+      isPlacingOrder={isPlacingOrder}
     />
   );
 };

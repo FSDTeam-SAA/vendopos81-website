@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import { User } from "next-auth";
 import { getSession } from "next-auth/react";
 import {
   AuthResponse,
@@ -14,7 +15,6 @@ import {
   VerifyOtpInput,
   VerifyOtpResponse,
 } from "../types/auth";
-import { User } from "next-auth";
 
 import { ProductParams } from "../types/product";
 
@@ -36,7 +36,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 export default api;
@@ -44,15 +44,14 @@ export default api;
 // register
 
 export async function registerUser(data: RegisterInput) {
-  console.log('form data',data)
+  // console.log('form data',data)
   try {
     const res = await api.post(`/user/register`, data);
 
     return res.data;
   } catch (err) {
-    console.log('hello')
     if (err instanceof Error) {
-      throw new Error(err.message || "fail to register ");
+      throw new Error(err.message || "Something went wrong. Please try again.");
     }
   }
 }
@@ -65,12 +64,12 @@ export async function verifyEmail({ token, otp }: VerifyEmailInput) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
     return res.data;
   } catch (err) {
     if (err instanceof Error) {
-      throw new Error(err.message || "fail to register ");
+      throw new Error(err.message || "Something went wrong. Please try again.");
     }
   }
 }
@@ -97,6 +96,23 @@ export async function verifyOtp({
   return res.data;
 }
 
+export async function getMyProfile({ token }: { token: string }) {
+  try {
+    const res = await api.get<{ data: User }>("/user/my-profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message || "Something went wrong. Please try again.");
+    }
+    throw err;
+  }
+}
+
 export const authService = {
   // Login
   login: async (input: LoginInput): Promise<AuthResponse> => {
@@ -114,18 +130,18 @@ export const authService = {
   verifyOtp: async (input: VerifyOtpInput): Promise<VerifyOtpResponse> => {
     const response = await api.post<VerifyOtpResponse>(
       "/auth/verify-otp",
-      input
+      input,
     );
     return response.data;
   },
 
   // Forgot Password
   forgotPassword: async (
-    input: ForgotPasswordInput
+    input: ForgotPasswordInput,
   ): Promise<GenericResponse> => {
     const response = await api.post<GenericResponse>(
       "/auth/forgot-password",
-      input
+      input,
     );
     return response.data;
   },
@@ -133,7 +149,7 @@ export const authService = {
   // Reset Password
   resetPassword: async (
     token: string,
-    input: ResetPasswordInput
+    input: ResetPasswordInput,
   ): Promise<GenericResponse> => {
     const response = await api.post<GenericResponse>(
       "/auth/reset-password",
@@ -142,18 +158,18 @@ export const authService = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
     return response.data;
   },
 
   // Change Password
   changePassword: async (
-    input: ChangePasswordInput
+    input: ChangePasswordInput,
   ): Promise<GenericResponse> => {
     const response = await api.post<GenericResponse>(
       "/auth/change-password",
-      input
+      input,
     );
     return response.data;
   },
@@ -193,15 +209,20 @@ export async function FeatureProduct(params?: ProductParams) {
     if (params?.minPrice) query.append("minPrice", String(params.minPrice));
     if (params?.maxPrice) query.append("maxPrice", String(params.maxPrice));
     if (params?.categorySlug) query.append("categorySlug", params.categorySlug);
-    if (params?.originCountry) query.append("originCountry", params.originCountry);
+    if (params?.originCountry)
+      query.append("originCountry", params.originCountry);
     if (params?.country) query.append("country", params.country);
     if (params?.unit) query.append("unit", params.unit);
-    if (params?.isHalal !== undefined) query.append("isHalal", String(params.isHalal));
-    if (params?.isOrganic !== undefined) query.append("isOrganic", String(params.isOrganic));
-    if (params?.isFrozen !== undefined) query.append("isFrozen", String(params.isFrozen));
-    if (params?.isKosher !== undefined) query.append("isKosher", String(params.isKosher));
+    if (params?.isHalal !== undefined)
+      query.append("isHalal", String(params.isHalal));
+    if (params?.isOrganic !== undefined)
+      query.append("isOrganic", String(params.isOrganic));
+    if (params?.isFrozen !== undefined)
+      query.append("isFrozen", String(params.isFrozen));
+    if (params?.isKosher !== undefined)
+      query.append("isKosher", String(params.isKosher));
 
-    console.log('url 1', query.toString());
+    console.log("url 1", query.toString());
     const url = `/product/all${query.toString() ? `?${query}` : ""}`;
 
     const res = await api.get(url);
@@ -213,21 +234,25 @@ export async function FeatureProduct(params?: ProductParams) {
   }
 }
 
-
-export async function subcription(email:string ) {
+export async function subcription(email: string) {
   try {
-    const res = await api.post(`/subscription/create`, {email:email});
+    const res = await api.post(`/subscription/create`, { email: email });
 
     return res.data;
   } catch (err) {
-    console.log('hello')
+    console.log("hello");
     if (err instanceof Error) {
       throw new Error(err.message || "fail to register ");
     }
   }
 }
 
-export async function addReview(data: { orderId: string; productId: string; rating: number; comment: string }) {
+export async function addReview(data: {
+  orderId: string;
+  productId: string;
+  rating: number;
+  comment: string;
+}) {
   try {
     const res = await api.post(`/review/add-review`, data);
     return res.data;

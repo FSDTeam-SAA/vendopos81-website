@@ -10,8 +10,8 @@ export const config = {
   matcher: [
     "/dashboard/:path*", 
     "/profile/:path*",
-     "/wishlist",
-  "/cart",
+    //  "/wishlist",
+  // "/cart",
     // Add other protected routes here
   ],
 };

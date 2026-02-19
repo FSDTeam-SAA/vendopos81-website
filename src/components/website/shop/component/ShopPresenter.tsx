@@ -1,12 +1,11 @@
 "use client";
-import { useEffect } from "react";
 import ProductCard from "@/components/shared/productCard";
+import { motion } from "framer-motion";
+import { useEffect } from "react";
 import HeadShowFilter from "../common/HeadShowFilter";
 import SidebarFilter from "../common/SidebarFilter";
-import { motion } from "framer-motion";
-
-import { Product, ProductParams } from "@/lib/types/product";
 import Pagination from "@/components/wishlist/common/Pagination";
+import { Product, ProductParams } from "@/lib/types/product";
 
 interface Props {
   products: Product[];
@@ -16,7 +15,10 @@ interface Props {
   onRegionChange: (v: string | null) => void;
   onOriginCountryChange: (v: string | null) => void;
   onProductTypeChange: (v: string | null) => void;
-  onAttributeChange: <K extends keyof ProductParams>(key: K, value: ProductParams[K]) => void;
+  onAttributeChange: <K extends keyof ProductParams>(
+    key: K,
+    value: ProductParams[K],
+  ) => void;
   onPageChange: (page: number) => void;
   query: ProductParams;
   metaData: {
@@ -53,12 +55,18 @@ const ShopPresenter = ({
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 50, damping: 20 } },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring" as const, stiffness: 50, damping: 20 },
+    },
   };
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [metaData.page]);
+
+  // console.log("In side component",products);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -114,8 +122,8 @@ const ShopPresenter = ({
               </motion.div>
             ))}
           </motion.div>
-          
-          <div className="mt-8">  
+
+          <div className="mt-8">
             {metaData?.totalPage > 1 && (
               <Pagination
                 currentPage={metaData.page}

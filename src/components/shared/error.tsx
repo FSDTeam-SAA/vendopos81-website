@@ -32,7 +32,7 @@ const ErrorPage = ({ noNeed = false }: ErrorPageProps) => {
 
         {/* Message */}
         <p className="mt-3 text-gray-500 text-sm md:text-base">
-          We couldn’t load the products at the moment. Please try again later.
+          We couldn’t load at the moment. Please try again later.
         </p>
 
         {/* Action (conditionally rendered) */}

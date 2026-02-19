@@ -20,7 +20,7 @@ const NewArrival = () => {
   }
 
   const productData = data?.data.slice(0, 5) || [];
-  console.log("product Data", productData);
+
   return (
     <section className="my-10 md:my-16 xl:my-20 px-5 lg:px-0">
       <div className="container mx-auto">

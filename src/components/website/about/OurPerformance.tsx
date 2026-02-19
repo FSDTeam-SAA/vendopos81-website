@@ -1,8 +1,8 @@
-import Image from "next/image"
+import Image from "next/image";
 
 interface PerformanceCard {
-  title: string
-  description: string
+  title: string;
+  description: string;
 }
 
 const OurPerformance = () => {
@@ -22,10 +22,10 @@ const OurPerformance = () => {
       description:
         "To empower food businesses by streamlining multicultural sourcing through innovative digital solutions and reliable logistics.",
     },
-  ]
+  ];
 
   return (
-    <section className="w-full py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="w-full py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-[#f9fff9]">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-12 md:mb-16">
           {/* Images Section */}
@@ -58,12 +58,17 @@ const OurPerformance = () => {
                 Your Partner for E-Commerce Grocery Solutions
               </h2>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                More than a marketplace, we are your technology and distribution partner, helping you streamline sourcing, reduce operational friction, and scale your business.
+                More than a marketplace, we are your technology and distribution
+                partner, helping you streamline sourcing, reduce operational
+                friction, and scale your business.
               </p>
             </div>
 
             <p className="text-gray-600 text-base leading-relaxed">
-              At Vendo Food Distribution, we recognize that sourcing is one of the most significant challenges for food businesses. That&apos;s why we&apos;ve built a system that integrates technology and logistics to provide a seamless experience from supplier to store.
+              At Vendo Food Distribution, we recognize that sourcing is one of
+              the most significant challenges for food businesses. That&apos;s
+              why we&apos;ve built a system that integrates technology and
+              logistics to provide a seamless experience from supplier to store.
             </p>
           </div>
         </div>
@@ -75,14 +80,18 @@ const OurPerformance = () => {
               key={idx}
               className="flex flex-col gap-4 p-6 md:p-8 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
             >
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900">{card.title}</h3>
-              <p className="text-gray-600 text-sm md:text-base leading-relaxed">{card.description}</p>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900">
+                {card.title}
+              </h3>
+              <p className="text-gray-600 text-sm md:text-base leading-relaxed">
+                {card.description}
+              </p>
             </div>
           ))}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default OurPerformance
+export default OurPerformance;
