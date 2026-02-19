@@ -148,7 +148,7 @@ const Pagination: React.FC<PaginationProps> = ({
         </div>
 
         {/* Alternative: Simple pagination for mobile */}
-        <div className="mt-4 flex items-center justify-center gap-3 sm:hidden">
+        {/* <div className="mt-4 flex items-center justify-center gap-3 sm:hidden">
           <button
             onClick={handlePrev}
             disabled={currentPage === 1}
@@ -174,7 +174,7 @@ const Pagination: React.FC<PaginationProps> = ({
           >
             Next
           </button>
-        </div>
+        </div> */}
       </div>
     </section>
   );

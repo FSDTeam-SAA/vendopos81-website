@@ -66,7 +66,7 @@ const ShopPresenter = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [metaData.page]);
 
-  console.log("In side component",products);
+  // console.log("In side component",products);
 
   return (
     <div className="container mx-auto px-4 py-8">
