@@ -139,7 +139,7 @@ const Footer = () => {
                   href="/vendor"
                   className="text-gray-600 hover:text-primary transition-colors"
                 >
-                  Became a Supplier
+                  Become a Supplier
                 </Link>
               </li>
             </ul>
