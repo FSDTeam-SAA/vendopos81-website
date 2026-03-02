@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import { Button } from "../ui/button";
 
 const Footer = () => {
@@ -19,9 +19,9 @@ const Footer = () => {
                 className="object-contain"
               />
             </Link>
-            <p className="text-secondary font-normal text-lg leading-7">
+            {/* <p className="text-secondary font-normal text-lg leading-7">
               Awesome grocery store website template
-            </p>
+            </p> */}
 
             <div className="flex gap-2 items-center">
               <h3 className="font-bold leading-4 text-secondary text-base">
@@ -46,17 +46,17 @@ const Footer = () => {
                 >
                   <FaInstagram className="h-3.4 w-3.5" />
                 </Button>
-                <Button
+                {/* <Button
                   size="icon"
                   className="rounded-full bg-primary hover:bg-primary/90 text-white h-7.5 w-7.5"
                 >
                   <FaYoutube className="h-3.4 w-3.5" />
-                </Button>
+                </Button> */}
               </div>
             </div>
-            <p className="text-sm text-muted-foreground">
+            {/* <p className="text-sm text-muted-foreground">
               Up to 15% discount on your first subscribe
-            </p>
+            </p> */}
           </div>
 
           {/* Company Column */}

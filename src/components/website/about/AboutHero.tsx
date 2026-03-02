@@ -1,8 +1,11 @@
-import Image from "next/image"
+import Image from "next/image";
 
 const AboutHero = () => {
   return (
-    <section className="w-full py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-[#f9fff9]">
+    <section
+      id="about"
+      className="w-full py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-[#f9fff9]"
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left side - Image */}
@@ -24,15 +27,17 @@ const AboutHero = () => {
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 text-balance">
                 About Us
               </h1>
-              <div className="space-y-4 text-gray-600 text-base md:text-lg leading-relaxed">
-                <p>
+
+              <div className="space-y-4 text-gray-900 text-base md:text-lg leading-relaxed">
+                <p className="text-gray-900">
                   Vendo Food Distribution is a division of Vendo Group, created
                   to simplify and modernize how food businesses source products.
                   Our B2B online ordering platform allows store owners,
                   restaurants, and specialty markets to purchase a wide range of
                   food products from multiple suppliers all in one place.
                 </p>
-                <p>
+
+                <p className="text-gray-900">
                   We offer a carefully curated selection of African, Haitian,
                   Caribbean, Latino, Canadian, and Mediterranean foods, designed
                   to meet the growing demand for authentic and specialty
@@ -40,7 +45,8 @@ const AboutHero = () => {
                   vendors, phone calls, and manual orders, buyers can access
                   everything through a single, easy-to-use digital platform.
                 </p>
-                <p>
+
+                <p className="text-gray-900">
                   Our marketplace operates on a supplier-direct model, meaning
                   products are listed directly by approved suppliers using a
                   real-time inventory system. This ensures accurate
@@ -48,13 +54,15 @@ const AboutHero = () => {
                   fulfillment, giving buyers confidence and control when placing
                   orders.
                 </p>
-                <p>
+
+                <p className="text-gray-900">
                   Our platform is built to scale, helping businesses grow
                   efficiently without increasing operational complexity.
                 </p>
-                <p>
+
+                <p className="text-gray-900">
                   At Vendo Food Distribution, we help food businesses save time,
-                  reduce sourcing challenges, and access diverse products-by
+                  reduce sourcing challenges, and access diverse products by
                   bringing technology, logistics, and multicultural food
                   sourcing together into one powerful B2B marketplace.
                 </p>
@@ -95,6 +103,6 @@ const AboutHero = () => {
       </div>
     </section>
   );
-}
+};
 
-export default AboutHero
+export default AboutHero;

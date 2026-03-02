@@ -20,7 +20,7 @@ const JoinWithUsDropdown = () => {
           className="flex items-center text-primary font-medium hover:text-primary/80 transition-colors lg:border lg:border-gray-200"
         >
           <Package className="h-4 w-4 mr-1" />
-          JOIN WITH US
+          JOIN US
           <ChevronDown size={16} className="ml-1" />
         </Button>
       </DropdownMenuTrigger>

@@ -155,10 +155,10 @@ h3{
   color:var(--color-secondary-foreground);
   font-weight: bold;
 }
-p{
+/* p{
   color:var(--color-muted-foreground);
   font-weight: normal;
-}
+} */
 
 /* animation  */
 /* Add these styles to your global CSS */
@@ -296,3 +296,5 @@ p{
   );
   animation: wave 1.5s infinite;
 }
+
+
