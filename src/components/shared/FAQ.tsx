@@ -97,7 +97,7 @@ const FAQ = () => {
                 }`}
               >
                 <div className="px-6 md:px-8 py-4 md:py-5 bg-gray-50 border-t border-gray-200">
-                  <p className="text-gray-600 text-base leading-relaxed">
+                  <p className="text-black text-base leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>
