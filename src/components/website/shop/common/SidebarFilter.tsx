@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Button } from "@/components/ui/button";
-import { useAllCategory } from "@/lib/hooks/useCategory";
+import { useAllCategory, useGetAllRegions } from "@/lib/hooks/useCategory";
 import { Category } from "@/lib/types/category";
 import { ProductParams } from "@/lib/types/product";
-import { Check, Filter, X } from "lucide-react";
+import { Check, Filter } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -25,20 +26,12 @@ interface FilterContentProps {
   onPriceChangeHandler: (index: number, value: number) => void;
   onRegionChange: (region: string | null) => void;
   onProductTypeChange: (type: string | null) => void;
+  onCategoryChange: (categories: string[]) => void;
   onAttributeChange: <K extends keyof ProductParams>(
     key: K,
     value: ProductParams[K],
   ) => void;
 }
-
-const FOOD_TYPES = [
-  { id: "grains", label: "Grains & Rice" },
-  { id: "flours", label: "Flours & Fufu Mixes" },
-  { id: "palm_oil", label: "Palm Oil & Cooking Oils" },
-  { id: "dried_fish", label: "Dried Fish & Seafood" },
-  { id: "smoked_meats", label: "Smoked Meats" },
-  { id: "sauces", label: "Sauces & Pastes" },
-];
 
 const FilterContent: React.FC<FilterContentProps> = ({
   query,
@@ -46,40 +39,60 @@ const FilterContent: React.FC<FilterContentProps> = ({
   onPriceChangeHandler,
   onRegionChange,
   onProductTypeChange,
+  onCategoryChange,
   onAttributeChange,
 }) => {
-  const { data, isLoading } = useAllCategory();
+  const { data } = useGetAllRegions();
+  const regionData = data?.data || [];
 
-  const countryData = data?.data || [];
   const selectedRegion = query.region || null;
-  const selectedFoodType = query.productType || null;
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState<string | null>(null);
 
-  const handleRegionClick = (region: string) => {
-    const newRegion = selectedRegion === region ? null : region;
+  const { data: foodTypeData } = useAllCategory(
+    selectedRegion ? { region: selectedRegion } : undefined,
+  );
+
+  const foodType = foodTypeData?.filters?.productTypes || [];
+  const productNames = foodTypeData?.filters?.productNames || [];
+
+  // region select
+  const handleRegionClick = (regionId: string) => {
+    const newRegion = selectedRegion === regionId ? null : regionId;
+    setSelectedCategory(null);
+    setSelectedType(null);
     onRegionChange(newRegion);
   };
 
+  // product type single select
   const handleFoodTypeClick = (id: string) => {
-    const newFoodType = selectedFoodType === id ? null : id;
-    onProductTypeChange(newFoodType);
+    const newType = selectedType === id ? null : id;
+    setSelectedType(newType);
+    onProductTypeChange(newType);
+  };
+
+  // product category single select
+  const handleCategoryClick = (name: string) => {
+    const newCategory = selectedCategory === name ? null : name;
+    setSelectedCategory(newCategory);
+    onCategoryChange(newCategory ? [newCategory] : []);
   };
 
   return (
     <div className="space-y-8 p-6 bg-white rounded-2xl border border-gray-100">
-      {/* Shop by Region */}
+      {/* Product by Region */}
       <div>
         <h3 className="text-lg font-bold text-gray-900 mb-4 px-2 border-l-2 border-green-100 rounded-sm">
-          Product by region
+          Product by Region
         </h3>
 
-        {/* Scroll removed */}
         <div className="space-y-2">
-          {countryData.map((region: Category) => (
+          {regionData.map((region: Category) => (
             <button
               key={region._id}
-              onClick={() => handleRegionClick(region.region)}
+              onClick={() => handleRegionClick(region._id)}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 text-left ${
-                selectedRegion === region.region
+                selectedRegion === region._id
                   ? "bg-green-50 text-green-700 font-medium ring-1 ring-green-200"
                   : "text-gray-600 hover:bg-gray-50"
               }`}
@@ -92,7 +105,7 @@ const FilterContent: React.FC<FilterContentProps> = ({
                 height={20}
               />
               <span>{region.region}</span>
-              {selectedRegion === region.region && (
+              {selectedRegion === region._id && (
                 <Check size={16} className="ml-auto" />
               )}
             </button>
@@ -153,36 +166,87 @@ const FilterContent: React.FC<FilterContentProps> = ({
 
       <hr className="border-gray-100" />
 
-      {/* Food Type */}
+      {/* Product Type (Single Select) */}
       <div>
         <h3 className="text-lg font-bold text-gray-900 mb-4 px-2 border-l-2 border-green-200 rounded-sm">
-          Food type
+          Product Type
         </h3>
 
-        {/* Scroll removed */}
-        <div className="space-y-2">
-          {FOOD_TYPES.map((type) => (
-            <button
-              key={type.id}
-              onClick={() => handleFoodTypeClick(type.id)}
-              className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 text-left text-sm ${
-                selectedFoodType === type.id
-                  ? "bg-green-50 text-green-700 font-bold ring-1 ring-green-200"
-                  : "text-gray-600 hover:bg-gray-50 font-medium"
-              }`}
-            >
-              <span>{type.label}</span>
-              {selectedFoodType === type.id && (
-                <Check size={16} className="text-green-600" />
-              )}
-            </button>
-          ))}
+        <div className="space-y-2 max-h-60 overflow-y-scroll">
+          {!selectedRegion ? (
+            <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-lg">
+              Please select a region to view product types
+            </div>
+          ) : foodType.length === 0 ? (
+            <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-lg">
+              No product types found for this region
+            </div>
+          ) : (
+            foodType.map((name: any) => {
+              const isSelected = selectedType === name;
+
+              return (
+                <button
+                  key={name}
+                  onClick={() => handleFoodTypeClick(name)}
+                  className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 text-left text-sm ${
+                    isSelected
+                      ? "bg-green-50 text-green-700 font-medium ring-1 ring-green-200"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  <span>{name}</span>
+                  {isSelected && <Check size={16} className="text-green-600" />}
+                </button>
+              );
+            })
+          )}
         </div>
       </div>
 
       <hr className="border-gray-100" />
 
-      {/* Additional Attributes */}
+      {/* Product Category (Single Select) */}
+      <div>
+        <h3 className="text-lg font-bold text-gray-900 mb-4 px-2 border-l-2 border-green-200 rounded-sm">
+          Product Category
+        </h3>
+
+        <div className="space-y-2 max-h-60 overflow-y-scroll">
+          {!selectedRegion ? (
+            <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-lg">
+              Please select a region to view categories
+            </div>
+          ) : productNames.length === 0 ? (
+            <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-lg">
+              No categories available for this region
+            </div>
+          ) : (
+            productNames.map((name: string) => {
+              const isSelected = selectedCategory === name;
+
+              return (
+                <button
+                  key={name}
+                  onClick={() => handleCategoryClick(name)}
+                  className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 text-left text-sm ${
+                    isSelected
+                      ? "bg-green-50 text-green-700 font-medium ring-1 ring-green-200"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  <span>{name}</span>
+                  {isSelected && <Check size={16} className="text-green-600" />}
+                </button>
+              );
+            })
+          )}
+        </div>
+      </div>
+
+      <hr className="border-gray-100" />
+
+      {/* Attributes */}
       <div className="space-y-4">
         <h3 className="text-lg font-bold text-gray-900 mb-4 px-2 border-l-2 border-green-100 rounded-sm">
           Product Attributes
@@ -217,7 +281,9 @@ const FilterContent: React.FC<FilterContentProps> = ({
                     {isChecked && <Check size={14} strokeWidth={3} />}
                   </div>
                   <span
-                    className={`text-sm ${isChecked ? "text-gray-900 font-medium" : "text-gray-600"}`}
+                    className={`text-sm ${
+                      isChecked ? "text-gray-900 font-medium" : "text-gray-600"
+                    }`}
                   >
                     {labels[key]}
                   </span>
@@ -255,7 +321,6 @@ const SidebarFilter: React.FC<SidebarFilterProps> = ({
 
   return (
     <>
-      {/* Mobile Toggle Button */}
       <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
         <Button
           onClick={() => setIsOpen(true)}
@@ -266,7 +331,6 @@ const SidebarFilter: React.FC<SidebarFilterProps> = ({
         </Button>
       </div>
 
-      {/* Desktop Sidebar */}
       <div className="hidden lg:block sticky top-24 h-fit">
         <FilterContent
           query={query}
@@ -274,55 +338,9 @@ const SidebarFilter: React.FC<SidebarFilterProps> = ({
           onPriceChangeHandler={handlePriceChange}
           onRegionChange={onRegionChange}
           onProductTypeChange={onProductTypeChange}
+          onCategoryChange={onCategoryChange}
           onAttributeChange={onAttributeChange}
         />
-      </div>
-
-      {/* Mobile Drawer Backdrop */}
-      {isOpen && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-50 transition-opacity duration-300"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      {/* Mobile Drawer Container */}
-      <div
-        className={`
-        lg:hidden fixed top-0 left-0 h-full w-[85%] max-w-[320px] bg-white z-[60] 
-        transition-transform duration-300 transform
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}
-      `}
-      >
-        <div className="h-full flex flex-col">
-          <div className="p-4 border-b flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-900">Filters</h2>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            >
-              <X size={24} />
-            </button>
-          </div>
-          <div className="flex-1 overflow-y-auto pt-4">
-            <FilterContent
-              query={query}
-              priceRange={priceRange}
-              onPriceChangeHandler={handlePriceChange}
-              onRegionChange={onRegionChange}
-              onProductTypeChange={onProductTypeChange}
-              onAttributeChange={onAttributeChange}
-            />
-          </div>
-          <div className="p-4 border-t">
-            <Button
-              className="w-full rounded-xl py-6"
-              onClick={() => setIsOpen(false)}
-            >
-              Show Results
-            </Button>
-          </div>
-        </div>
       </div>
     </>
   );

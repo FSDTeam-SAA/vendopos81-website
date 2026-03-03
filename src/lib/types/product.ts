@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type ProductParams = {
+  categories: never[];
   search?: string;
   region?: string;
   page?: number;
