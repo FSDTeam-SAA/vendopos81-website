@@ -321,16 +321,62 @@ const SidebarFilter: React.FC<SidebarFilterProps> = ({
 
   return (
     <>
+      {/* Mobile Filter Button */}
       <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
         <Button
           onClick={() => setIsOpen(true)}
-          className="rounded-full shadow-2xl px-6 py-6 bg-primary hover:bg-primary/90 flex items-center gap-2"
+          className="
+      flex items-center gap-2
+      px-6 py-3
+      rounded-full
+      bg-primary
+      text-white
+      shadow-lg
+      shadow-primary/30
+      hover:bg-primary/90
+      hover:shadow-xl
+      transition-all duration-200
+    "
         >
-          <Filter size={20} />
-          <span>Filters</span>
+          <Filter size={18} />
+          <span className="text-sm font-medium">Filters</span>
         </Button>
       </div>
 
+      {/* Mobile Drawer */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/50 flex justify-end"
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            className="w-full sm:w-[380px] h-full bg-white p-4 overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">Filters</h3>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-gray-500 hover:text-gray-800"
+              >
+                ✕
+              </button>
+            </div>
+
+            <FilterContent
+              query={query}
+              priceRange={priceRange}
+              onPriceChangeHandler={handlePriceChange}
+              onRegionChange={onRegionChange}
+              onProductTypeChange={onProductTypeChange}
+              onCategoryChange={onCategoryChange}
+              onAttributeChange={onAttributeChange}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Desktop Sidebar */}
       <div className="hidden lg:block sticky top-24 h-fit">
         <FilterContent
           query={query}
