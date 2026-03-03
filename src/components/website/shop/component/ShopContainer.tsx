@@ -33,7 +33,11 @@ const ShopContainer = () => {
   }, [productType, country]);
 
   const { data, isLoading } = useFetchAllProduct(query);
-  // console.log('all data ',data)
+  console.log("this is data",data);
+  console.log("this is data.data",data?.data);
+
+
+
   const metaData = data?.meta || {
     total: 0,
     page: 1,

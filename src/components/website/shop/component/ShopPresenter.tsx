@@ -1,4 +1,5 @@
 "use client";
+
 import ProductCard from "@/components/shared/productCard";
 import Pagination from "@/components/wishlist/common/Pagination";
 import { Product, ProductParams } from "@/lib/types/product";
@@ -47,8 +48,8 @@ const ShopPresenter = ({
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        duration: 0.5,
+        staggerChildren: 0.08,
+        duration: 0.4,
       },
     },
   };
@@ -58,13 +59,19 @@ const ShopPresenter = ({
     show: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring" as const, stiffness: 50, damping: 20 },
+      transition: {
+        type: "spring" as const,
+        stiffness: 50,
+        damping: 20,
+      },
     },
   };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [metaData.page]);
+
+  console.log("shop presenter products:", products);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -102,25 +109,39 @@ const ShopPresenter = ({
             </p>
           </div>
 
-          {/* ================= Product Grid there show products data ==========================*/}
-          <motion.div
-            key={metaData.page} // Forces re-animation on page change
-            variants={gridVariants}
-            initial="hidden"
-            animate="show"
-            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-          >
-            {products?.map((item) => (
-              <motion.div
-                key={item._id}
-                variants={itemVariants}
-                className="h-full"
-              >
-                <ProductCard product={item} />
-              </motion.div>
-            ))}
-          </motion.div>
+          {/* Product Grid */}
+          {loading ? (
+            <div className="text-center py-20">
+              <p className="text-gray-500">Loading products...</p>
+            </div>
+          ) : products?.length > 0 ? (
+            <motion.div
+              key={metaData.page}
+              variants={gridVariants}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              {products.map((item) => (
+                <motion.div
+                  key={item._id}
+                  variants={itemVariants}
+                  className="h-full"
+                >
+                  <ProductCard product={item} />
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <div className="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+              <h3 className="text-lg font-medium text-gray-900">
+                No products found
+              </h3>
+              <p className="text-gray-500 mt-2">Try adjusting your filters</p>
+            </div>
+          )}
 
+          {/* Pagination */}
           <div className="mt-8">
             {metaData?.totalPage > 1 && (
               <Pagination
@@ -132,16 +153,6 @@ const ShopPresenter = ({
               />
             )}
           </div>
-
-          {/* Empty State */}
-          {!loading && products?.length === 0 && (
-            <div className="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">
-                No products found
-              </h3>
-              <p className="text-gray-500 mt-2">Try adjusting your filters</p>
-            </div>
-          )}
         </main>
       </div>
     </div>
