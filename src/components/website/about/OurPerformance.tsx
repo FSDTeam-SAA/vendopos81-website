@@ -54,17 +54,17 @@ const OurPerformance = () => {
               <p className="text-sm md:text-base font-semibold text-gray-600 mb-2 uppercase tracking-wide">
                 Our performance
               </p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 text-balance mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black text-balance mb-6">
                 Your Partner for E-Commerce Grocery Solutions
               </h2>
-              <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+              <p className="text-black text-base md:text-lg leading-relaxed">
                 More than a marketplace, we are your technology and distribution
                 partner, helping you streamline sourcing, reduce operational
                 friction, and scale your business.
               </p>
             </div>
 
-            <p className="text-gray-600 text-base leading-relaxed">
+            <p className="text-black text-base leading-relaxed">
               At Vendo Food Distribution, we recognize that sourcing is one of
               the most significant challenges for food businesses. That&apos;s
               why we&apos;ve built a system that integrates technology and
@@ -83,7 +83,7 @@ const OurPerformance = () => {
               <h3 className="text-xl md:text-2xl font-bold text-gray-900">
                 {card.title}
               </h3>
-              <p className="text-gray-600 text-sm md:text-base leading-relaxed">
+              <p className="text-sm leading-relaxed !text-black">
                 {card.description}
               </p>
             </div>

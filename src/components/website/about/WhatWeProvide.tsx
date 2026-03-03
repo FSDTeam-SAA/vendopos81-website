@@ -80,7 +80,7 @@ const WhatWeProvide = () => {
               </h3>
 
               {/* Description */}
-              <p className="text-gray-600 text-sm md:text-base leading-relaxed">
+              <p className="text-black text-sm md:text-base leading-relaxed">
                 {service.description}
               </p>
             </div>
