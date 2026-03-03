@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCategoryData } from "../api/category";
+import { getCategoryData, getRegions } from "../api/category";
 
 export function useCategoryData() {
   return useQuery({
@@ -14,3 +14,11 @@ export function useAllCategory() {
     queryFn: () => getCategoryData(),
   });
 }
+
+export const useGetAllRegions = () => {
+  return useQuery({
+    queryKey: ["allCategory"],
+    queryFn: () => getRegions(),
+  });
+};
+  

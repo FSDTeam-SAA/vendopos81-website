@@ -1,20 +1,20 @@
 "use client";
 
 import CountryCard from "@/components/shared/CountryCard";
-import { useAllCategory } from "@/lib/hooks/useCategory";
+import { useGetAllRegions } from "@/lib/hooks/useCategory";
 import { Category } from "@/lib/types/category";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const CountryCategory = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { data, isLoading } = useAllCategory();
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
-  const countryData = data?.data || [];
+  const { data: regionData, isLoading } = useGetAllRegions();
+  const regions = regionData?.data || [];
 
   // Check mobile
   useEffect(() => {
@@ -26,7 +26,7 @@ const CountryCategory = () => {
 
   // Auto scroll for mobile
   useEffect(() => {
-    if (!isMobile || !scrollRef.current || countryData.length <= 0) return;
+    if (!isMobile || !scrollRef.current || regions.length <= 0) return;
 
     const container = scrollRef.current;
     const firstCard = container.querySelector<HTMLAnchorElement>("a");
@@ -48,7 +48,7 @@ const CountryCategory = () => {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isMobile, countryData.length]);
+  }, [isMobile, regions.length]);
 
   // Arrow scroll (desktop only)
   const handleScroll = (direction: "left" | "right") => {
@@ -118,13 +118,13 @@ const CountryCategory = () => {
     };
   }, [isDragging, scrollLeft]);
 
-  if (isLoading || countryData.length === 0) return null;
+  if (isLoading || regions.length === 0) return null;
 
   return (
     <section className="my-10 w-full lg:container lg:mx-auto">
       <div className="relative">
         {/* Desktop Arrows */}
-        {!isMobile && countryData.length > 6 && (
+        {!isMobile && regions.length > 6 && (
           <>
             <button
               onClick={() => handleScroll("left")}
@@ -145,12 +145,12 @@ const CountryCategory = () => {
         <div ref={scrollRef} className="overflow-x-auto no-scrollbar w-full">
           <div
             className={`flex gap-6 py-4 px-4 whitespace-nowrap ${
-              countryData.length <= 6 && !isMobile
+              regions.length <= 6 && !isMobile
                 ? "justify-center"
                 : "justify-start"
             }`}
           >
-            {countryData.map((item: Category) => (
+            {regions.map((item: Category) => (
               <CountryCard key={item._id} data={item} />
             ))}
           </div>
