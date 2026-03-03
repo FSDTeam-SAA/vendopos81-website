@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown, Menu } from "lucide-react";
+import { useEffect, useState } from "react";
 import NavHeader from "./NavHeader";
 import Navitems from "./Navitems";
-import { Menu, ChevronDown, Currency } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,16 +14,13 @@ const Navbar = () => {
   useEffect(() => {
     const controlNavbar = () => {
       const currentScrollY = window.scrollY;
-      const scrollDelta = lastScrollY - currentScrollY; // Positive when scrolling up
 
-      if (currentScrollY > 250) {
+      if (currentScrollY > 10) {
         if (currentScrollY > lastScrollY) {
           // Scrolling down: Hide header
           setIsVisible(false);
         }
       } else {
-      
-
         setIsVisible(true);
       }
 

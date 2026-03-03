@@ -3,11 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 const CountryCard = ({ data }: { data: Category }) => {
-  const imageUrl = data.regionImage?.url || data.productImage.url;
+  const imageUrl = data.regionImage?.url || data.productImage?.url;
 
   return (
     <Link
-      href={`/shop?country=${data.region}`}
+      href={`/shop?region=${data._id}`}
       className="flex flex-col items-center text-center group"
     >
       {/* Circle Image */}
