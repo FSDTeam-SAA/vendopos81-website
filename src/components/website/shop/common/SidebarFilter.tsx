@@ -169,17 +169,17 @@ const FilterContent: React.FC<FilterContentProps> = ({
       {/* Product Type (Single Select) */}
       <div>
         <h3 className="text-lg font-bold text-gray-900 mb-4 px-2 border-l-2 border-green-200 rounded-sm">
-          Product Type
+          Product Category
         </h3>
 
         <div className="space-y-2 max-h-60 overflow-y-scroll">
           {!selectedRegion ? (
             <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-lg">
-              Please select a region to view product types
+              Please select a region to view
             </div>
           ) : foodType.length === 0 ? (
             <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-lg">
-              No product types found for this region
+              No found for this region
             </div>
           ) : (
             foodType.map((name: any) => {
@@ -209,17 +209,17 @@ const FilterContent: React.FC<FilterContentProps> = ({
       {/* Product Category (Single Select) */}
       <div>
         <h3 className="text-lg font-bold text-gray-900 mb-4 px-2 border-l-2 border-green-200 rounded-sm">
-          Product Category
+          Product Types
         </h3>
 
         <div className="space-y-2 max-h-60 overflow-y-scroll">
           {!selectedRegion ? (
             <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-lg">
-              Please select a region to view categories
+              Please select a region to view
             </div>
           ) : productNames.length === 0 ? (
             <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-lg">
-              No categories available for this region
+              No available for this region
             </div>
           ) : (
             productNames.map((name: string) => {
