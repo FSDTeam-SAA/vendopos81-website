@@ -40,7 +40,7 @@ const CountryCard = ({ data }: { data: Category }) => {
       </div>
 
       {/* Text */}
-      <p className="mt-3 text-xs sm:text-sm md:text-base font-semibold">
+      <p className="mt-3 text-xs sm:text-sm md:text-base font-normal text-gray-600">
         {data.region}
       </p>
     </Link>

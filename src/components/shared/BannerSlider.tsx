@@ -11,46 +11,36 @@ import { Button } from "../ui/button";
 
 const slides = [
   {
-    title: "Global Food, Local Speed",
-    // description:
-    //   "The World on Your Shelf. From Every Continent to Your Business.",
-    image: "/images/newBanner-1.png",
+    title: "Fast Ordering, Fast Delivery.",
+    image: "/images/ban-1.jpg",
     accentColor: "#3BB77E",
     bgPattern:
       "bg-[radial-gradient(circle_at_30%_50%,rgba(59,183,126,0.1)_0%,transparent_50%)] rounded-2xl",
   },
   {
-    title: "Speed & Logistics Fast Ordering, Fast Delivery",
-    // description:
-    //   "Premium quality fruits, vegetables and daily essentials delivered fresh.",
-    image: "/images/newbanner-2.png",
+    title: "Simplified Supply, Smarter Operations.",
+    image: "/images/bannerImg-2.jpg",
     accentColor: "#F74B81",
     bgPattern:
       "bg-[radial-gradient(circle_at_30%_50%,rgba(247,75,129,0.1)_0%,transparent_50%)] rounded-2xl",
   },
   {
-    title: "Your Customers Designed for Food Businesses",
-    // description:
-    //   "Limited time offers on your favorite products. Don't miss out!",
-    image: "/images/newbannerimg-3.jpeg",
+    title: "Strong Prices, Strong Profit",
+    image: "/images/bannerImg-3.jpg",
     accentColor: "#FFB74D",
     bgPattern:
       "bg-[radial-gradient(circle_at_30%_50%,rgba(255,183,77,0.1)_0%,transparent_50%)] h-full rounded-2xl",
   },
   {
-    title: "Competitive Pricing Strong Prices, Strong Profits",
-    // description:
-    //   "Limited time offers on your favorite products. Don't miss out!",
-    image: "/images/newbanner-4.png",
+    title: "World Flavors Right Here, Right Now",
+    image: "/images/ban-4.jpg",
     accentColor: "#FFB74D",
     bgPattern:
       "bg-[radial-gradient(circle_at_30%_50%,rgba(255,183,77,0.1)_0%,transparent_50%)] h-full rounded-2xl",
   },
   {
-    title: "Partnership & Trust Your Growth is Our Priority",
-    // description:
-    //   "Limited time offers on your favorite products. Don't miss out!",
-    image: "/images/newbanner-5.png",
+    title: "Your Success Is Our Mission",
+    image: "/images/ban-5.jpg",
     accentColor: "#FFB74D",
     bgPattern:
       "bg-[radial-gradient(circle_at_30%_50%,rgba(255,183,77,0.1)_0%,transparent_50%)] h-full rounded-2xl",
@@ -241,14 +231,14 @@ const BannerSlider = () => {
                 ease: "easeOut" as const,
                 delay: 0.2,
               }}
-              className="relative w-full aspect-4/3 lg:aspect-auto h-[250px] sm:h-[350px] lg:h-[700px]"
+              className="relative w-full h-[300px] sm:h-[400px] lg:h-[600px]"
             >
               <Image
                 src={slide.image}
                 alt={slide.title}
                 fill
                 priority
-                className="object-cover h-full w-full"
+                className="object-contain h-screen w-full"
               />
             </motion.div>
           </motion.div>
