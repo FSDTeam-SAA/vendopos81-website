@@ -3,7 +3,6 @@
 import { useFetchAllProduct } from "@/lib/hooks/product";
 import { useProductFilter } from "@/lib/hooks/useProductFilter";
 import ShopPresenter from "./ShopPresenter";
-
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -23,6 +22,7 @@ const ShopContainer = () => {
     setFilterAttribute,
     setPage,
   } = useProductFilter({
+    categories: [],
     productType: productType || undefined,
     region: country || undefined,
   });
@@ -33,10 +33,6 @@ const ShopContainer = () => {
   }, [productType, country]);
 
   const { data, isLoading } = useFetchAllProduct(query);
-  console.log("this is data",data);
-  console.log("this is data.data",data?.data);
-
-
 
   const metaData = data?.meta || {
     total: 0,
