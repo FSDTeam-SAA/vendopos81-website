@@ -1,11 +1,11 @@
 "use client";
 import ProductCard from "@/components/shared/productCard";
+import Pagination from "@/components/wishlist/common/Pagination";
+import { Product, ProductParams } from "@/lib/types/product";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import HeadShowFilter from "../common/HeadShowFilter";
 import SidebarFilter from "../common/SidebarFilter";
-import Pagination from "@/components/wishlist/common/Pagination";
-import { Product, ProductParams } from "@/lib/types/product";
 
 interface Props {
   products: Product[];
@@ -66,8 +66,6 @@ const ShopPresenter = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [metaData.page]);
 
-  // console.log("In side component",products);
-
   return (
     <div className="container mx-auto px-4 py-8">
       <HeadShowFilter
@@ -104,7 +102,7 @@ const ShopPresenter = ({
             </p>
           </div>
 
-          {/* Product Grid */}
+          {/* ================= Product Grid there show products data ==========================*/}
           <motion.div
             key={metaData.page} // Forces re-animation on page change
             variants={gridVariants}

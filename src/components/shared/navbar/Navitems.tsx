@@ -68,6 +68,7 @@ const COUNTRIES = [
 const Navitems = () => {
   const currentActive = usePathname();
   const route = useRouter();
+
   const { data } = useCategoryData();
   const categories =
     data?.data?.flatMap((region: any) => region.categories) || [];
@@ -109,7 +110,7 @@ const Navitems = () => {
                     sideOffset={8}
                   >
                     <SelectGroup>
-                      <SelectLabel className="text-lg font-semibold px-4 py-2 text-center block w-full">
+                      <SelectLabel className="text-lg text-gray-600 font-semibold px-4 py-2 text-center block w-full">
                         All Categories
                       </SelectLabel>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 p-3">
