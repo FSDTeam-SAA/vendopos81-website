@@ -161,7 +161,7 @@ export interface CreateBillingInfo {
 export interface CreateOrderData {
   orderType: 'single' | 'subscription' | 'bulk' | string; 
   paymentType: 'cod' | 'online' | 'card' | 'wallet' |string 
-  items: OrderItem[];
+  // items: OrderItem[];
   billingInfo: BillingInfo;
 }
 
