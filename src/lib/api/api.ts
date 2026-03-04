@@ -222,7 +222,7 @@ export async function FeatureProduct(params?: ProductParams) {
     if (params?.isKosher !== undefined)
       query.append("isKosher", String(params.isKosher));
 
-    console.log("url 1", query.toString());
+    // console.log("url 1", query.toString());
     const url = `/product/all${query.toString() ? `?${query}` : ""}`;
 
     const res = await api.get(url);

@@ -40,25 +40,10 @@ const CartContainer = () => {
   }
 
   const handleSubmit = (formData: CheckoutFormData) => {
-    const items = cartItems.map((item) => {
-      const itemData: {
-        productId: string;
-        quantity: number;
-        variantId?: string;
-        wholesaleId?: string;
-      } = {
-        productId: item.product?._id,
-        quantity: item.quantity,
-      };
-      if (item.variant?._id) itemData.variantId = item.variant._id;
-      if (item.wholesale?._id) itemData.wholesaleId = item.wholesale._id;
-      return itemData;
-    });
-
     const payload = {
-      orderType: "single",
+      orderType: "addToCart",
       paymentType: formData.paymentMethod,
-      items: items,
+      // items: items,
       billingInfo: {
         name: formData.name,
         email: formData.mail,

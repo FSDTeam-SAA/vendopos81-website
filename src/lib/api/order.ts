@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { CreateOrderData, paymentData } from "../types/order";
 import api from "./api";
@@ -24,14 +25,18 @@ export async function order(params: {
   }
 }
 
-export async function CreateOrder(data:CreateOrderData ) {
+export async function CreateOrder(data: CreateOrderData, token: string) {
   try {
-    const res = await api.post(`/order/create`, data);
+    const res = await api.post(`/order/create`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     return res.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message || "Failed to Your Order.");
-    }
+  } catch (error: any) {
+    console.log("Backend error response:", error?.response?.data);
+    throw error;
   }
 }
 
