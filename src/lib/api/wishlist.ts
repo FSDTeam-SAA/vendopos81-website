@@ -6,7 +6,7 @@ export async function wishlist(page: number = 1, limit: number = 10) {
     try {
         const res = await api.get(`/wishlist/my-wishlist?page=${page}&limit=${limit}`);
         const data = await res.data;
-        console.log('wishlist data', data)
+
         return data;
     } catch (error) {
         console.log('wishlist error', error)

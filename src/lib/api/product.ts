@@ -25,6 +25,7 @@ export async function FeatureProduct(params?: ProductParams) {
     const url = `/product/all${queryString ? `?${queryString}` : ""}`;
 
     const res = await api.get(url);
+    console.log("all data -> ", res);
     return res.data;
   } catch (error) {
     if (error instanceof Error) {
@@ -58,8 +59,7 @@ export async function topReatedProduct() {
   }
 }
 
-
-// 
+//
 export async function caseDealsProduct() {
   try {
     const res = await api.get(`/product/case`);
@@ -72,7 +72,6 @@ export async function caseDealsProduct() {
   }
 }
 
-
 export async function SingleProduct(id: string) {
   const res = await api.get(`/product/${id}`);
   return res.data;
@@ -82,7 +81,6 @@ export async function relatedProduct(id: string) {
   const res = await api.get(`/product/related/${id}`);
   return res.data;
 }
-
 
 export async function SingleProductReview(id: string) {
   const res = await api.get(`/review/review-by-product/${id}`);

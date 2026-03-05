@@ -6,7 +6,7 @@ const PrivacyPolicyPage = () => {
       <h1 className="text-3xl md:text-4xl font-bold mb-6">Privacy Policy</h1>
 
       {/* Intro */}
-      <div className="mb-10 p-6 rounded-lg bg-muted/30">
+      <div className="mb-10  rounded-lg ">
         <p className="mb-4">
           Your data is protected. We use secure systems and strict data-handling practices to safeguard your business and personal information at all times.
         </p>

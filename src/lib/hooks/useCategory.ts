@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
-import { getCategoryData } from "../api/category";
+import { getCategoryData, getRegions } from "../api/category";
 
 export function useCategoryData() {
   return useQuery({
@@ -8,9 +9,16 @@ export function useCategoryData() {
   });
 }
 
-export function useAllCategory() {
+export function useAllCategory(params?: any) {
   return useQuery({
-    queryKey: ["allCategory"],
-    queryFn: () => getCategoryData(),
+    queryKey: ["category", params],
+    queryFn: () => getCategoryData(params),
   });
 }
+
+export const useGetAllRegions = () => {
+  return useQuery({
+    queryKey: ["allCategory"],
+    queryFn: () => getRegions(),
+  });
+};

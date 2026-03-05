@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type ProductParams = {
+  categories: never[];
   search?: string;
   region?: string;
   page?: number;
@@ -106,6 +107,8 @@ export interface Product {
   slug: string;
   shortDescription: string;
   description: string;
+  showOnlyDiscount: number;
+  discountPriceFrom?: number;
   images: ProductImage[];
   productType: string;
   productName: string;

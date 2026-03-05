@@ -17,6 +17,7 @@ const OrderItems = () => {
   
   const orderItems = latestOrder?.items || []
   const subtotal = latestOrder?.totalPrice || 0
+  
   const total = subtotal 
   const currency = 'USD' // Defaulting to USD as it's not in the Order type from orderSuccess.ts
 

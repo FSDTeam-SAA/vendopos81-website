@@ -28,11 +28,15 @@ export function useOrders(params = {}) {
   return useOrder(params);
 }
 
-export function useCreateOrder(){
+export function useCreateOrder() {
   return useMutation({
-    mutationKey:['createorder'],
-    mutationFn:(data:CreateOrderData)=>CreateOrder(data)
-  })
+    mutationKey: ["createorder"],
+    mutationFn: (data: CreateOrderData) => {
+      const token = localStorage.getItem("accessToken");
+
+      return CreateOrder(data, token || "");
+    },
+  });
 }
 
 export function usePayment() {
