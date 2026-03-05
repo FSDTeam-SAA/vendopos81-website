@@ -10,9 +10,9 @@ const AboutHero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left side - Image */}
           <div className="flex justify-center lg:justify-start">
-            <div className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden bg-amber-100 shadow-lg">
+            <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden bg-amber-100 ">
               <Image
-                src="/images/about/abouthero.png"
+                src="/images/about/aboutImg-1.jpg"
                 alt="Professional chef preparing fresh ingredients"
                 fill
                 className="object-cover"
@@ -74,15 +74,15 @@ const AboutHero = () => {
               {[
                 {
                   alt: "Fresh salad with greens",
-                  url: "/images/about/abouthero1.png",
+                  url: "/images/about/aboutimg-3.jpeg",
                 },
                 {
                   alt: "Organic vegetables preparation",
-                  url: "/images/about/abouthero2.png",
+                  url: "/images/about/aboutimg-4.jpeg",
                 },
                 {
                   alt: "Cooking preparation with ingredients",
-                  url: "/images/about/abouthero3.png",
+                  url: "/images/about/aboutimg-5.jpeg",
                 },
               ].map((item, idx) => (
                 <div
