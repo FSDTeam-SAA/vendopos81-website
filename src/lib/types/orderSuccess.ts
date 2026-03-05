@@ -76,6 +76,7 @@ export  interface Order {
   billingInfo: BillingInfo;
   purchaseDate: string;
   items: OrderItem[];
+  orderUniqueId: string;
 }
 
 // Main response type
