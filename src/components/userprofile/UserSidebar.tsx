@@ -4,6 +4,7 @@ import { useGetProfile } from "@/lib/hooks/profile";
 import { UserProfile } from "@/lib/types/profile";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { Mail, Phone, MapPin, User } from "lucide-react";
 
 const UserSidebar = () => {
   const { data } = useGetProfile();
@@ -14,76 +15,89 @@ const UserSidebar = () => {
     id: session?.user?.id,
     email: session?.user.email,
     phone: "+1 (555) 123-45",
-    // company: "Company Name Here",
     location: "4517 Washington Ave. Manchester, Kentucky 39495",
     image: session?.user?.image,
   };
-  const profileData: UserProfile = data?.data || userInfo;
-  console.log("profile phone number", profileData.phone);
-  return (
-    <div className="w-full max-w-sm h-full rounded-lg overflow-hidden border  border-gray-200">
-      <div className=" ">
-        {/* Header Background */}
-        <div className="h-24 bg-[#09714E]"></div>
 
-        {/* Profile Section */}
-        <div className="px-6 pb-6">
-          {/* Avatar */}
-          <div className="flex justify-center -mt-16 mb-4 relative z-10">
-            <div className="relative w-24 h-24">
-              <Image
-                src={profileData?.image?.url || "/images/no.jpg"}
-                alt={profileData?.firstName|| 'User Avatar'}
-                fill
-              
-                className="rounded-full object-cover border-4 border-white shadow-lg"
-              />
-              {/* Verified Badge */}
-              <div className="absolute bottom-0 right-0 bg-teal-600 rounded-full p-2 text-white">
-                <svg
-                  className="w-4 h-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
+  const profileData: UserProfile = data?.data || userInfo;
+
+  return (
+    <div className="w-full max-w-sm rounded-xl bg-white overflow-hidden border border-gray-200 shadow-sm">
+      {/* Header */}
+      <div className="h-28 bg-gradient-to-r from-[#3a8d71] to-[#2f6f59]" />
+
+      {/* Content */}
+      <div className="px-6 pb-6 -mt-14">
+        {/* Avatar */}
+        <div className="flex justify-center mb-4">
+          <div className="relative w-28 h-28">
+            <Image
+              src={profileData?.image?.url || "/images/no.jpg"}
+              alt={profileData?.firstName || "User Avatar"}
+              fill
+              className="rounded-full object-cover border-4 border-white shadow-lg"
+            />
+
+            {/* Verified badge */}
+            <div className="absolute bottom-1 right-1 bg-teal-600 text-white rounded-full p-1.5 shadow">
+              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Name */}
+        <div className="text-center mb-6">
+          <h2 className="text-xl font-semibold !text-[#09714e]">
+            {profileData.firstName} {profileData.lastName}
+          </h2>
+
+          <p className="text-sm text-gray-500 mt-1">
+            ID: #{userInfo.id?.slice(-10)}
+          </p>
+        </div>
+
+        {/* Info Section */}
+        <div className="border-t pt-5 space-y-4">
+          <div className="flex items-start gap-3">
+            <User className="text-gray-400 w-4 h-4 mt-1" />
+            <div>
+              <p className="text-xs text-gray-500">Name</p>
+              <p className="text-sm text-gray-800">
+                {profileData.firstName} {profileData.lastName}
+              </p>
             </div>
           </div>
 
-          {/* Name */}
-          <h2 className="text-center font-semibold text-gray-900 text-lg mb-1">
-            {profileData.firstName}{" "}{profileData.lastName}
-          </h2>
-          {/* <p className="text-center text-gray-600 text-sm mb-6">
-            ID: {userInfo.id} 
-          </p> */}
+          <div className="flex items-start gap-3">
+            <Mail className="text-gray-400 w-4 h-4 mt-1" />
+            <div>
+              <p className="text-xs text-gray-500">Email</p>
+              <p className="text-sm text-gray-800">{profileData.email}</p>
+            </div>
+          </div>
 
-          {/* Info Items */}
-          <div className="space-y-4 border-t border-gray-200 pt-6">
-            {[
-              {
-                label: "Name:",
-                value: profileData.firstName + " " + profileData.lastName,
-              },
-              { label: "Email:", value: profileData.email },
-              { label: "Phone:", value: profileData.phone },
+          <div className="flex items-start gap-3">
+            <Phone className="text-gray-400 w-4 h-4 mt-1" />
+            <div>
+              <p className="text-xs text-gray-500">Phone</p>
+              <p className="text-sm text-gray-800">{profileData.phone}</p>
+            </div>
+          </div>
 
-              { label: "Location:", value: profileData.location },
-            ].map((item, idx) => (
-              <div key={idx} className="flex  items-center gap-1 flex-wrap">
-                <p className="text-gray-700 font-medium text-sm">
-                  {item.label}
-                </p>
-                <p className="text-gray-600 text-sm mt-1 line-clamp-2">
-                  {item.value}
-                </p>
-              </div>
-            ))}
+          <div className="flex items-start gap-3">
+            <MapPin className="text-gray-400 w-4 h-4 mt-1" />
+            <div>
+              <p className="text-xs text-gray-500">Location</p>
+              <p className="text-sm text-gray-800 leading-relaxed">
+                {profileData.location || "N/A"}
+              </p>
+            </div>
           </div>
         </div>
       </div>

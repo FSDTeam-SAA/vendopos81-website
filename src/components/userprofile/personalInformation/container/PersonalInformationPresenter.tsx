@@ -1,6 +1,5 @@
 "use client";
 
-import type { UseFormReturn } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import type { PersonalInformationFormData } from "@/lib/schemas";
 import { ProfileResponse } from "@/lib/types/profile";
+import type { UseFormReturn } from "react-hook-form";
 
 interface PersonalInformationPresenterProps {
   form: UseFormReturn<PersonalInformationFormData>;
@@ -29,62 +29,60 @@ const PersonalInformationPresenter = ({
   profile,
   onDiscard,
 }: PersonalInformationPresenterProps) => {
-  // console.log('profile edit data',profile)
-  const profileData=profile?.data;
+  const profileData = profile?.data;
+
   return (
-    <div className="flex-1 h-full bg-white rounded-lg border border-gray-200 p-8">
+    <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 sm:p-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            Edit Personal Information
-          </h1>
-          <p className="text-gray-600 text-sm mt-1">
-            Update your personal details below.
-          </p>
-        </div>
+      <div className="pb-6 border-b">
+        <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
+          Edit Personal Information
+        </h1>
+
+        <p className="text-sm text-gray-500 mt-1">
+          Update your personal details below.
+        </p>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* First and Last Name Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pt-6">
+          {/* First + Last Name */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <FormField
               control={form.control}
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">
-                    First Name
-                  </FormLabel>
+                  <FormLabel>First Name</FormLabel>
+
                   <FormControl>
                     <Input
                       placeholder="Olivia"
                       {...field}
                       defaultValue={profileData?.firstName || ""}
-                      className="border-gray-300 focus:border-primary focus:ring-primary"
                     />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="lastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">
-                    Last Name
-                  </FormLabel>
+                  <FormLabel>Last Name</FormLabel>
+
                   <FormControl>
                     <Input
                       placeholder="Rhye"
                       {...field}
                       defaultValue={profileData?.lastName || ""}
-                      className="border-gray-300 focus:border-teal-600 focus:ring-teal-600"
                     />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -97,136 +95,134 @@ const PersonalInformationPresenter = ({
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-700 font-medium">
-                  Profile Image
-                </FormLabel>
+                <FormLabel>Profile Image</FormLabel>
+
                 {profileData?.image?.url && (
-                  <div className="mb-2">
-                    <p className="text-sm text-gray-500 mb-1">Current Image:</p>
-                    <img 
-                      src={profileData.image.url} 
-                      alt="Profile" 
-                      className="w-20 h-20 rounded-full object-cover border border-gray-300"
+                  <div className="mb-3">
+                    <img
+                      src={profileData.image.url}
+                      alt="profile"
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border object-cover"
                     />
                   </div>
                 )}
+
                 <FormControl>
                   <Input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => {
-                      field.onChange(e.target.files ? e.target.files[0] : null);
-                    }}
-                    className="border-gray-300 focus:border-primary focus:ring-primary"
+                    onChange={(e) =>
+                      field.onChange(e.target.files ? e.target.files[0] : null)
+                    }
                   />
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* Location and Postal Code Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Location */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <FormField
               control={form.control}
               name="location"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">
-                    Location
-                  </FormLabel>
+                  <FormLabel>Location</FormLabel>
+
                   <FormControl>
                     <Input
                       placeholder="Florida, USA"
                       {...field}
                       defaultValue={profileData?.location || ""}
-                      className="border-gray-300 focus:border-teal-600 focus:ring-teal-600"
                     />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="postalCode"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">
-                    Postal Code
-                  </FormLabel>
+                  <FormLabel>Postal Code</FormLabel>
+
                   <FormControl>
                     <Input
                       placeholder="30301"
                       {...field}
                       defaultValue={profileData?.postalCode || ""}
-                      className="border-gray-300 focus:border-teal-600 focus:ring-teal-600"
                     />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
 
-          {/* Street and Phone Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Street + Phone */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <FormField
               control={form.control}
               name="street"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">
-                    Street
-                  </FormLabel>
+                  <FormLabel>Street</FormLabel>
+
                   <FormControl>
                     <Input
-                      placeholder="Enter Your Street"
+                      placeholder="Enter your street"
                       {...field}
                       defaultValue={profileData?.street || ""}
-                      className="border-gray-300 focus:border-teal-600 focus:ring-teal-600"
                     />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-700 font-medium">
-                    Phone Number
-                  </FormLabel>
+                  <FormLabel>Phone Number</FormLabel>
+
                   <FormControl>
                     <Input
-                      placeholder="Enter Your Phone Number"
+                      placeholder="Enter phone number"
                       {...field}
                       defaultValue={profileData?.phone || ""}
-                      className="border-gray-300 focus:border-teal-600 focus:ring-teal-600"
                     />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-4 pt-6">
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row sm:justify-end gap-3 pt-4">
             <Button
               type="button"
               variant="outline"
-              className="border-gray-300 text-gray-700 hover:bg-gray-50 bg-transparent"
               onClick={onDiscard}
+              className="w-full sm:w-auto"
             >
-              Discard Changes
+              Discard
             </Button>
+
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-primary hover:bg-primary/90 text-white"
+              className="bg-primary hover:bg-primary/90 w-full sm:w-auto"
             >
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>
