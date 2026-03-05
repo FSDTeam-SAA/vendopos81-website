@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type ProductParams = {
-  categories: never[];
+  // categories: never[];
   search?: string;
   region?: string;
   page?: number;
@@ -16,6 +16,7 @@ export type ProductParams = {
   isOrganic?: boolean | string;
   isFrozen?: boolean | string;
   isKosher?: boolean | string;
+  categories?: string[];
 };
 
 // Image Interface
