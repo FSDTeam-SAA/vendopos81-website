@@ -32,7 +32,7 @@ const OurPerformance = () => {
           <div className=" gap-4 md:gap-6">
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-200 shadow-lg col-span-1">
               <Image
-                src="/images/about/performance.png"
+                src="/images/about/aboutImge-2.jpg"
                 alt="Team working together in modern office"
                 fill
                 className="object-cover"
