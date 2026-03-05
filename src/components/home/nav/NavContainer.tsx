@@ -6,7 +6,8 @@ import { useFetchAllProduct } from '@/lib/hooks/product'
 const NavContainer = ({ searchData }: { searchData: string }) => {
   const { data: productsData, isLoading } = useFetchAllProduct({
     search: searchData,
-    limit: 5
+    limit: 5,
+    categories: [],
   });
 
   const products = productsData?.data || [];
