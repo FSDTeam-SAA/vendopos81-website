@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   Form,
@@ -12,18 +12,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
-import Image from "next/image";
-import { useForgotPassword } from "@/lib/hooks/useAuth";
+import Image from 'next/image';
+import { useForgotPassword } from '@/lib/hooks/useAuth';
 
 // ✅ Validation schema
 const forgotSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.string().email('Please enter a valid email address'),
 });
 
 type ForgotFormValues = z.infer<typeof forgotSchema>;
@@ -35,33 +35,33 @@ export default function ForgetPassword() {
   const form = useForm<ForgotFormValues>({
     resolver: zodResolver(forgotSchema),
     defaultValues: {
-      email: "",
+      email: '',
     },
   });
 
   const router = useRouter();
 
   const onSubmit = (values: ForgotFormValues) => {
-    const toastId = "forgot-password";
+    const toastId = 'forgot-password';
     setIsLoading(true);
 
     forgetPasswordMutation.mutate(values.email, {
       onSuccess: (data) => {
         const token = data?.data?.accessToken;
         if (!token) {
-          toast.error("Failed to get verification token");
+          toast.error('Failed to get verification token');
           return;
         }
-        toast.success("OTP sent! Check your email.", { id: toastId });
+        toast.success('OTP sent! Check your email.', { id: toastId });
 
         // Store email for verify-otp page
-        localStorage.setItem("userEmail", values.email);
+        localStorage.setItem('userEmail', values.email);
 
         // Redirect
         router.push(`/verify-otp?token=${token}`);
       },
       onError: (err) => {
-        const message = err?.message || "Failed to send OTP";
+        const message = err?.message || 'Failed to send OTP';
         toast.error(message, { id: toastId });
       },
       onSettled: () => {
@@ -71,26 +71,26 @@ export default function ForgetPassword() {
   };
 
   return (
-    <section
-      className="min-h-screen flex items-center justify-center 
-     flex-col gap-5"
-    >
-      <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg p-8">
-        <div className="flex justify-center mb-2">
+    <section className="min-h-screen flex items-center justify-center flex-col gap-5 px-4 sm:px-6 lg:px-8 py-6">
+      <div className="w-full max-w-sm sm:max-w-md md:max-w-2xl bg-white rounded-xl shadow-md p-6 sm:p-8">
+        {/* Logo */}
+        <div className="flex justify-center mb-3">
           <Image
             src="/images/logo.svg"
             alt="logo"
             width={50}
             height={60}
-            className=""
+            className="w-10 sm:w-12 md:w-14 h-auto"
           />
         </div>
-        <h2 className="text-3xl md:text-[48px] font-bold leading-[150%] font-playfair text-primary mb-2 leading-tight text-center">
+
+        {/* Heading */}
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[48px] font-bold font-playfair text-primary mb-2 text-center leading-tight">
           Reset Your Password
         </h2>
-        <p className="text-gray-500 mb-6">
-          Enter your email address and we&apos;ll send you code to reset your
-          password.
+
+        <p className="text-gray-500 mb-6 text-sm sm:text-base text-center">
+          Enter your email address and we&apos;ll send you code to reset your password.
         </p>
 
         <Form {...form}>
@@ -101,14 +101,14 @@ export default function ForgetPassword() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[16px] leading-[150%] font-medium text-[#343A40]">
+                  <FormLabel className="text-sm sm:text-base font-medium text-[#343A40]">
                     Email Address
                   </FormLabel>
                   <FormControl>
                     <Input
                       type="email"
                       placeholder="Enter your email address"
-                      className="h-12 w-full"
+                      className="h-11 sm:h-12 w-full text-sm sm:text-base"
                       {...field}
                     />
                   </FormControl>
@@ -120,10 +120,10 @@ export default function ForgetPassword() {
             {/* Submit */}
             <Button
               type="submit"
-              className="w-full h-10 bg-primary hover:bg-primary/80 cursor-pointer"
+              className="w-full h-11 sm:h-12 bg-primary hover:bg-primary/80 cursor-pointer text-sm sm:text-base"
               disabled={isLoading}
             >
-              {isLoading ? "Sending OTP..." : "Send OTP"}
+              {isLoading ? 'Sending OTP...' : 'Send OTP'}
             </Button>
           </form>
         </Form>

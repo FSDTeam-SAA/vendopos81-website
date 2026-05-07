@@ -185,6 +185,20 @@ export const resendOtpForEmailVerification = async (token: string) => {
   return response.data;
 };
 
+export const resentOtpForForgotPassword = async (token: string) => {
+  const response = await api.post(
+    '/auth/resend-forgot-otp',
+    { token },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data;
+};
+
 // /product/all?limit=10
 
 export async function FeatureProduct(params?: ProductParams) {
