@@ -7,6 +7,7 @@ import {
   getMyProfile,
   registerUser,
   resendOtpForEmailVerification,
+  resentOtpForForgotPassword,
   verifyEmail,
   verifyOtp,
 } from '../api/api';
@@ -59,5 +60,11 @@ export function useGetMyProfile(token?: string) {
 export function useResendOtpForEmailVerify() {
   return useMutation({
     mutationFn: (token: string) => resendOtpForEmailVerification(token),
+  });
+}
+
+export function useResendOtpForForgotPassword() {
+  return useMutation({
+    mutationFn: (token: string) => resentOtpForForgotPassword(token),
   });
 }
