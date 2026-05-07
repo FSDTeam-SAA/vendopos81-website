@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import { X } from "lucide-react";
+import React, { useState } from "react";
 
 interface OrderCheckoutModalProps {
   isOpen: boolean;
@@ -15,30 +15,35 @@ export interface CheckoutFormData {
   mail: string;
   country: string;
   phoneNumber: string;
-  paymentMethod: 'cod' | 'online';
+  paymentMethod: "cod" | "online";
 }
 
-const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheckoutModalProps) => {
+const OrderCheckoutModal = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  isPending,
+}: OrderCheckoutModalProps) => {
   const [formData, setFormData] = useState<CheckoutFormData>({
-    name: '',
-    from: '',
-    city: '',
-    mail: '',
-    country: '',
-    phoneNumber: '',
-    paymentMethod: 'online',
+    name: "",
+    from: "",
+    city: "",
+    mail: "",
+    country: "",
+    phoneNumber: "",
+    paymentMethod: "online",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handlePaymentMethodChange = (method: 'cod' | 'online') => {
-    setFormData(prev => ({
+  const handlePaymentMethodChange = (method: "cod" | "online") => {
+    setFormData((prev) => ({
       ...prev,
       paymentMethod: method,
     }));
@@ -57,7 +62,9 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
         <div className="relative bg-white rounded-lg shadow-xl">
           {/* Modal Header */}
           <div className="flex items-center justify-between p-6 border-b">
-            <h2 className="text-xl font-semibold text-gray-800">Order Checkout</h2>
+            <h2 className="text-xl font-semibold text-gray-800">
+              Order Checkout
+            </h2>
             <button
               onClick={onClose}
               className="p-1 rounded-full hover:bg-gray-100 transition-colors"
@@ -70,7 +77,9 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             {/* Name Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Name</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Name
+              </label>
               <input
                 type="text"
                 name="name"
@@ -84,7 +93,9 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
 
             {/* From Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">From</label>
+              <label className="block text-sm font-medium text-gray-700">
+                From
+              </label>
               <input
                 type="text"
                 name="from"
@@ -99,7 +110,9 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* City Field */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">City</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  City
+                </label>
                 <input
                   type="text"
                   name="city"
@@ -113,7 +126,9 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
 
               {/* Country Field */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Country</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Country
+                </label>
                 <input
                   type="text"
                   name="country"
@@ -128,7 +143,9 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
 
             {/* Mail Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
               <input
                 type="email"
                 name="mail"
@@ -142,7 +159,9 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
 
             {/* Phone Number Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 name="phoneNumber"
@@ -156,26 +175,28 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
 
             {/* Payment Method */}
             <div className="space-y-4">
-              <label className="block text-sm font-medium text-gray-700">Payment Method</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Payment Method
+              </label>
               <div className="flex gap-4">
                 <button
                   type="button"
-                  onClick={() => handlePaymentMethodChange('cod')}
+                  onClick={() => handlePaymentMethodChange("cod")}
                   className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${
-                    formData.paymentMethod === 'cod'
-                      ? 'border-primary/75 bg-blue-50 text-primary/90'
-                      : 'border-gray-300 hover:border-gray-400'
+                    formData.paymentMethod === "cod"
+                      ? "border-primary/75 bg-blue-50 text-primary/90"
+                      : "border-gray-300 hover:border-gray-400"
                   }`}
                 >
                   <span className="font-medium">Cash On Delivery</span>
                 </button>
                 <button
                   type="button"
-                  onClick={() => handlePaymentMethodChange('online')}
+                  onClick={() => handlePaymentMethodChange("online")}
                   className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${
-                    formData.paymentMethod === 'online'
-                      ? 'border-primary/75 bg-blue-50 text-primary/90'
-                      : 'border-gray-300 hover:border-gray-400'
+                    formData.paymentMethod === "online"
+                      ? "border-primary/75 bg-blue-50 text-primary/90"
+                      : "border-gray-300 hover:border-gray-400"
                   }`}
                 >
                   <span className="font-medium">Online Payment</span>
@@ -197,7 +218,7 @@ const OrderCheckoutModal = ({ isOpen, onClose, onSubmit, isPending }: OrderCheck
                 disabled={isPending}
                 className="flex-1 py-3 px-4 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isPending ? 'Placing Order...' : 'Place Order'}
+                {isPending ? "Placing Order..." : "Place Order"}
               </button>
             </div>
           </form>

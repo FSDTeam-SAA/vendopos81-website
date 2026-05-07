@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { User } from "next-auth";
-import { getSession } from "next-auth/react";
+import { User } from 'next-auth';
+import { getSession } from 'next-auth/react';
 import {
   AuthResponse,
   ChangePasswordInput,
@@ -14,9 +14,9 @@ import {
   VerifyOtp,
   VerifyOtpInput,
   VerifyOtpResponse,
-} from "../types/auth";
+} from '../types/auth';
 
-import { ProductParams } from "../types/product";
+import { ProductParams } from '../types/product';
 
 // import { Cagliostro } from "next/font/google";
 
@@ -32,7 +32,7 @@ api.interceptors.request.use(
     if (session?.accessToken) {
       config.headers.Authorization = `Bearer ${session?.accessToken}`;
     } else {
-      console.warn("No token in session");
+      console.warn('No token in session');
     }
     return config;
   },
@@ -51,7 +51,7 @@ export async function registerUser(data: RegisterInput) {
     return res.data;
   } catch (err) {
     if (err instanceof Error) {
-      throw new Error(err.message || "Something went wrong. Please try again.");
+      throw new Error(err.message || 'Something went wrong. Please try again.');
     }
   }
 }
@@ -69,28 +69,24 @@ export async function verifyEmail({ token, otp }: VerifyEmailInput) {
     return res.data;
   } catch (err) {
     if (err instanceof Error) {
-      throw new Error(err.message || "Something went wrong. Please try again.");
+      throw new Error(err.message || 'Something went wrong. Please try again.');
     }
   }
 }
 
 export async function forgetPassword(email: string) {
-  const res = await api.post("/auth/forgot-password", { email });
+  const res = await api.post('/auth/forgot-password', { email });
   return res.data;
 }
 
-export async function verifyOtp({
-  otp,
-  email,
-  token,
-}: VerifyOtp): Promise<VerifyOtpResponse> {
+export async function verifyOtp({ otp, email, token }: VerifyOtp): Promise<VerifyOtpResponse> {
   const headers: Record<string, string> = {};
-  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (token) headers['Authorization'] = `Bearer ${token}`;
 
   const body: Record<string, string> = { otp };
   if (email) body.email = email;
 
-  const res = await api.post<VerifyOtpResponse>("/auth/verify-otp", body, {
+  const res = await api.post<VerifyOtpResponse>('/auth/verify-otp', body, {
     headers,
   });
   return res.data;
@@ -98,7 +94,7 @@ export async function verifyOtp({
 
 export async function getMyProfile({ token }: { token: string }) {
   try {
-    const res = await api.get<{ data: User }>("/user/my-profile", {
+    const res = await api.get<{ data: User }>('/user/my-profile', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -107,7 +103,7 @@ export async function getMyProfile({ token }: { token: string }) {
     return res.data;
   } catch (err) {
     if (err instanceof Error) {
-      throw new Error(err.message || "Something went wrong. Please try again.");
+      throw new Error(err.message || 'Something went wrong. Please try again.');
     }
     throw err;
   }
@@ -116,73 +112,53 @@ export async function getMyProfile({ token }: { token: string }) {
 export const authService = {
   // Login
   login: async (input: LoginInput): Promise<AuthResponse> => {
-    const response = await api.post<AuthResponse>("/auth/login", input);
+    const response = await api.post<AuthResponse>('/auth/login', input);
     return response.data;
   },
 
   // Register
   register: async (input: RegisterInput): Promise<AuthResponse> => {
-    const response = await api.post<AuthResponse>("/user/register", input);
+    const response = await api.post<AuthResponse>('/user/register', input);
     return response.data;
   },
 
   // Verify OTP
   verifyOtp: async (input: VerifyOtpInput): Promise<VerifyOtpResponse> => {
-    const response = await api.post<VerifyOtpResponse>(
-      "/auth/verify-otp",
-      input,
-    );
+    const response = await api.post<VerifyOtpResponse>('/auth/verify-otp', input);
     return response.data;
   },
 
   // Forgot Password
-  forgotPassword: async (
-    input: ForgotPasswordInput,
-  ): Promise<GenericResponse> => {
-    const response = await api.post<GenericResponse>(
-      "/auth/forgot-password",
-      input,
-    );
+  forgotPassword: async (input: ForgotPasswordInput): Promise<GenericResponse> => {
+    const response = await api.post<GenericResponse>('/auth/forgot-password', input);
     return response.data;
   },
 
   // Reset Password
-  resetPassword: async (
-    token: string,
-    input: ResetPasswordInput,
-  ): Promise<GenericResponse> => {
-    const response = await api.post<GenericResponse>(
-      "/auth/reset-password",
-      input,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+  resetPassword: async (token: string, input: ResetPasswordInput): Promise<GenericResponse> => {
+    const response = await api.post<GenericResponse>('/auth/reset-password', input, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
     return response.data;
   },
 
   // Change Password
-  changePassword: async (
-    input: ChangePasswordInput,
-  ): Promise<GenericResponse> => {
-    const response = await api.post<GenericResponse>(
-      "/auth/change-password",
-      input,
-    );
+  changePassword: async (input: ChangePasswordInput): Promise<GenericResponse> => {
+    const response = await api.post<GenericResponse>('/auth/change-password', input);
     return response.data;
   },
 
   // Get Current User Profile
   getMe: async (): Promise<{ data: User }> => {
-    const response = await api.get<{ data: User }>("/auth/me");
+    const response = await api.get<{ data: User }>('/auth/me');
     return response.data;
   },
 
   // Get All Users (Admin?)
   getAllUsers: async (): Promise<{ data: User[] }> => {
-    const response = await api.get<{ data: User[] }>("/users");
+    const response = await api.get<{ data: User[] }>('/users');
     return response.data;
   },
 
@@ -195,41 +171,50 @@ export const authService = {
   },
 };
 
+export const resendOtpForEmailVerification = async (token: string) => {
+  const response = await api.post(
+    '/user/resend-otp',
+    { token },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data;
+};
+
 // /product/all?limit=10
 
 export async function FeatureProduct(params?: ProductParams) {
   try {
     const query = new URLSearchParams();
 
-    if (params?.search) query.append("search", params.search);
-    if (params?.region) query.append("region", params.region);
-    if (params?.page) query.append("page", String(params.page));
-    if (params?.limit) query.append("limit", String(params.limit));
-    if (params?.productType) query.append("productType", params.productType);
-    if (params?.minPrice) query.append("minPrice", String(params.minPrice));
-    if (params?.maxPrice) query.append("maxPrice", String(params.maxPrice));
-    if (params?.categorySlug) query.append("categorySlug", params.categorySlug);
-    if (params?.originCountry)
-      query.append("originCountry", params.originCountry);
-    if (params?.country) query.append("country", params.country);
-    if (params?.unit) query.append("unit", params.unit);
-    if (params?.isHalal !== undefined)
-      query.append("isHalal", String(params.isHalal));
-    if (params?.isOrganic !== undefined)
-      query.append("isOrganic", String(params.isOrganic));
-    if (params?.isFrozen !== undefined)
-      query.append("isFrozen", String(params.isFrozen));
-    if (params?.isKosher !== undefined)
-      query.append("isKosher", String(params.isKosher));
+    if (params?.search) query.append('search', params.search);
+    if (params?.region) query.append('region', params.region);
+    if (params?.page) query.append('page', String(params.page));
+    if (params?.limit) query.append('limit', String(params.limit));
+    if (params?.productType) query.append('productType', params.productType);
+    if (params?.minPrice) query.append('minPrice', String(params.minPrice));
+    if (params?.maxPrice) query.append('maxPrice', String(params.maxPrice));
+    if (params?.categorySlug) query.append('categorySlug', params.categorySlug);
+    if (params?.originCountry) query.append('originCountry', params.originCountry);
+    if (params?.country) query.append('country', params.country);
+    if (params?.unit) query.append('unit', params.unit);
+    if (params?.isHalal !== undefined) query.append('isHalal', String(params.isHalal));
+    if (params?.isOrganic !== undefined) query.append('isOrganic', String(params.isOrganic));
+    if (params?.isFrozen !== undefined) query.append('isFrozen', String(params.isFrozen));
+    if (params?.isKosher !== undefined) query.append('isKosher', String(params.isKosher));
 
     // console.log("url 1", query.toString());
-    const url = `/product/all${query.toString() ? `?${query}` : ""}`;
+    const url = `/product/all${query.toString() ? `?${query}` : ''}`;
 
     const res = await api.get(url);
     return res.data;
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(error.message || "Failed to fetch products");
+      throw new Error(error.message || 'Failed to fetch products');
     }
   }
 }
@@ -240,9 +225,9 @@ export async function subcription(email: string) {
 
     return res.data;
   } catch (err) {
-    console.log("hello");
+    console.log('hello');
     if (err instanceof Error) {
-      throw new Error(err.message || "fail to register ");
+      throw new Error(err.message || 'fail to register ');
     }
   }
 }
@@ -258,7 +243,7 @@ export async function addReview(data: {
     return res.data;
   } catch (err) {
     if (err instanceof Error) {
-      throw new Error(err.message || "Failed to add review");
+      throw new Error(err.message || 'Failed to add review');
     }
   }
 }

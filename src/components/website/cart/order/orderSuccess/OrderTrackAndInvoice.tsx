@@ -1,24 +1,25 @@
-'use client'
+"use client";
 import { Button } from "@/components/ui/button";
 import { useOrder } from "@/lib/hooks/useOrder";
-import { generateInvoicePDF } from "@/lib/utils/invoice";
 import { Order } from "@/lib/types/orderSuccess";
+import { generateInvoicePDF } from "@/lib/utils/invoice";
 
 import { Check } from "lucide-react";
-import React from "react";
 
 const OrderTrackAndInvoice = () => {
   const { data: orderResponse } = useOrder({ page: 1, limit: 10000 });
   const orders = orderResponse?.data || [];
   const latestOrder = orders[0] as Order;
 
-  const orderNumber = latestOrder?._id ? `ORD-${latestOrder._id.slice(-8).toUpperCase()}` : "ORD-0000-00000";
-  const orderDate = latestOrder?.purchaseDate 
-    ? new Date(latestOrder.purchaseDate).toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+  const orderNumber = latestOrder?._id
+    ? `ORD-${latestOrder._id.slice(-8).toUpperCase()}`
+    : "ORD-0000-00000";
+  const orderDate = latestOrder?.purchaseDate
+    ? new Date(latestOrder.purchaseDate).toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       })
     : "Date not available";
 
@@ -39,37 +40,35 @@ const OrderTrackAndInvoice = () => {
             <Check className="text-green-600 w-5 h-5" />
           </div>
 
-          <h5 className="text-lg text-white font-semibold">Order Placed Successfully!</h5>
+          <h5 className="text-lg text-white font-semibold">
+            Order Placed Successfully!
+          </h5>
 
           <h5 className="text-sm text-white opacity-90">
             Thank you for your purchase. Your order has been confirmed.
           </h5>
         </div>
         <div className="rounded-b-xl p-8 bg-white px-5 lg:px-0  ">
-            <div className="grid grid-cols-2 gap-10 mx-auto px-5  my-5">
-          <div  className="bg-[#F9FAFB] py-3 px-5">
-            <p>Order Number</p>
-            <p>{orderNumber}</p>
-          </div>
-          <div className="bg-[#F9FAFB] py-3 px-5">
-            <p>Order Date</p>
-            <p>{orderDate}</p>
-          </div>
-
+          <div className="grid grid-cols-2 gap-10 mx-auto px-5  my-5">
+            <div className="bg-[#F9FAFB] py-3 px-5">
+              <p>Order Number</p>
+              <p>{orderNumber}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-5  lg:grid-cols-2">
-                <Button>
-                    Track Order
-                </Button>
-                <Button 
-                  onClick={handleDownloadInvoice}
-                  disabled={!latestOrder}
-                  className="bg-white text-secondary-foreground border-2 hover:bg-white/80"
-                >
-                    Download Invoice
-                </Button>
-            
+            <div className="bg-[#F9FAFB] py-3 px-5">
+              <p>Order Date</p>
+              <p>{orderDate}</p>
             </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-5  lg:grid-cols-2">
+            <Button>Track Order</Button>
+            <Button
+              onClick={handleDownloadInvoice}
+              disabled={!latestOrder}
+              className="bg-white text-secondary-foreground border-2 hover:bg-white/80"
+            >
+              Download Invoice
+            </Button>
+          </div>
         </div>
       </div>
     </section>

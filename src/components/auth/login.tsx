@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeOff } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 import {
   Form,
@@ -15,18 +15,17 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
-import { signIn } from "next-auth/react";
-import { toast } from "sonner";
-import { Checkbox } from "../ui/checkbox";
+import { signIn } from 'next-auth/react';
+import { toast } from 'sonner';
+import { Checkbox } from '../ui/checkbox';
 
-// ✅ Zod validation schema
 const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
   remember: z.boolean().optional(),
 });
 
@@ -39,8 +38,8 @@ const Login = () => {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       remember: false,
     },
   });
@@ -49,7 +48,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const result = await signIn("credentials", {
+      const result = await signIn('credentials', {
         email: values.email,
         password: values.password,
         redirect: false,
@@ -57,39 +56,42 @@ const Login = () => {
 
       if (result?.ok) {
         // Login successful → redirect to home
-        window.location.href = "/";
-        toast.success("Logged in successfully!");
+        window.location.href = '/';
+        toast.success('Logged in successfully!');
       } else {
         // Login failed → show error
-        toast.error(result?.error || "Login failed. Please try again.");
+        toast.error(result?.error || 'Login failed. Please try again.');
       }
     } catch (err) {
       console.error(err);
-      toast.error("Something went wrong. Please try again.");
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <section
-      className="min-h-screen flex items-center justify-center 
-  flex-co"
-    >
-      {/* Logo */}
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-      <div className="flex justify-center mb-4">
-        <Image
-          src="/images/logo.svg"
-          alt="logo"
-          width={50}
-          height={60}
-          className=""
-          priority
-        />
-      </div>
-        <h2 className="text-2xl font-semibold text-center text-auth-text mb-1">Welcome!</h2>
-        <p className="text-muted-foreground text-center mb-6">
+    <section className="min-h-screen flex items-center justify-center flex-col px-4 sm:px-6 lg:px-8">
+      {/* Card */}
+      <div className="w-full max-w-sm sm:max-w-md md:max-w-lg bg-white rounded-xl shadow-sm p-6 sm:p-8">
+        {/* Logo */}
+        <div className="flex justify-center mb-4">
+          <Image
+            src="/images/logo.svg"
+            alt="logo"
+            width={50}
+            height={60}
+            className="w-10 sm:w-12 md:w-14 h-auto"
+            priority
+          />
+        </div>
+
+        {/* Heading */}
+        <h2 className="text-xl sm:text-2xl font-semibold text-center text-auth-text mb-1">
+          Welcome!
+        </h2>
+
+        <p className="text-sm sm:text-base text-muted-foreground text-center mb-6">
           Manage your orders, track shipments, and configure products easily.
         </p>
 
@@ -102,12 +104,13 @@ const Login = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-sm sm:text-base">Email</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="hello@example.com" 
-                      {...field} 
+                    <Input
+                      placeholder="Enter your email"
+                      {...field}
                       disabled={isLoading}
+                      className="h-10 sm:h-11"
                     />
                   </FormControl>
                   <FormMessage />
@@ -121,25 +124,23 @@ const Login = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-sm sm:text-base">Password</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
-                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
+                        type={showPassword ? 'text' : 'password'}
                         {...field}
                         disabled={isLoading}
+                        className="h-10 sm:h-11 pr-10"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-2.5 text-gray-500"
+                        className="absolute right-3 top-2.5 sm:top-3 text-gray-500"
                         disabled={isLoading}
                       >
-                        {showPassword ? (
-                          <EyeOff size={18} />
-                        ) : (
-                          <Eye size={18} />
-                        )}
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
                   </FormControl>
@@ -148,8 +149,8 @@ const Login = () => {
               )}
             />
 
-            <div className="flex justify-between items-center">
-              {/* Remember Me Checkbox */}
+            {/* Remember + Forgot */}
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <FormField
                 control={form.control}
                 name="remember"
@@ -162,35 +163,36 @@ const Login = () => {
                         disabled={isLoading}
                       />
                     </FormControl>
-                    <FormLabel className="text-sm font-normal cursor-pointer">
+                    <FormLabel className="text-xs sm:text-sm font-normal cursor-pointer">
                       Remember me
                     </FormLabel>
                   </FormItem>
                 )}
               />
 
-              <Link 
-                href="/forget-password" 
-                className="text-sm font-medium text-primary hover:text-primary/80 cursor-pointer transition-colors"
+              <Link
+                href="/forget-password"
+                className="text-xs sm:text-sm font-medium text-primary hover:text-primary/80 transition-colors"
               >
                 Forgot Password
               </Link>
             </div>
 
-            {/* Submit Button */}
+            {/* Submit */}
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full rounded-2xl bg-primary hover:bg-primary/80"
+              className="w-full rounded-2xl bg-primary hover:bg-primary/80 h-10 sm:h-11 text-sm sm:text-base"
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>
         </Form>
 
-        <p className="text-sm text-gray-500 mt-4 text-center">
-          Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-primary hover:text-primary/90 cursor-pointer">
+        {/* Footer */}
+        <p className="text-xs sm:text-sm text-gray-500 mt-4 text-center">
+          Don&apos;t have an account?{' '}
+          <Link href="/signup" className="text-primary hover:text-primary/90">
             Sign Up
           </Link>
         </p>

@@ -1,44 +1,43 @@
-"use client";
+'use client';
 
-import NavContainer from "@/components/home/nav/NavContainer";
-import { Button } from "@/components/ui/button";
-import { useFetchCartData } from "@/lib/hooks/cart";
-import { useWishlistData } from "@/lib/hooks/wishlist";
-import { Heart, Menu, ShoppingCart, X } from "lucide-react";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import AuthModal from "../AuthModal";
-import JoinWithUsDropdown from "../JoinWithUsDropDown";
-import ProfileInfo from "./ProfileInfo";
+import NavContainer from '@/components/home/nav/NavContainer';
+import { Button } from '@/components/ui/button';
+import { useFetchCartData } from '@/lib/hooks/cart';
+import { useWishlistData } from '@/lib/hooks/wishlist';
+import { Heart, Menu, ShoppingCart, X } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import AuthModal from '../AuthModal';
+import JoinWithUsDropdown from '../JoinWithUsDropDown';
+import ProfileInfo from './ProfileInfo';
 
 const NAV_ITEMS = [
-  { name: "Home", link: "/" },
-  { name: "Shop", link: "/shop" },
-  { name: "About", link: "/about" },
-  { name: "Contact", link: "/contact" },
+  { name: 'Home', link: '/' },
+  { name: 'Shop', link: '/shop' },
+  { name: 'About', link: '/about' },
+  { name: 'Contact', link: '/contact' },
 ];
 
 const NavHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentPage] = useState(1);
-  const [searchData, setSearchData] = useState("");
+  const [searchData, setSearchData] = useState('');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const pathname = usePathname();
   const { data } = useWishlistData(currentPage);
   const { data: cartResponse } = useFetchCartData();
   const { data: session } = useSession();
-
   const wishlist = data?.data?.length || 0;
   const cardLength = cartResponse?.data?.length || 0;
 
   const handleClick = (path: string) => {
     if (!session?.accessToken) {
-      setIsAuthModalOpen(true); // modal open
+      setIsAuthModalOpen(true);
     } else {
       // redirect if logged in
       window.location.href = path;
@@ -90,34 +89,25 @@ const NavHeader = () => {
               <JoinWithUsDropdown />
 
               {/* Wishlist */}
-              <div className="flex gap-4">
+              <div className="flex gap-6">
                 {/* Wishlist */}
-                <div
-                  className="relative cursor-pointer "
-                  onClick={() => handleClick("/wishlist")}
-                >
+                <div className="relative cursor-pointer " onClick={() => handleClick('/wishlist')}>
                   <Heart size={26} />
                   <span className="absolute -top-2 -right-2 bg-primary text-white text-xs h-5 w-5 rounded-full flex items-center justify-center">
-                    {wishlist > 9 ? "9+" : wishlist}
+                    {wishlist > 9 ? '9+' : wishlist}
                   </span>
                 </div>
 
                 {/* Cart */}
-                <div
-                  className="relative cursor-pointer"
-                  onClick={() => handleClick("/cart")}
-                >
+                <div className="relative cursor-pointer" onClick={() => handleClick('/cart')}>
                   <ShoppingCart size={26} />
                   <span className="absolute -top-2 -right-2 bg-primary text-white text-xs h-5 w-5 rounded-full flex items-center justify-center">
-                    {cardLength > 9 ? "9+" : cardLength}
+                    {cardLength > 9 ? '9+' : cardLength}
                   </span>
                 </div>
 
                 {/* Auth Modal */}
-                <AuthModal
-                  isOpen={isAuthModalOpen}
-                  onClose={() => setIsAuthModalOpen(false)}
-                />
+                <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
               </div>
 
               {/* Account */}
@@ -144,32 +134,23 @@ const NavHeader = () => {
             {/* Mobile Navbar Icons */}
             <div className="md:hidden flex items-center gap-4 mr-6">
               {/* Wishlist */}
-              <div
-                className="relative cursor-pointer"
-                onClick={() => handleClick("/wishlist")}
-              >
+              <div className="relative cursor-pointer" onClick={() => handleClick('/wishlist')}>
                 <Heart size={26} />
                 <span className="absolute -top-2 -right-2 bg-primary text-white text-xs h-5 w-5 rounded-full flex items-center justify-center">
-                  {wishlist > 9 ? "9+" : wishlist}
+                  {wishlist > 9 ? '9+' : wishlist}
                 </span>
               </div>
 
               {/* Cart */}
-              <div
-                className="relative cursor-pointer"
-                onClick={() => handleClick("/cart")}
-              >
+              <div className="relative cursor-pointer" onClick={() => handleClick('/cart')}>
                 <ShoppingCart size={26} />
                 <span className="absolute -top-2 -right-2 bg-primary text-white text-xs h-5 w-5 rounded-full flex items-center justify-center">
-                  {cardLength > 9 ? "9+" : cardLength}
+                  {cardLength > 9 ? '9+' : cardLength}
                 </span>
               </div>
 
               {/* Auth Modal */}
-              <AuthModal
-                isOpen={isAuthModalOpen}
-                onClose={() => setIsAuthModalOpen(false)}
-              />
+              <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
             </div>
           </div>
 
@@ -217,9 +198,7 @@ const NavHeader = () => {
                 href={item.link}
                 onClick={() => setIsMenuOpen(false)}
                 className={`block p-2 rounded ${
-                  pathname === item.link
-                    ? "bg-primary/10 text-primary"
-                    : "hover:bg-gray-50"
+                  pathname === item.link ? 'bg-primary/10 text-primary' : 'hover:bg-gray-50'
                 }`}
               >
                 {item.name}
