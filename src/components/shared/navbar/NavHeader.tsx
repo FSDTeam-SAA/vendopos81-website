@@ -113,13 +113,7 @@ const NavHeader = () => {
               {/* Account */}
               <div>
                 {session ? (
-                  <Link
-                    title="click to go dashboard"
-                    href="/profile"
-                    className="flex items-center gap-2"
-                  >
-                    <ProfileInfo />
-                  </Link>
+                  <ProfileInfo />
                 ) : (
                   <Link
                     href="/login"
@@ -212,13 +206,7 @@ const NavHeader = () => {
 
           <div className="mt-5">
             {session ? (
-              <Link
-                title="click to go dashboard"
-                href="/profile"
-                className="flex items-center gap-2"
-              >
-                <ProfileInfo />
-              </Link>
+              <ProfileInfo />
             ) : (
               <Link
                 href="/login"
