@@ -39,28 +39,19 @@ const VendorContainer = () => {
 
   const onSubmit = (data: VendorRegistrationFormData) => {
     const formData = new FormData();
-
-    // Business Info
     formData.append('shopName', data.shopName);
     formData.append('brandName', data.brandName);
     formData.append('description', data.description || '');
-
     if (data.logo) {
       formData.append('logo', data.logo);
     }
-
-    // Contact
     formData.append('phone', data.phone);
     formData.append('email', data.email);
-
-    // Location
     formData.append('warehouseLocation', data.warehouseLocation);
     formData.append('street', data.street);
     formData.append('address', data.address);
     formData.append('state', data.state);
     formData.append('postalCode', data.postalCode);
-
-    // Documents
     if (data.documents) {
       formData.append('documents', data.documents);
     }
@@ -76,7 +67,8 @@ const VendorContainer = () => {
         form.reset();
 
         if (token) {
-          route.push(`/email-verify?token=${token}`);
+          // route.push(`/email-verify?token=${token}`);
+          route.push(`/email-verify?token=${token}&from=vendor`);
         } else {
           route.push('/login');
         }

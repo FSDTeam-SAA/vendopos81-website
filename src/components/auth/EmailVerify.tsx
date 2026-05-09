@@ -13,6 +13,7 @@ import { z } from 'zod';
 import { toast } from 'sonner';
 import Image from 'next/image';
 import { useEmailVerify, useResendOtpForEmailVerify } from '@/lib/hooks/useAuth';
+import SuccessModal from '../shared/SuccessModal';
 
 const formSchema = z.object({
   otp: z.string().min(6, {
@@ -23,7 +24,10 @@ const formSchema = z.object({
 const EmailVerify = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get('token') || '';
+  const from = searchParams.get('from');
   const router = useRouter();
+
+  const [open, setOpen] = useState(false);
 
   const { verifyEmailMutation } = useEmailVerify();
   const { mutate: resendOtp, isPending: isResendOtpLoading } = useResendOtpForEmailVerify();
@@ -88,7 +92,11 @@ const EmailVerify = () => {
       {
         onSuccess: (data) => {
           toast.success(data.message || 'Email verified successfully!');
-          router.push('/login');
+          if (from === 'vendor') {
+            setOpen(true);
+          } else {
+            router.push('/login');
+          }
         },
         onError: (err: any) => {
           toast.error(err.message || 'Failed to verify OTP');
@@ -208,6 +216,14 @@ const EmailVerify = () => {
           </form>
         </Form>
       </div>
+
+      <SuccessModal
+        open={open}
+        setOpen={(val) => {
+          setOpen(val);
+          if (!val) router.push('/');
+        }}
+      />
     </section>
   );
 };
