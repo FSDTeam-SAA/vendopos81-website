@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -48,7 +49,13 @@ const EmailVerifyPage = () => {
       {loading && <p className="text-lg">Verifying your email...</p>}
 
       {/* ✅ Success Modal */}
-      <SuccessModal open={open} setOpen={(val) => { setOpen(val); if (!val) router.push('/login'); }} />
+      <SuccessModal
+        open={open}
+        setOpen={(val) => {
+          setOpen(val);
+          if (!val) router.push('/login');
+        }}
+      />
     </div>
   );
 };

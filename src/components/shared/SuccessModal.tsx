@@ -20,17 +20,18 @@ const SuccessModal = ({ open, setOpen }: Props) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md border-none p-8 text-center">
         <div className="mx-auto mb-2 flex h-20 w-20 items-center justify-center rounded-full bg-green-50 ring-8 ring-green-50/50">
-          <CheckCircle2
-            className="h-12 w-12 text-green-600 animate-scale-in"
-            strokeWidth={2.5}
-          />
+          <CheckCircle2 className="h-12 w-12 text-green-600 animate-scale-in" strokeWidth={2.5} />
         </div>
 
         <DialogHeader className="space-y-2">
-          <DialogTitle className="text-2xl font-bold text-slate-900 text-center">Registration Successful!</DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-slate-900 text-center">
+            Registration Successful!
+          </DialogTitle>
 
           <DialogDescription className="text-sm text-gray-500 ">
-            You've successfully joined as a supplier. Admin is reviewing your application. Please check your <span className="font-semibold text-foreground">email inbox</span> for approval updates.
+            You&apos;ve successfully joined as a supplier. Admin is reviewing your application.
+            Please check your <span className="font-semibold text-foreground">email inbox</span> for
+            approval updates.
           </DialogDescription>
         </DialogHeader>
 
