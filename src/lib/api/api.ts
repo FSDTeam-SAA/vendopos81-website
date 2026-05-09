@@ -199,8 +199,6 @@ export const resentOtpForForgotPassword = async (token: string) => {
   return response.data;
 };
 
-// /product/all?limit=10
-
 export async function FeatureProduct(params?: ProductParams) {
   try {
     const query = new URLSearchParams();
