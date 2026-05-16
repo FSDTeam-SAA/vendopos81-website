@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import PersonalInformationContainer from "./container/PersonalInformationContainer";
-import PersonalDataShow from "./PersonalDataShow";
+import { useState } from 'react';
+import PersonalInformationContainer from './container/PersonalInformationContainer';
+import PersonalDataShow from './PersonalDataShow';
 
 const PersonalInformmain = () => {
   const [edit, setEdit] = useState(false);
