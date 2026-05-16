@@ -1,6 +1,6 @@
-import { Category } from "@/lib/types/category";
-import Image from "next/image";
-import Link from "next/link";
+import { Category } from '@/lib/types/category';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const CountryCard = ({ data }: { data: Category }) => {
   const imageUrl = data.regionImage?.url || data.productImage?.url;
