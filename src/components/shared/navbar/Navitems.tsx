@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/set-state-in-effect */
+
 "use client";
 
 import {
@@ -12,10 +14,102 @@ import {
 } from "@/components/ui/select";
 import { useCategoryData } from "@/lib/hooks/useCategory";
 import { Category } from "@/lib/types/category";
-import { ChevronDown, LayoutList, MapPin } from "lucide-react";
+import { ChevronDown, Globe, LayoutList, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+
+declare global {
+  interface Window {
+    googleTranslateElementInit?: () => void;
+    google?: {
+      translate?: {
+        TranslateElement?: new (
+          options: Record<string, unknown>,
+          element: string,
+        ) => void;
+      };
+    };
+  }
+}
+
+const SOURCE_LANGUAGE = "en";
+const LANGUAGE_STORAGE_KEY = "vendopos-language";
+
+const languages = [
+  { code: "en", label: "English" },
+  { code: "es", label: "Spanish" },
+  { code: "fr", label: "French" },
+  { code: "de", label: "German" },
+  { code: "bn", label: "Bangla" },
+] as const;
+
+type LanguageCode = (typeof languages)[number]["code"];
+
+function getSavedLanguage(): LanguageCode {
+  if (typeof window === "undefined") return "en";
+
+  const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+
+  return languages.some((item) => item.code === savedLanguage)
+    ? (savedLanguage as LanguageCode)
+    : "en";
+}
+
+function setGoogleTranslateCookie(languageCode: LanguageCode) {
+  const cookieValue = `/${SOURCE_LANGUAGE}/${languageCode}`;
+  const expires = "max-age=31536000";
+
+  document.cookie = `googtrans=${cookieValue}; path=/; ${expires}`;
+
+  document.cookie = `googtrans=${cookieValue}; path=/; domain=${window.location.hostname}; ${expires}`;
+}
+
+function removeGoogleTranslateCookie() {
+  document.cookie =
+    "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+  document.cookie = `googtrans=; path=/; domain=${window.location.hostname}; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+}
+
+function resetGoogleTranslateToolbar() {
+  document.body.style.top = "0px";
+
+  const toolbarFrame = document.querySelector<HTMLIFrameElement>(
+    "iframe.goog-te-banner-frame, iframe.skiptranslate",
+  );
+
+  if (toolbarFrame) {
+    toolbarFrame.style.display = "none";
+  }
+}
+
+function applyGoogleTranslate(languageCode: LanguageCode, retries = 12) {
+  setGoogleTranslateCookie(languageCode);
+
+  resetGoogleTranslateToolbar();
+
+  const translateSelect =
+    document.querySelector<HTMLSelectElement>(".goog-te-combo");
+
+  if (!translateSelect) {
+    if (retries > 0) {
+      window.setTimeout(
+        () => applyGoogleTranslate(languageCode, retries - 1),
+        250,
+      );
+    }
+
+    return;
+  }
+
+  translateSelect.value = languageCode;
+
+  translateSelect.dispatchEvent(new Event("change"));
+
+  window.setTimeout(resetGoogleTranslateToolbar, 250);
+}
 
 const NAV_ITEMS = [
   { name: "Home", link: "/" },
@@ -69,24 +163,119 @@ const Navitems = () => {
   const currentActive = usePathname();
   const route = useRouter();
 
+  const [language, setLanguage] = useState<LanguageCode>("en");
+
+  const selectedLanguage = useMemo(
+    () => languages.find((item) => item.code === language)?.label ?? "English",
+    [language],
+  );
+
   const { data } = useCategoryData();
+
   const categories =
     data?.data?.flatMap((region: any) => region.categories) || [];
+
+  // initialize language
+  useEffect(() => {
+    setLanguage(getSavedLanguage());
+  }, []);
+
+  // google translate init
+  useEffect(() => {
+    const initialLanguage = getSavedLanguage();
+
+    if (initialLanguage !== "en") {
+      setGoogleTranslateCookie(initialLanguage);
+    } else {
+      removeGoogleTranslateCookie();
+    }
+
+    window.googleTranslateElementInit = () => {
+      if (!window.google?.translate?.TranslateElement) {
+        return;
+      }
+
+      new window.google.translate.TranslateElement(
+        {
+          pageLanguage: SOURCE_LANGUAGE,
+          includedLanguages: languages
+            .filter((item) => item.code !== "en")
+            .map((item) => item.code)
+            .join(","),
+          autoDisplay: false,
+        },
+        "google_translate_element",
+      );
+
+      if (initialLanguage !== "en") {
+        window.setTimeout(() => {
+          applyGoogleTranslate(initialLanguage);
+        }, 100);
+      }
+    };
+
+    if (!document.querySelector("#google-translate-script")) {
+      const script = document.createElement("script");
+
+      script.id = "google-translate-script";
+
+      script.src =
+        "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+
+      script.async = true;
+
+      document.body.appendChild(script);
+
+      return;
+    }
+
+    if (window.google?.translate?.TranslateElement) {
+      window.googleTranslateElementInit();
+    }
+  }, []);
+
+  // language change
+  const handleLanguageChange = (value: string) => {
+    const nextLanguage = value as LanguageCode;
+
+    setLanguage(nextLanguage);
+
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
+
+    // reset to original english
+    if (nextLanguage === "en") {
+      removeGoogleTranslateCookie();
+
+      localStorage.removeItem("googtrans");
+
+      window.location.href = window.location.pathname;
+
+      return;
+    }
+
+    // apply translation
+    setGoogleTranslateCookie(nextLanguage);
+
+    window.location.reload();
+  };
 
   const handleCategory = (category: string) => {
     route.push(`/shop?productType=${category}`);
   };
+
   const handleCountry = (country: string) => {
     route.push(`/shop?country=${country}`);
   };
 
   return (
     <section className="bg-white">
+      {/* hidden google translate */}
+      <div id="google_translate_element" className="hidden" />
+
       <div className="container mx-auto px-4 md:px-0">
         <div className="flex flex-col lg:flex-row items-center justify-start lg:gap-20 py-4 w-full">
-          {/* Left side - Category & Country Selectors */}
+          {/* Left side */}
           <div className="flex flex-col lg:flex-row items-center gap-4 w-full lg:w-auto">
-            {/* Category Selector */}
             <div className="flex flex-col lg:flex-row items-start gap-4 w-full lg:w-auto">
               {/* Category Selector */}
               <div className="relative w-full sm:w-auto flex-1 sm:flex-none">
@@ -94,6 +283,7 @@ const Navitems = () => {
                   <SelectTrigger className="bg-primary text-white hover:bg-primary/90 w-full md:w-[240px] h-12 transition-colors">
                     <div className="flex items-center gap-2">
                       <LayoutList className="text-white" size={18} />
+
                       <SelectValue
                         placeholder={
                           <span className="font-medium text-center text-white">
@@ -101,9 +291,11 @@ const Navitems = () => {
                           </span>
                         }
                       />
+
                       <ChevronDown className="text-white" size={18} />
                     </div>
                   </SelectTrigger>
+
                   <SelectContent
                     position="popper"
                     className="w-full left-0 max-w-[600px] mt-2 animate-in fade-in-0 slide-in-from-bottom-4 duration-300"
@@ -113,6 +305,7 @@ const Navitems = () => {
                       <SelectLabel className="text-lg text-gray-600 font-semibold px-4 py-2 text-center block w-full">
                         All Categories
                       </SelectLabel>
+
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 p-3">
                         {categories?.length > 0 ? (
                           categories.map((item: Category, idx: number) => (
@@ -155,9 +348,11 @@ const Navitems = () => {
                   <SelectTrigger className="border-gray-200 hover:border-primary/50 transition-all w-full lg:w-[200px] h-12 lg:h-10 bg-white">
                     <div className="flex items-center gap-2 text-gray-700">
                       <MapPin size={16} className="text-primary" />
+
                       <SelectValue placeholder="Select Country" />
                     </div>
                   </SelectTrigger>
+
                   <SelectContent
                     position="popper"
                     className="max-h-[400px] w-[calc(100vw-2rem)] sm:w-[500px] md:w-[600px] overflow-y-auto mt-2 bg-white border-gray-100 shadow-xl rounded-xl p-2"
@@ -166,6 +361,7 @@ const Navitems = () => {
                       <SelectLabel className="text-gray-400 text-xs font-bold uppercase tracking-wider px-3 py-2">
                         Select Country
                       </SelectLabel>
+
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
                         {COUNTRIES.map((item, index) => (
                           <SelectItem
@@ -175,6 +371,7 @@ const Navitems = () => {
                           >
                             <div className="flex items-center gap-2">
                               <div className="w-1.5 h-1.5 rounded-full bg-primary/30 group-data-[state=checked]:bg-primary" />
+
                               <span className="truncate font-medium text-sm">
                                 {item.name}
                               </span>
@@ -186,13 +383,35 @@ const Navitems = () => {
                   </SelectContent>
                 </Select>
               </div>
+
+              {/* Language Selector */}
+              <div className="w-full lg:w-auto">
+                <Select value={language} onValueChange={handleLanguageChange}>
+                  <SelectTrigger className="border-gray-200 hover:border-primary/50 transition-all w-full lg:w-[180px] h-12 lg:h-10 bg-white">
+                    <div className="flex items-center gap-2 text-gray-700">
+                      <Globe size={16} className="text-primary" />
+
+                      <SelectValue>{selectedLanguage}</SelectValue>
+                    </div>
+                  </SelectTrigger>
+
+                  <SelectContent className="bg-white">
+                    {languages.map((item) => (
+                      <SelectItem key={item.code} value={item.code}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
 
-          {/* Right side - Navigation Links */}
+          {/* Right side */}
           <nav className="hidden md:flex flex-col lg:flex-row items-center gap-4 lg:gap-8 w-full lg:w-auto mt-4 lg:mt-0">
             {NAV_ITEMS.map((item, index) => {
               const isActive = currentActive === item.link;
+
               return (
                 <Link
                   href={item.link}
@@ -204,6 +423,7 @@ const Navitems = () => {
                   }`}
                 >
                   {item.name}
+
                   <span
                     className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 hidden lg:block ${
                       isActive ? "w-full" : "w-0 group-hover:w-full"
